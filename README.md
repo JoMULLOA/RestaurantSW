@@ -1,2 +1,4 @@
 # ISW2-G3
-Proyecto Integrador del grupo 3 sección 2 de ingeniería de software
+Proyecto Integrador de Ingeniería de Software del segundo semestre del año 2024, Universidad del Bío Bío.
+
+<img width="428" alt="Captura de pantalla 2024-09-01 224328" src="https://github.com/user-attachments/assets/47a81dcb-d2cf-4a00-a581-0a27534190c2">
