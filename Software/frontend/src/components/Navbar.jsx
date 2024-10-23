@@ -72,6 +72,18 @@ const Navbar = () => {
                         </NavLink>
                     </li>
                     )}
+                     <li>
+                        <NavLink 
+                            to="/Inventario" 
+                            onClick={() => { 
+                                setMenuOpen(false); 
+                                addActiveClass();
+                            }} 
+                            activeClassName="active"
+                        >
+                            Inventario
+                        </NavLink>
+                    </li>
                     <li>
                         <NavLink 
                             to="/auth" 

@@ -12,6 +12,7 @@
   "dependencies": {
     "@formkit/tempo": "^0.1.2",
     "axios": "^1.7.5",
+    "frontend": "file:",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",

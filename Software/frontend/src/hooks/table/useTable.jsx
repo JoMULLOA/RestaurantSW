@@ -60,7 +60,7 @@ function useTable({ data, columns, filter, dataToFilter, initialSortName, onSele
                 setTable(null);
             };
         }
-    }, []);
+    }, [columns, initialSortName, onSelectionChange]);
 
     useEffect(() => {
         if (table && isTableBuilt) {

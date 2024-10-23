@@ -7,6 +7,8 @@ import Register from '@pages/Register';
 import Error404 from '@pages/Error404';
 import Root from '@pages/Root';
 import ProtectedRoute from '@components/ProtectedRoute';
+import Inventario from '@pages/Inventario';
+
 import '@styles/styles.css';
 
 const router = createBrowserRouter([
@@ -26,7 +28,15 @@ const router = createBrowserRouter([
           <Users />
         </ProtectedRoute>
         ),
-    }
+      },
+      {
+        path: '/inventario',
+        element: (
+          <ProtectedRoute allowedRoles={['administrador']}>
+            <Inventario />
+          </ProtectedRoute>
+          ),
+      }
     ]
   },
   {
