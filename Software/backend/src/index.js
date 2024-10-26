@@ -91,3 +91,8 @@ const app = express();
 
 // Resto de la configuración de `app`, como middlewares, rutas, etc.
 
+import ingredientRoutes from "./routes/ingredient.routes.js";
+
+// En tu configuración de rutas:
+app.use("/api", ingredientRoutes);
+

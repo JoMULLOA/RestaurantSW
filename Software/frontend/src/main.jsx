@@ -7,6 +7,7 @@ import Register from '@pages/Register';
 import Error404 from '@pages/Error404';
 import Root from '@pages/Root';
 import ProtectedRoute from '@components/ProtectedRoute';
+import Chef from '@pages/Chef';
 import '@styles/styles.css';
 
 const router = createBrowserRouter([
@@ -20,22 +21,33 @@ const router = createBrowserRouter([
         element: <Home/>
       },
       {
+        path: '/Chef',
+        element: (
+        <ProtectedRoute allowedRoles={['chef']}>
+        <Chef />
+      </ProtectedRoute>)
+      }
+      ,
+      {
         path: '/users',
         element: (
         <ProtectedRoute allowedRoles={['administrador']}>
           <Users />
         </ProtectedRoute>
-        ),
+        )
+        ,
+        
+    }
+    , 
+    {
+      path: '/register',
+      element: <Register/>
     }
     ]
   },
   {
     path: '/auth',
     element: <Login/>
-  },
-  {
-    path: '/register',
-    element: <Register/>
   }
 ])
 

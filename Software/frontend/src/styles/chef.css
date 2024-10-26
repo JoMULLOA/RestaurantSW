@@ -1,0 +1,109 @@
+/* chef.css */
+
+/* Contenedor principal */
+.chef-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Título */
+  .chef-title {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+  }
+  
+  /* Etiquetas y campos de entrada */
+  .label {
+    font-size: 1em;
+    color: #555;
+    margin-bottom: 5px;
+  }
+  
+  .input-field {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+  }
+  
+  .input-field:focus {
+    border-color: #795548;
+    outline: none;
+    box-shadow: 0px 0px 5px rgba(121, 85, 72, 0.5);
+  }
+  
+  /* Estado del pedido */
+  .order-status {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .order-status-preparado {
+    color: #4caf50; /* Verde para estado preparado */
+  }
+  
+  .order-status-rechazado {
+    color: #f44336; /* Rojo para estado rechazado */
+  }
+  
+  .order-status-en-espera {
+    color: #ff9800; /* Naranja para estado en espera */
+  }
+  
+  /* Botones */
+  .button {
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button-primary {
+    background-color: #795548;
+    color: #fff;
+  }
+  
+  .button-primary:hover {
+    background-color: #6a4b41;
+  }
+  
+  .button-secondary {
+    background-color: #ccc;
+    color: #333;
+  }
+  
+  .button-secondary:hover {
+    background-color: #bbb;
+  }
+  
+  /* Mensaje de alerta */
+  .alert {
+    padding: 10px;
+    margin-top: 15px;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+  
+  .alert-success {
+    background-color: #e8f5e9;
+    color: #4caf50;
+  }
+  
+  .alert-error {
+    background-color: #ffebee;
+    color: #f44336;
+  }
+  

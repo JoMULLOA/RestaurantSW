@@ -80,7 +80,7 @@ const Navbar = () => {
                         <NavLink 
                             to="/Register" 
                             onClick={() => { 
-                                logoutSubmit(); 
+                                //logoutSubmit(); 
                                 setMenuOpen(false); 
                             }} 
                             activeClassName="active"
