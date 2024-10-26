@@ -42,9 +42,12 @@ const Navbar = () => {
         });
     };
 
+    // Condicional para añadir la clase `solo-chef` si el rol es solo 'chef'
+    const navClass = `nav-menu ${menuOpen ? 'activado' : ''} ${userRole === 'chef' ? 'solo-chef' : ''}`;
+
     return (
         <nav className="navbar">
-            <div className={`nav-menu ${menuOpen ? 'activado' : ''}`}>
+            <div className={navClass}>
                 <ul>
                     <li>
                         <NavLink 
@@ -69,6 +72,34 @@ const Navbar = () => {
                             activeClassName="active"
                         >
                             Usuarios
+                        </NavLink>
+                    </li>
+                    )}
+                    {userRole === 'administrador' && (
+                    <li>
+                        <NavLink 
+                            to="/Register" 
+                            onClick={() => { 
+                                logoutSubmit(); 
+                                setMenuOpen(false); 
+                            }} 
+                            activeClassName="active"
+                        >
+                            Registrar
+                        </NavLink>
+                    </li>
+                    )}
+                    {userRole === 'chef' && (
+                    <li>
+                        <NavLink 
+                            to="/Chef" 
+                            onClick={() => { 
+                                setMenuOpen(false); 
+                                addActiveClass();
+                            }} 
+                            activeClassName="active"
+                        >
+                            Chef
                         </NavLink>
                     </li>
                     )}

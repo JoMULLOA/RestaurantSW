@@ -5,6 +5,7 @@ import useRegister from '@hooks/auth/useRegister.jsx';
 import { showErrorAlert, showSuccessAlert } from '@helpers/sweetAlert.js';
 import '@styles/form.css';
 
+
 const Register = () => {
 	const navigate = useNavigate();
 	const {
@@ -20,7 +21,7 @@ const registerSubmit = async (data) => {
         if (response.status === 'Success') {
             showSuccessAlert('¡Registrado!','Usuario registrado exitosamente.');
             setTimeout(() => {
-                navigate('/auth');
+                navigate('/home');
             }, 3000)
         } else if (response.status === 'Client error') {
             errorData(response.details);
@@ -33,8 +34,8 @@ const registerSubmit = async (data) => {
 
 const patternRut = new RegExp(/^(?:(?:[1-9]\d{0}|[1-2]\d{1})(\.\d{3}){2}|[1-9]\d{6}|[1-2]\d{7}|29\.999\.999|29999999)-[\dkK]$/)
 
-	return (
-		<main className="container">
+return (
+    <main className="container">
 			<Form
 				title="Crea tu cuenta"
 				fields={[
@@ -94,11 +95,6 @@ const patternRut = new RegExp(/^(?:(?:[1-9]\d{0}|[1-2]\d{1})(\.\d{3}){2}|[1-9]\d
 				]}
 				buttonText="Registrarse"
 				onSubmit={registerSubmit}
-				footerContent={
-					<p>
-						¿Ya tienes cuenta?, <a href="/auth">¡Inicia sesión aquí!</a>
-					</p>
-				}
 			/>
 		</main>
 	);

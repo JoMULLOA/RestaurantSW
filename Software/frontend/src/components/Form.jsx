@@ -32,7 +32,7 @@ const Form = ({ title, fields, buttonText, onSubmit, footerContent, backgroundCo
             {fields.map((field, index) => (
                 <div className="container_inputs" key={index}>
                     {field.label && <label htmlFor={field.name}>{field.label}</label>}
-                    {field.fieldType === 'input' && (
+                    {field.fieldType === 'input' &&  (
                         <input
                             {...register(field.name, {
                                 required: field.required ? 'Este campo es obligatorio' : false,

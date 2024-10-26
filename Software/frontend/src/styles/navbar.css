@@ -4,10 +4,10 @@
 	top: 0;
 	left: 0;
 	display: block;
-	background-color: #795548; /* Color de la navbar */
+	background-color: #795548;
 	height: 9vh;
 	z-index: 1000;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra de la navbar */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 	ul {
 		display: flex;
 		justify-content: end;
@@ -18,7 +18,7 @@
 		li {
 			display: flex;
 			align-items: center;
-			padding: 0 60px;
+			padding: 0 20px; /* Ajusta este valor para reducir el espacio horizontal */
 			position: relative;
 			height: 100%;
 			a {
@@ -58,103 +58,5 @@
 				line-height: 9.1vh;
 			}
 		}
-	}
-}
-
-.hamburger {
-	display: none;
-	flex-direction: column;
-	cursor: pointer;
-	position: absolute;
-	top: 25px;
-	right: 20px;
-	z-index: 1001;
-}
-
-.hamburger .bar {
-	width: 25px;
-	height: 3px;
-	background-color: white;
-	margin: 4px 0;
-}
-
-@media (max-width: 768px) {
-	.nav-menu ul {
-		display: none;
-		flex-direction: column;
-		background-color: #003366;
-		position: absolute;
-		top: 9vh;
-		left: 0;
-		width: 100%;
-		text-align: center;
-	}
-
-	.nav-menu.activado ul {
-		display: flex;
-		background-color: #eef7ff;
-		justify-content: center;
-		padding: 0;
-	}
-
-	.hamburger {
-		display: flex;
-	}
-
-	.nav-menu.activado ul li {
-		padding: 0;
-		width: 100%;
-		height: 60px;
-		a {
-			color: #83713a;
-			font-weight: bold;
-			font-size: 0.9em;
-			text-decoration: none;
-			position: relative;
-			border-bottom: none;
-			transition: border-color 0.3s ease;
-			padding-left: 5px;
-			box-sizing: border-box;
-        }
-	}
-}
-
-@media (min-width: 768px) and (max-width: 1024px) {
-	.nav-menu ul {
-		display: none;
-		flex-direction: column;
-		background-color: #003366;
-		position: absolute;
-		top: 9vh;
-		left: 0;
-		width: 100%;
-		text-align: center;
-	}
-	.nav-menu.activado ul {
-		display: flex;
-		background-color: #eef7ff;
-		justify-content: center;
-		padding: 0;
-	}
-
-	.hamburger {
-		display: flex;
-	}
-
-	.nav-menu.activado ul li {
-		padding: 0;
-		width: 100%;
-		height: 60px;
-		a {
-			color: #003366;
-			font-weight: bold;
-			font-size: 0.9em;
-			text-decoration: none;
-			position: relative;
-			border-bottom: none;
-			transition: border-color 0.3s ease;
-			padding-left: 5px;
-			box-sizing: border-box;
-        }
 	}
 }

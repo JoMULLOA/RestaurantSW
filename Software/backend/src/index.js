@@ -84,3 +84,10 @@ setupAPI()
   .catch((error) =>
     console.log("Error en index.js -> setupAPI(), el error es: ", error),
   );
+
+//improt
+
+const app = express();
+
+// Resto de la configuración de `app`, como middlewares, rutas, etc.
+
