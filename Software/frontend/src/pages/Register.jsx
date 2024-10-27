@@ -5,7 +5,6 @@ import useRegister from '@hooks/auth/useRegister.jsx';
 import { showErrorAlert, showSuccessAlert } from '@helpers/sweetAlert.js';
 import '@styles/form.css';
 
-
 const Register = () => {
 	const navigate = useNavigate();
 	const {
@@ -15,27 +14,27 @@ const Register = () => {
         handleInputChange
     } = useRegister();
 
-const registerSubmit = async (data) => {
-    try {
-        const response = await register(data);
-        if (response.status === 'Success') {
-            showSuccessAlert('¡Registrado!','Usuario registrado exitosamente.');
-            setTimeout(() => {
-                navigate('/home');
-            }, 3000)
-        } else if (response.status === 'Client error') {
-            errorData(response.details);
-        }
-    } catch (error) {
-        console.error("Error al registrar un usuario: ", error);
-        showErrorAlert('Cancelado', 'Ocurrió un error al registrarse.');
-    }
-}
+	const registerSubmit = async (data) => {
+	    try {
+	        const response = await register(data);
+	        if (response.status === 'Success') {
+	            showSuccessAlert('¡Registrado!','Usuario registrado exitosamente.');
+	            setTimeout(() => {
+	                navigate('/home');
+	            }, 3000)
+	        } else if (response.status === 'Client error') {
+	            errorData(response.details);
+	        }
+	    } catch (error) {
+	        console.error("Error al registrar un usuario: ", error);
+	        showErrorAlert('Cancelado', 'Ocurrió un error al registrarse.');
+	    }
+	}
 
-const patternRut = new RegExp(/^(?:(?:[1-9]\d{0}|[1-2]\d{1})(\.\d{3}){2}|[1-9]\d{6}|[1-2]\d{7}|29\.999\.999|29999999)-[\dkK]$/)
+	const patternRut = new RegExp(/^(?:(?:[1-9]\d{0}|[1-2]\d{1})(\.\d{3}){2}|[1-9]\d{6}|[1-2]\d{7}|29\.999\.999|29999999)-[\dkK]$/)
 
-return (
-    <main className="container">
+	return (
+	    <main className="container">
 			<Form
 				title="Registro"
 				fields={[
