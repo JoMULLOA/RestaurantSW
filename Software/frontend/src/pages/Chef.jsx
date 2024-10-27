@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Chef = () => {
   const [pedidos, setPedidos] = useState([
@@ -6,26 +6,45 @@ const Chef = () => {
       id: 1,
       mesa: 12,
       nombre: "Jose Manriquez",
-      ingredientes: ["Tomate", "Lechuga", "Pan"],
+      ingredientes: ["zanahoria"],
       estado: "En Espera",
     },
   ]);
+  const [ingredientes, setIngredientes] = useState([]);
+
+  // Función para obtener ingredientes desde el backend
+  const fetchIngredientes = async () => {
+    try {
+      const response = await fetch("/ingredients");
+      if (!response.ok) {
+        throw new Error("Error al obtener los ingredientes");
+      }
+      const data = await response.json();
+      setIngredientes(data);
+    } catch (error) {
+      console.error("Error fetching ingredients:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchIngredientes();
+  }, []);
 
   const verificarInventario = (pedidoId) => {
     setPedidos((prevPedidos) =>
-      prevPedidos.map((pedido) =>
-        pedido.id === pedidoId
-          ? {
-              ...pedido,
-              estado:
-                pedido.ingredientes.includes("Tomate") &&
-                pedido.ingredientes.includes("Lechuga") &&
-                pedido.ingredientes.includes("zanahoria")
-                  ? "Preparacion"
-                  : "Falta de ingredientes",
-            }
-          : pedido
-      )
+      prevPedidos.map((pedido) => {
+        if (pedido.id === pedidoId) {
+          const ingredientesDisponibles = pedido.ingredientes.every((ing) =>
+            ingredientes.some((item) => item.nombre === ing)
+          );
+
+          return {
+            ...pedido,
+            estado: ingredientesDisponibles ? "Preparacion" : "Falta de ingredientes",
+          };
+        }
+        return pedido;
+      })
     );
   };
 
@@ -38,7 +57,7 @@ const Chef = () => {
   };
 
   return (
-    <div style={{ display: "flex", gap: "20px", marginTop: "10vh" }}> {/* Ajuste de margen superior */}
+    <div style={{ display: "flex", gap: "20px", marginTop: "10vh" }}>
       <div style={{ border: "1px solid black", padding: "20px", flex: 1 }}>
         <h2>En Espera</h2>
         {pedidos

@@ -37,17 +37,17 @@
 
 .form {
 	background-color: #eef7ff; /*Color del formulario*/
-	padding: 7vh;
+	padding:4vh;
 	display: flex;
 	flex-direction: column;
-	border-radius: 24px;
+	border-radius: 22px;
 	align-items: center;
 	h1 {
 		color: #212121; /*Color del titulo del formulario*/
 		font-size: 30px;
 		font-weight: bold;
 		margin: 0;
-		margin-bottom: 4vh;
+		margin-bottom: 2vh;
 	}
 	div {
 		width: 100%;
@@ -92,7 +92,7 @@
 		background-color: #eef7ff;
 		font-weight: regular;
 		font-size: 16px;
-		color: #003366;
+		color: #000000;
 		border-radius: 12px;
 		background-position: right 30px center;
 		background-size: 25px 25px;
