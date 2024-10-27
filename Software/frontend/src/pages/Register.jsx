@@ -91,6 +91,7 @@ return (
                         ],
                         required: true,
                         onChange: (e) => handleInputChange('rol', e.target.value),
+                        style: { color: 'black' } // Asegura que el texto sea visible
                     },
                     {
                         label: "Contraseña",

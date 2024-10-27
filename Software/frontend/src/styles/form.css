@@ -104,6 +104,10 @@
 		-moz-appearance: none;
 		appearance: none;
 	}
+	select option {
+		color: #000000;
+		background-color: #ffffff; /* Fondo de cada opción */
+	}
 	select::placeholder {
 		color: rgba(0, 51, 102, 0.3);
 		font-weight: light;

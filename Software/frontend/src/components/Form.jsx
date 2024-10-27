@@ -81,19 +81,19 @@ const Form = ({ title, fields, buttonText, onSubmit, footerContent, backgroundCo
                             <option value="">Seleccionar opción</option>
                             {field.options && field.options.map((option, optIndex) => (
                                 <option className="options-class" key={optIndex} value={option.value}>
-                                    {option.label}
+                                    {option.text} {/* Cambiado a 'text' */}
                                 </option>
                             ))}
                         </select>
                     )}
                     {field.type === 'password' && field.name === 'password' && (
                         <span className="toggle-password-icon" onClick={togglePasswordVisibility}>
-                            <img src={showPassword ? ViewIcon : HideIcon} />
+                            <img src={showPassword ? ViewIcon : HideIcon} alt="Toggle Password Visibility" />
                         </span>
                     )}
                     {field.type === 'password' && field.name === 'newPassword' && (
                         <span className="toggle-password-icon" onClick={toggleNewPasswordVisibility}>
-                            <img src={showNewPassword ? ViewIcon : HideIcon} />
+                            <img src={showNewPassword ? ViewIcon : HideIcon} alt="Toggle New Password Visibility" />
                         </span>
                     )}
                     <div className={`error-message ${errors[field.name] || field.errorMessageData ? 'visible' : ''}`}>
