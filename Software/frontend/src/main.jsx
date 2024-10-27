@@ -8,7 +8,10 @@ import Error404 from '@pages/Error404';
 import Root from '@pages/Root';
 import ProtectedRoute from '@components/ProtectedRoute';
 import Chef from '@pages/Chef';
+import Garzon from '@pages/Garzon';
 import '@styles/styles.css';
+import Inventario from '@pages/Inventario';
+
 
 const router = createBrowserRouter([
   {
@@ -29,6 +32,14 @@ const router = createBrowserRouter([
       }
       ,
       {
+        path: '/Garzon',
+        element: (
+        <ProtectedRoute allowedRoles={['garzon']}>
+        <Garzon />
+      </ProtectedRoute>)
+      }
+      ,
+      {
         path: '/users',
         element: (
         <ProtectedRoute allowedRoles={['administrador']}>
@@ -36,9 +47,17 @@ const router = createBrowserRouter([
         </ProtectedRoute>
         )
         ,
-        
-    }
-    , 
+        }
+        ,
+        {
+          path: '/inventario',
+          element: (
+            <ProtectedRoute allowedRoles={['administrador']}>
+              <Inventario />
+            </ProtectedRoute>
+            ),
+        }
+        ,
     {
       path: '/register',
       element: <Register/>

@@ -1,0 +1,35 @@
+/* src/styles/inventario.css */
+.container {
+  padding: 20px;
+}
+.title {
+  text-align: start;
+  margin-bottom: 20px;
+}
+.form-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Espacio entre los elementos */
+  justify-content: center; /* Centrar los elementos horizontalmente */
+}
+.form-group {
+  flex: 1 1 200px; /* Ajusta el tamaño de los elementos del formulario */
+  display: flex;
+  flex-direction: column;
+}
+.product-list {
+  list-style-type: none;
+  padding: 0;
+}
+.product-item {
+  margin-bottom: 20px;
+}
+.product-info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px; /* Espacio entre los elementos */
+}
+.product-info p {
+  margin: 0;
+}

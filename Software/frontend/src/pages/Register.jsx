@@ -37,7 +37,7 @@ const patternRut = new RegExp(/^(?:(?:[1-9]\d{0}|[1-2]\d{1})(\.\d{3}){2}|[1-9]\d
 return (
     <main className="container">
 			<Form
-				title="Crea tu cuenta"
+				title="Registro"
 				fields={[
 					{
 						label: "Nombre completo",
@@ -81,6 +81,18 @@ return (
                         onChange: (e) => handleInputChange('rut', e.target.value)
                     },
                     {
+                        label: "Rol",
+                        name: "rol",
+                        fieldType: 'select',
+                        options: [
+                            { value: 'administrador', text: 'Administrador',  },
+                            { value: 'chef', text: 'Chef' },
+                            { value: 'garzon', text: 'Garzon' },
+                        ],
+                        required: true,
+                        onChange: (e) => handleInputChange('rol', e.target.value),
+                    },
+                    {
                         label: "Contraseña",
                         name: "password",
                         placeholder: "**********",
@@ -93,7 +105,7 @@ return (
                         patternMessage: "Debe contener solo letras y números",
                     },
 				]}
-				buttonText="Registrarse"
+				buttonText="Guardar"
 				onSubmit={registerSubmit}
 			/>
 		</main>
