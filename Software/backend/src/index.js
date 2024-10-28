@@ -8,8 +8,9 @@ import passport from "passport";
 import express, { json, urlencoded } from "express";
 import { cookieKey, HOST, PORT } from "./config/configEnv.js";
 import { connectDB } from "./config/configDb.js";
-import { createUsers } from "./config/initialSetup.js";
+import { createInitialData } from "./config/initialSetup.js";
 import { passportJwtSetup } from "./auth/passport.auth.js";
+import ingredienteRoutes from "./routes/ingrediente.routes.js"; // Importar las rutas de Ingredientes
 
 async function setupServer() {
   try {
@@ -21,20 +22,20 @@ async function setupServer() {
       cors({
         credentials: true,
         origin: true,
-      }),
+      })
     );
 
     app.use(
       urlencoded({
         extended: true,
         limit: "1mb",
-      }),
+      })
     );
 
     app.use(
       json({
         limit: "1mb",
-      }),
+      })
     );
 
     app.use(cookieParser());
@@ -51,7 +52,7 @@ async function setupServer() {
           httpOnly: true,
           sameSite: "strict",
         },
-      }),
+      })
     );
 
     app.use(passport.initialize());
@@ -60,6 +61,7 @@ async function setupServer() {
     passportJwtSetup();
 
     app.use("/api", indexRoutes);
+    app.use("/api", ingredienteRoutes); // Agregar las rutas de ingredientes
 
     app.listen(PORT, () => {
       console.log(`=> Servidor corriendo en ${HOST}:${PORT}/api`);
@@ -73,7 +75,7 @@ async function setupAPI() {
   try {
     await connectDB();
     await setupServer();
-    await createUsers();
+    await createInitialData(); // Cambiado de createUsers a createInitialData
   } catch (error) {
     console.log("Error en index.js -> setupAPI(), el error es: ", error);
   }
@@ -82,5 +84,5 @@ async function setupAPI() {
 setupAPI()
   .then(() => console.log("=> API Iniciada exitosamente"))
   .catch((error) =>
-    console.log("Error en index.js -> setupAPI(), el error es: ", error),
+    console.log("Error en index.js -> setupAPI(), el error es: ", error)
   );

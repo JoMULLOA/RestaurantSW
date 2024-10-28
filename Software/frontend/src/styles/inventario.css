@@ -1,42 +1,64 @@
 /* src/styles/inventario.css */
 .container {
-    padding: 20px;
+  padding: 20px;
 }
+.titleInventario {
+  text-align: center;
+  margin-bottom: 550px;
+  margin-right: 300px;
+  margin-top: 20px;
 
-.title {
-    text-align: start;
-    margin-bottom: 20px;
 }
-
+.dashboard {
+  border: 2px solid #ccc; /* Borde del recuadro */
+  padding: 20px; /* Espacio interno del recuadro */
+  border-radius: 10px; /* Bordes redondeados */
+  background-color: #f9f9f9; /* Color de fondo */
+  margin-bottom: 20px; /* Espacio debajo del recuadro */
+  margin-top: -300px; /* Ajusta este valor para subir el recuadro */
+}
+.form-wrapper {
+  margin-bottom: 20px; /* Espacio debajo del formulario */
+}
 .form-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px; /* Espacio entre los elementos */
-    justify-content: center; /* Centrar los elementos horizontalmente */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Espacio entre los elementos */
+  justify-content: center; /* Centrar los elementos horizontalmente */
 }
-
 .form-group {
-    flex: 1 1 200px; /* Ajusta el tamaño de los elementos del formulario */
-    display: flex;
-    flex-direction: column;
+  flex: 1 1 200px; /* Ajusta el tamaño de los elementos del formulario */
+  display: flex;
+  flex-direction: column;
 }
-
-.product-list {
-    list-style-type: none;
-    padding: 0;
+.form-group label {
+  margin-bottom: 5px; /* Espacio entre la etiqueta y el campo */
 }
-
-.product-item {
-    margin-bottom: 20px;
+.form-group input {
+  padding: 10px; /* Espacio interno del campo */
+  border: 1px solid #ccc; /* Borde del campo */
+  border-radius: 5px; /* Bordes redondeados del campo */
 }
-
-.product-info {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 20px; /* Espacio entre los elementos */
+button {
+  padding: 10px 20px; /* Espacio interno del botón */
+  border: none; /* Sin borde */
+  border-radius: 5px; /* Bordes redondeados del botón */
+  background-color: #007bff; /* Color de fondo del botón */
+  color: white; /* Color del texto del botón */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
 }
-
-.product-info p {
-    margin: 0;
+button:hover {
+  background-color: #0056b3; /* Color de fondo del botón al pasar el cursor */
+}
+.product-table {
+  width: 100%;
+  border-collapse: collapse; /* Colapsar bordes */
+}
+.product-table th, .product-table td {
+  border: 1px solid #ccc; /* Borde de las celdas */
+  padding: 10px; /* Espacio interno de las celdas */
+  text-align: left; /* Alinear texto a la izquierda */
+}
+.product-table th {
+  background-color: #f2f2f2; /* Color de fondo de los encabezados */
 }

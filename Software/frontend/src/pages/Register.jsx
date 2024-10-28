@@ -14,29 +14,29 @@ const Register = () => {
         handleInputChange
     } = useRegister();
 
-const registerSubmit = async (data) => {
-    try {
-        const response = await register(data);
-        if (response.status === 'Success') {
-            showSuccessAlert('¡Registrado!','Usuario registrado exitosamente.');
-            setTimeout(() => {
-                navigate('/auth');
-            }, 3000)
-        } else if (response.status === 'Client error') {
-            errorData(response.details);
-        }
-    } catch (error) {
-        console.error("Error al registrar un usuario: ", error);
-        showErrorAlert('Cancelado', 'Ocurrió un error al registrarse.');
-    }
-}
+	const registerSubmit = async (data) => {
+	    try {
+	        const response = await register(data);
+	        if (response.status === 'Success') {
+	            showSuccessAlert('¡Registrado!','Usuario registrado exitosamente.');
+	            setTimeout(() => {
+	                navigate('/home');
+	            }, 3000)
+	        } else if (response.status === 'Client error') {
+	            errorData(response.details);
+	        }
+	    } catch (error) {
+	        console.error("Error al registrar un usuario: ", error);
+	        showErrorAlert('Cancelado', 'Ocurrió un error al registrarse.');
+	    }
+	}
 
-const patternRut = new RegExp(/^(?:(?:[1-9]\d{0}|[1-2]\d{1})(\.\d{3}){2}|[1-9]\d{6}|[1-2]\d{7}|29\.999\.999|29999999)-[\dkK]$/)
+	const patternRut = new RegExp(/^(?:(?:[1-9]\d{0}|[1-2]\d{1})(\.\d{3}){2}|[1-9]\d{6}|[1-2]\d{7}|29\.999\.999|29999999)-[\dkK]$/)
 
 	return (
-		<main className="container">
+	    <main className="container">
 			<Form
-				title="Crea tu cuenta"
+				title="Registro"
 				fields={[
 					{
 						label: "Nombre completo",
@@ -80,6 +80,19 @@ const patternRut = new RegExp(/^(?:(?:[1-9]\d{0}|[1-2]\d{1})(\.\d{3}){2}|[1-9]\d
                         onChange: (e) => handleInputChange('rut', e.target.value)
                     },
                     {
+                        label: "Rol",
+                        name: "rol",
+                        fieldType: 'select',
+                        options: [
+                            { value: 'administrador', text: 'Administrador',  },
+                            { value: 'chef', text: 'Chef' },
+                            { value: 'garzon', text: 'Garzon' },
+                        ],
+                        required: true,
+                        onChange: (e) => handleInputChange('rol', e.target.value),
+                        style: { color: 'black' } // Asegura que el texto sea visible
+                    },
+                    {
                         label: "Contraseña",
                         name: "password",
                         placeholder: "**********",
@@ -92,13 +105,8 @@ const patternRut = new RegExp(/^(?:(?:[1-9]\d{0}|[1-2]\d{1})(\.\d{3}){2}|[1-9]\d
                         patternMessage: "Debe contener solo letras y números",
                     },
 				]}
-				buttonText="Registrarse"
+				buttonText="Guardar"
 				onSubmit={registerSubmit}
-				footerContent={
-					<p>
-						¿Ya tienes cuenta?, <a href="/auth">¡Inicia sesión aquí!</a>
-					</p>
-				}
 			/>
 		</main>
 	);

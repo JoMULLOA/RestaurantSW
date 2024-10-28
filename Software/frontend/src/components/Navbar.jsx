@@ -42,9 +42,12 @@ const Navbar = () => {
         });
     };
 
+    // Condicional para añadir la clase `solo-chef` si el rol es solo 'chef'
+    const navClass = `nav-menu ${menuOpen ? 'activado' : ''} ${userRole === 'chef' ? 'solo-chef' : ''}`;
+
     return (
         <nav className="navbar">
-            <div className={`nav-menu ${menuOpen ? 'activado' : ''}`}>
+            <div className={navClass}>
                 <ul>
                     <li>
                         <NavLink 
@@ -59,29 +62,82 @@ const Navbar = () => {
                         </NavLink>
                     </li>
                     {userRole === 'administrador' && (
+                        <>
+                            <li>
+                                <NavLink 
+                                    to="/users" 
+                                    onClick={() => { 
+                                        setMenuOpen(false); 
+                                        addActiveClass();
+                                    }} 
+                                    activeClassName="active"
+                                >
+                                    Usuarios
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink 
+                                    to="/Register" 
+                                    onClick={() => { 
+                                        setMenuOpen(false); 
+                                    }} 
+                                    activeClassName="active"
+                                >
+                                    Registrar
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink 
+                                    to="/Inventario" 
+                                    onClick={() => { 
+                                        setMenuOpen(false); 
+                                        addActiveClass();
+                                    }} 
+                                    activeClassName="active"
+                                >
+                                    Inventario
+                                </NavLink>
+                            </li>
+                        </>
+                    )}
+                    {userRole === 'chef' && (
                     <li>
                         <NavLink 
-                            to="/users" 
+                            to="/Chef" 
                             onClick={() => { 
                                 setMenuOpen(false); 
                                 addActiveClass();
                             }} 
                             activeClassName="active"
                         >
-                            Usuarios
+                            Chef
                         </NavLink>
                     </li>
                     )}
-                     <li>
+                    {userRole === 'garzon' && (
+                    <li>
                         <NavLink 
-                            to="/Inventario" 
+                            to="/Garzon" 
                             onClick={() => { 
                                 setMenuOpen(false); 
                                 addActiveClass();
                             }} 
                             activeClassName="active"
                         >
-                            Inventario
+                            Garzón
+                        </NavLink>
+                    </li>
+                    )}
+                    <li>
+                        <NavLink 
+                            to="/menu" 
+                            onClick={() => { 
+                                logoutSubmit(); 
+                                setMenuOpen(false); 
+                            }} 
+                            activeClassName="active"
+                        >
+                            Menú
                         </NavLink>
                     </li>
                     <li>

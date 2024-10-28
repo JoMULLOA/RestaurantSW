@@ -1,16 +1,16 @@
-// src/pages/Inventario.jsx
+// Ingrediente.jsx
 import { useState } from 'react';
+import { addIngrediente } from '../services/ingrediente.service.js';
+
 import '@styles/inventario.css';
 
-const Inventario = () => {
-    const [productos, setProductos] = useState([]);
+const Ingrediente = () => {
+    const [ingredientes, setIngredientes] = useState([]);
     const [form, setForm] = useState({
         id: '',
-        fechaIngreso: '',
-        cantidad: '',
-        tipoProducto: '',
         nombre: '',
-        imagen: ''
+        fechaIngreso: '',
+        cantidad: ''
     });
 
     const handleInputChange = (e) => {
@@ -21,108 +21,103 @@ const Inventario = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setProductos([...productos, form]);
-        setForm({
-            id: '',
-            fechaIngreso: '',
-            cantidad: '',
-            tipoProducto: '',
-            nombre: '',
-            imagen: ''
-        });
+        try {
+            const data = await addIngrediente(form);
+            if (data.status === 'Success') {
+                setIngredientes([...ingredientes, data.data]);
+                setForm({
+                    id: '',
+                    nombre: '',
+                    fechaIngreso: '',
+                    cantidad: ''
+                });
+            } else {
+                console.error("Error al agregar el ingrediente: ", data.message);
+            }
+        } catch (error) {
+            console.error("Error al conectar con el servidor: ", error);
+        }
     };
 
     return (
         <main className="container">
-            <h1 className="title">Inventario</h1>
-            <form onSubmit={handleSubmit} className="form-container">
-                <div className="form-group">
-                    <label htmlFor="id">ID:</label>
-                    <input
-                        type="text"
-                        id="id"
-                        name="id"
-                        value={form.id}
-                        onChange={handleInputChange}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="fechaIngreso">Fecha de Ingreso:</label>
-                    <input
-                        type="date"
-                        id="fechaIngreso"
-                        name="fechaIngreso"
-                        value={form.fechaIngreso}
-                        onChange={handleInputChange}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="cantidad">Cantidad:</label>
-                    <input
-                        type="number"
-                        id="cantidad"
-                        name="cantidad"
-                        value={form.cantidad}
-                        onChange={handleInputChange}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="tipoProducto">Tipo de Producto:</label>
-                    <input
-                        type="text"
-                        id="tipoProducto"
-                        name="tipoProducto"
-                        value={form.tipoProducto}
-                        onChange={handleInputChange}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="nombre">Nombre:</label>
-                    <input
-                        type="text"
-                        id="nombre"
-                        name="nombre"
-                        value={form.nombre}
-                        onChange={handleInputChange}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="imagen">Imagen (URL):</label>
-                    <input
-                        type="text"
-                        id="imagen"
-                        name="imagen"
-                        value={form.imagen}
-                        onChange={handleInputChange}
-                        required
-                    />
-                </div>
-                <button type="submit">Agregar Producto</button>
-            </form>
-            <h2>Lista de Productos</h2>
-            <ul className="product-list">
-                {productos.map((producto, index) => (
-                    <li key={index} className="product-item">
-                        <div className="product-info">
-                            <p>ID: {producto.id}</p>
-                            <p>Fecha de Ingreso: {producto.fechaIngreso}</p>
-                            <p>Cantidad: {producto.cantidad}</p>
-                            <p>Tipo de Producto: {producto.tipoProducto}</p>
-                            <p>Nombre: {producto.nombre}</p>
-                            <img src={producto.imagen} alt={producto.nombre} width="100" />
+            <h1 className="titleInventario">Inventario de Ingredientes</h1>
+            <div className="dashboard">
+                <div className="form-wrapper">
+                    <form onSubmit={handleSubmit} className="form-container">
+                        <div className="form-group">
+                            <label htmlFor="id">ID:</label>
+                            <input
+                                type="text"
+                                id="id"
+                                name="id"
+                                value={form.id}
+                                onChange={handleInputChange}
+                                required
+                            />
                         </div>
-                    </li>
-                ))}
-            </ul>
+                        <div className="form-group">
+                            <label htmlFor="nombre">Nombre:</label>
+                            <input
+                                type="text"
+                                id="nombre"
+                                name="nombre"
+                                value={form.nombre}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="fechaIngreso">Fecha de Ingreso:</label>
+                            <input
+                                type="date"
+                                id="fechaIngreso"
+                                name="fechaIngreso"
+                                value={form.fechaIngreso}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="cantidad">Cantidad:</label>
+                            <input
+                                type="number"
+                                id="cantidad"
+                                name="cantidad"
+                                value={form.cantidad}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </div>
+                        <button type="submit">Agregar Ingrediente</button>
+                    </form>
+                </div>
+                <h2>Lista de Ingredientes</h2>
+                <table className="ingredient-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Fecha de Ingreso</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {ingredientes.map((ingrediente, index) => (
+                            <tr key={index}>
+                                <td>{ingrediente.id}</td>
+                                <td>{ingrediente.nombre}</td>
+                                <td>{ingrediente.fechaIngreso}</td>
+                                <td>{ingrediente.cantidad}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </main>
     );
 };
 
-export default Inventario;
+export default Ingrediente;

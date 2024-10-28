@@ -7,9 +7,12 @@ import Register from '@pages/Register';
 import Error404 from '@pages/Error404';
 import Root from '@pages/Root';
 import ProtectedRoute from '@components/ProtectedRoute';
-import Inventario from '@pages/Inventario';
-
+import Chef from '@pages/Chef';
+import Garzon from '@pages/Garzon';
 import '@styles/styles.css';
+import Inventario from '@pages/Inventario';
+import Menu from '@pages/Menu';
+
 
 const router = createBrowserRouter([
   {
@@ -22,30 +25,53 @@ const router = createBrowserRouter([
         element: <Home/>
       },
       {
+        path: '/Menu',
+        element: <Menu/>
+      },
+      {
+        path: '/Chef',
+        element: (
+        <ProtectedRoute allowedRoles={['chef']}>
+        <Chef />
+      </ProtectedRoute>)
+      }
+      ,
+      {
+        path: '/Garzon',
+        element: (
+        <ProtectedRoute allowedRoles={['garzon']}>
+        <Garzon />
+      </ProtectedRoute>)
+      }
+      ,
+      {
         path: '/users',
         element: (
         <ProtectedRoute allowedRoles={['administrador']}>
           <Users />
         </ProtectedRoute>
-        ),
-      },
-      {
-        path: '/inventario',
-        element: (
-          <ProtectedRoute allowedRoles={['administrador']}>
-            <Inventario />
-          </ProtectedRoute>
-          ),
-      }
+        )
+        ,
+        }
+        ,
+        {
+          path: '/inventario',
+          element: (
+            <ProtectedRoute allowedRoles={['administrador']}>
+              <Inventario />
+            </ProtectedRoute>
+            ),
+        }
+        ,
+    {
+      path: '/register',
+      element: <Register/>
+    }
     ]
   },
   {
     path: '/auth',
     element: <Login/>
-  },
-  {
-    path: '/register',
-    element: <Register/>
   }
 ])
 
