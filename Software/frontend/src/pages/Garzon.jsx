@@ -6,7 +6,8 @@ const Garzon = () => {
   const [nuevoPedido, setNuevoPedido] = useState({
     mesa: '',
     nombre: '',
-    ingredientes: '',
+    plato: '',
+    bebestibles: '',
   });
 
   const handleInputChange = (e) => {
@@ -16,7 +17,7 @@ const Garzon = () => {
 
   const agregarPedido = (e) => {
     e.preventDefault();
-    const ingredientesArray = nuevoPedido.ingredientes.split(',').map((ing) => ing.trim());
+    const platoArray = nuevoPedido.plato.split(',').map((ing) => ing.trim());
     const nuevoId = pedidos.length ? pedidos[pedidos.length - 1].id + 1 : 1;
     setPedidos([
       ...pedidos,
@@ -24,11 +25,11 @@ const Garzon = () => {
         id: nuevoId,
         mesa: nuevoPedido.mesa,
         nombre: nuevoPedido.nombre,
-        ingredientes: ingredientesArray,
+        plato: platoArray,
         estado: 'En Espera',
       },
     ]);
-    setNuevoPedido({ mesa: '', nombre: '', ingredientes: '' });
+    setNuevoPedido({ mesa: '', nombre: '', plato: '' });
   };
 
   const verificarInventario = (pedidoId) => {
@@ -38,11 +39,11 @@ const Garzon = () => {
           ? {
               ...pedido,
               estado:
-                pedido.ingredientes.includes('Tomate') &&
-                pedido.ingredientes.includes('Lechuga') &&
-                pedido.ingredientes.includes('zanahoria')
+                pedido.plato.includes('Tomate') &&
+                pedido.plato.includes('Lechuga') &&
+                pedido.plato.includes('zanahoria')
                   ? 'Preparacion'
-                  : 'Falta de ingredientes',
+                  : 'Falta de plato',
             }
           : pedido
       )
@@ -60,6 +61,8 @@ const Garzon = () => {
   return (
     <div className="container">
       <form onSubmit={agregarPedido}>
+        <h1>Registrar</h1>
+        <h1>pedido</h1>
         <div>
           <label>Mesa:</label>
           <input
@@ -81,16 +84,26 @@ const Garzon = () => {
           />
         </div>
         <div>
-          <label>Ingredientes (separados por coma):</label>
+          <label>Plato(s):</label>
           <input
             type="text"
-            name="ingredientes"
-            value={nuevoPedido.ingredientes}
+            name="plato"
+            value={nuevoPedido.plato}
             onChange={handleInputChange}
             required
           />
         </div>
-        <button type="submit">Agregar Pedido</button>
+        <div>
+          <label>Bebestible(s):</label>
+          <input
+            type="text"
+            name="bebestibles"
+            value={nuevoPedido.bebestibles}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+        <button type="submit">Ingresar</button>
       </form>
 
       <div className="sections">
@@ -102,7 +115,7 @@ const Garzon = () => {
               <div key={pedido.id}>
                 <p><strong>Mesa:</strong> {pedido.mesa}</p>
                 <p><strong>Pedido a nombre de:</strong> {pedido.nombre}</p>
-                <p><strong>Ingredientes:</strong> {pedido.ingredientes.join(', ')}</p>
+                <p><strong>plato:</strong> {pedido.plato.join(', ')}</p>
                 <button onClick={() => verificarInventario(pedido.id)}>Verificar Inventario</button>
               </div>
             ))}
@@ -124,12 +137,12 @@ const Garzon = () => {
         <div className="section">
           <h2>Falta de ingredientes</h2>
           {pedidos
-            .filter((pedido) => pedido.estado === 'Falta de ingredientes')
+            .filter((pedido) => pedido.estado === 'Falta de plato')
             .map((pedido) => (
               <div key={pedido.id}>
                 <p><strong>Mesa:</strong> {pedido.mesa}</p>
                 <p><strong>Pedido a nombre de:</strong> {pedido.nombre}</p>
-                <p className="red">Falta de ingredientes</p>
+                <p className="red">Falta de ingredientes para plato</p>
               </div>
             ))}
         </div>

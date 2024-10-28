@@ -11,6 +11,7 @@ import Chef from '@pages/Chef';
 import Garzon from '@pages/Garzon';
 import '@styles/styles.css';
 import Inventario from '@pages/Inventario';
+import Menu from '@pages/Menu';
 
 
 const router = createBrowserRouter([
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: '/home',
         element: <Home/>
+      },
+      {
+        path: '/Menu',
+        element: <Menu/>
       },
       {
         path: '/Chef',

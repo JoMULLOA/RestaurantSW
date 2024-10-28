@@ -130,6 +130,18 @@ const Navbar = () => {
                     )}
                     <li>
                         <NavLink 
+                            to="/menu" 
+                            onClick={() => { 
+                                logoutSubmit(); 
+                                setMenuOpen(false); 
+                            }} 
+                            activeClassName="active"
+                        >
+                            Menú
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink 
                             to="/auth" 
                             onClick={() => { 
                                 logoutSubmit(); 
