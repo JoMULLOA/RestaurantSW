@@ -1,64 +1,136 @@
 /* src/styles/inventario.css */
 .container {
-  padding: 20px;
-}
-.titleInventario {
-  text-align: center;
-  margin-bottom: 550px;
-  margin-right: 300px;
-  margin-top: 20px;
-
-}
-.dashboard {
-  border: 2px solid #ccc; /* Borde del recuadro */
-  padding: 20px; /* Espacio interno del recuadro */
-  border-radius: 10px; /* Bordes redondeados */
-  background-color: #f9f9f9; /* Color de fondo */
-  margin-bottom: 20px; /* Espacio debajo del recuadro */
-  margin-top: -300px; /* Ajusta este valor para subir el recuadro */
-}
-.form-wrapper {
-  margin-bottom: 20px; /* Espacio debajo del formulario */
-}
-.form-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px; /* Espacio entre los elementos */
-  justify-content: center; /* Centrar los elementos horizontalmente */
-}
-.form-group {
-  flex: 1 1 200px; /* Ajusta el tamaño de los elementos del formulario */
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
-.form-group label {
-  margin-bottom: 5px; /* Espacio entre la etiqueta y el campo */
+
+.titleInventario {
+  text-align: center;
+  color: #003366;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
-.form-group input {
-  padding: 10px; /* Espacio interno del campo */
-  border: 1px solid #ccc; /* Borde del campo */
-  border-radius: 5px; /* Bordes redondeados del campo */
-}
-button {
-  padding: 10px 20px; /* Espacio interno del botón */
-  border: none; /* Sin borde */
-  border-radius: 5px; /* Bordes redondeados del botón */
-  background-color: #007bff; /* Color de fondo del botón */
-  color: white; /* Color del texto del botón */
-  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
-}
-button:hover {
-  background-color: #0056b3; /* Color de fondo del botón al pasar el cursor */
-}
-.product-table {
+
+.dashboard {
   width: 100%;
-  border-collapse: collapse; /* Colapsar bordes */
+  max-width: 800px;
+  margin: 20px auto;
+  border: 1px solid #ccc;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
 }
-.product-table th, .product-table td {
-  border: 1px solid #ccc; /* Borde de las celdas */
-  padding: 10px; /* Espacio interno de las celdas */
-  text-align: left; /* Alinear texto a la izquierda */
+
+.form-wrapper {
+  margin-bottom: 20px;
 }
-.product-table th {
-  background-color: #f2f2f2; /* Color de fondo de los encabezados */
+
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.form-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.form-table th,
+.form-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+.form-table th {
+  background-color: #f2f2f2;
+}
+
+.form-table input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+}
+
+.form-table input#id,
+.form-table input#cantidad {
+  width: 60px; /* Campos más pequeños */
+}
+
+.action-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff; /* Color azul */
+  color: white;
+  cursor: pointer;
+}
+
+.action-button:hover {
+  background-color: #0056b3; /* Color azul oscuro al pasar el cursor */
+}
+
+.ingredient-table {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  border-collapse: collapse;
+}
+
+.ingredient-table th,
+.ingredient-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+.ingredient-table th {
+  background-color: #f2f2f2;
+}
+
+.ingredient-table td:last-child {
+  text-align: center;
+}
+
+/* Asegurar que el botón se muestre como bloque y centrado */
+.ingredient-table .action-button {
+  display: inline-block;
+  margin: 0 auto;
+}
+
+
+/* Estilos responsivos */
+@media (max-width: 767px) {
+  .form-container,
+  .ingredient-table {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .form-table input#id,
+  .form-table input#cantidad {
+    width: 100%; /* En pantallas pequeñas, ocupan todo el ancho */
+  }
+
+  .form-table th,
+  .form-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .form-table tr {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .form-table th {
+    text-align: left;
+  }
+
+  .form-table td {
+    text-align: left;
+  }
 }

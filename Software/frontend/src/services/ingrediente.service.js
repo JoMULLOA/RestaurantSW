@@ -27,3 +27,22 @@ export const getIngredientes = async () => {
     throw error;
   }
 };
+
+export const deleteIngrediente = async (id) => {
+    try {
+      const response = await fetch(`${API_URL}/${id}`, {
+        method: "DELETE",
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Error HTTP: ${response.status}`);
+      }
+  
+      return await response.json();
+    } catch (error) {
+      console.error("Error al eliminar el ingrediente: ", error);
+      throw error;
+    }
+  };
+  
+  
