@@ -88,6 +88,17 @@ const Navbar = () => {
                             </li>
                             <li>
                                 <NavLink 
+                                    to="/iRegister" 
+                                    onClick={() => { 
+                                        setMenuOpen(false); 
+                                    }} 
+                                    activeClassName="active"
+                                >
+                                    Registrar ingrediente
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink 
                                     to="/Inventario" 
                                     onClick={() => { 
                                         setMenuOpen(false); 
@@ -132,7 +143,6 @@ const Navbar = () => {
                         <NavLink 
                             to="/menu" 
                             onClick={() => { 
-                                logoutSubmit(); 
                                 setMenuOpen(false); 
                             }} 
                             activeClassName="active"

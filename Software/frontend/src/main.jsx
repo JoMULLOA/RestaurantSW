@@ -12,7 +12,7 @@ import Garzon from '@pages/Garzon';
 import '@styles/styles.css';
 import Inventario from '@pages/Inventario';
 import Menu from '@pages/Menu';
-
+import IRegister from './pages/iRegister';
 
 const router = createBrowserRouter([
   {
@@ -59,6 +59,15 @@ const router = createBrowserRouter([
           element: (
             <ProtectedRoute allowedRoles={['administrador']}>
               <Inventario />
+            </ProtectedRoute>
+            ),
+        }
+        ,
+        {
+          path: '/iRegister',
+          element: (
+            <ProtectedRoute allowedRoles={['administrador']}>
+              <IRegister />
             </ProtectedRoute>
             ),
         }
