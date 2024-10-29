@@ -1,122 +1,168 @@
-import { useState } from 'react';
+// Ingrediente.jsx
+import { useState, useEffect } from 'react';
+import { addIngrediente, getIngredientes, deleteIngrediente } from '../services/ingrediente.service.js';
 import '@styles/inventario.css';
-const Inventario = () => {
-    const [productos, setProductos] = useState([]);
-    const [form, setForm] = useState({
-        id: '',
-        fechaIngreso: '',
-        cantidad: '',
-        tipoProducto: '',
-        nombre: '',
-        imagen: ''
+
+const Ingrediente = () => {
+  const [ingredientes, setIngredientes] = useState([]);
+  const [form, setForm] = useState({
+    id: '',
+    nombre: '',
+    fechaIngreso: '',
+    cantidad: ''
+  });
+
+  useEffect(() => {
+    const fetchIngredientes = async () => {
+      try {
+        const data = await getIngredientes();
+        if (data.status === 'Success') {
+          setIngredientes(data.data);
+        } else {
+          console.error("Error al obtener los ingredientes: ", data.message);
+        }
+      } catch (error) {
+        console.error("Error al conectar con el servidor: ", error);
+      }
+    };
+    fetchIngredientes();
+  }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setForm({
+      ...form,
+      [name]: value
     });
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const data = await addIngrediente(form);
+      if (data.status === 'Success') {
+        setIngredientes([...ingredientes, data.data]);
         setForm({
-            ...form,
-            [name]: value
+          id: '',
+          nombre: '',
+          fechaIngreso: '',
+          cantidad: ''
         });
-    };
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setProductos([...productos, form]);
-        setForm({
-            id: '',
-            fechaIngreso: '',
-            cantidad: '',
-            tipoProducto: '',
-            nombre: '',
-            imagen: ''
-        });
-    };
-    return (
-        <main className="container">
-            <h1 className="title">Inventario</h1>
-            <form onSubmit={handleSubmit} className="form-container">
-                <div className="form-group">
-                    <label htmlFor="id">ID:</label>
+      } else {
+        console.error("Error al agregar el ingrediente: ", data.message);
+      }
+    } catch (error) {
+      console.error("Error al conectar con el servidor: ", error);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      const data = await deleteIngrediente(id);
+      if (data.status === 'Success') {
+        setIngredientes(ingredientes.filter((ingrediente) => ingrediente.id !== id));
+      } else {
+        console.error("Error al eliminar el ingrediente: ", data.message);
+      }
+    } catch (error) {
+      console.error("Error al conectar con el servidor: ", error);
+    }
+  };
+
+  return (
+    <main className="container">
+      <h1 className="titleInventario">Inventario de Ingredientes</h1>
+      <div className="dashboard">
+        <div className="form-wrapper">
+          <form onSubmit={handleSubmit} className="form-container">
+            <table className="form-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Fecha de Ingreso</th>
+                  <th>Cantidad</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
                     <input
-                        type="text"
-                        id="id"
-                        name="id"
-                        value={form.id}
-                        onChange={handleInputChange}
-                        required
+                      type="text"
+                      id="id"
+                      name="id"
+                      value={form.id}
+                      onChange={handleInputChange}
+                      required
                     />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="fechaIngreso">Fecha de Ingreso:</label>
+                  </td>
+                  <td>
                     <input
-                        type="date"
-                        id="fechaIngreso"
-                        name="fechaIngreso"
-                        value={form.fechaIngreso}
-                        onChange={handleInputChange}
-                        required
+                      type="text"
+                      id="nombre"
+                      name="nombre"
+                      value={form.nombre}
+                      onChange={handleInputChange}
+                      required
                     />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="cantidad">Cantidad:</label>
+                  </td>
+                  <td>
                     <input
-                        type="number"
-                        id="cantidad"
-                        name="cantidad"
-                        value={form.cantidad}
-                        onChange={handleInputChange}
-                        required
+                      type="date"
+                      id="fechaIngreso"
+                      name="fechaIngreso"
+                      value={form.fechaIngreso}
+                      onChange={handleInputChange}
+                      required
                     />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="tipoProducto">Tipo de Producto:</label>
+                  </td>
+                  <td>
                     <input
-                        type="text"
-                        id="tipoProducto"
-                        name="tipoProducto"
-                        value={form.tipoProducto}
-                        onChange={handleInputChange}
-                        required
+                      type="number"
+                      id="cantidad"
+                      name="cantidad"
+                      value={form.cantidad}
+                      onChange={handleInputChange}
+                      required
                     />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="nombre">Nombre:</label>
-                    <input
-                        type="text"
-                        id="nombre"
-                        name="nombre"
-                        value={form.nombre}
-                        onChange={handleInputChange}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="imagen">Imagen (URL):</label>
-                    <input
-                        type="text"
-                        id="imagen"
-                        name="imagen"
-                        value={form.imagen}
-                        onChange={handleInputChange}
-                        required
-                    />
-                </div>
-                <button type="submit">Agregar Producto</button>
-            </form>
-            <h2>Lista de Productos</h2>
-            <ul className="product-list">
-                {productos.map((producto, index) => (
-                    <li key={index} className="product-item">
-                        <div className="product-info">
-                            <p>ID: {producto.id}</p>
-                            <p>Fecha de Ingreso: {producto.fechaIngreso}</p>
-                            <p>Cantidad: {producto.cantidad}</p>
-                            <p>Tipo de Producto: {producto.tipoProducto}</p>
-                            <p>Nombre: {producto.nombre}</p>
-                            <img src={producto.imagen} alt={producto.nombre} width="100" />
-                        </div>
-                    </li>
-                ))}
-            </ul>
-        </main>
-    );
+                  </td>
+                  <td>
+                    <button type="submit" className="action-button">Agregar</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+        </div>
+        <h2>Lista de Ingredientes</h2>
+        <table className="ingredient-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Fecha de Ingreso</th>
+              <th>Cantidad</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {ingredientes.map((ingrediente, index) => (
+              <tr key={index}>
+                <td>{ingrediente.id}</td>
+                <td>{ingrediente.nombre}</td>
+                <td>{ingrediente.fechaIngreso}</td>
+                <td>{ingrediente.cantidad}</td>
+                <td>
+                  <button className="action-button" onClick={() => handleDelete(ingrediente.id)}>Eliminar</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </main>
+  );
 };
-export default Inventario;
+
+export default Ingrediente;
