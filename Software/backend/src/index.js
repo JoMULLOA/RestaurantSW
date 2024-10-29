@@ -11,6 +11,7 @@ import { connectDB } from "./config/configDb.js";
 import { createInitialData } from "./config/initialSetup.js";
 import { passportJwtSetup } from "./auth/passport.auth.js";
 import ingredienteRoutes from "./routes/ingrediente.routes.js"; // Importar las rutas de Ingredientes
+import IngrechefRoutes from "./routes/Ingrechef.routes.js";
 
 async function setupServer() {
   try {
@@ -62,6 +63,7 @@ async function setupServer() {
 
     app.use("/api", indexRoutes);
     app.use("/api", ingredienteRoutes); // Agregar las rutas de ingredientes
+    app.use("/api", IngrechefRoutes);
 
     app.listen(PORT, () => {
       console.log(`=> Servidor corriendo en ${HOST}:${PORT}/api`);

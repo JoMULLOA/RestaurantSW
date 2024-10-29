@@ -7,10 +7,12 @@ const Chef = () => {
       mesa: 12,
       nombre: "Jose Manriquez",
       ingredientes: ["zanahoria"],
-      estado: "En Espera",
+      estado: "Falta de ingredientes",
     },
   ]);
   const [ingredientes, setIngredientes] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [pedidoSeleccionado, setPedidoSeleccionado] = useState(null);
 
   // Función para obtener ingredientes desde el backend
   const fetchIngredientes = async () => {
@@ -56,47 +58,114 @@ const Chef = () => {
     );
   };
 
+  const abrirModalIngredientes = (pedido) => {
+    setPedidoSeleccionado(pedido);
+    setModalVisible(true);
+  };
+
+  const cerrarModal = () => {
+    setModalVisible(false);
+    setPedidoSeleccionado(null);
+  };
+
   return (
-    <div style={{ display: "flex", gap: "20px", marginTop: "10vh" }}>
-      <div style={{ border: "1px solid black", padding: "20px", flex: 1 }}>
-        <h2>En Espera</h2>
-        {pedidos
-          .filter((pedido) => pedido.estado === "En Espera")
-          .map((pedido) => (
-            <div key={pedido.id} style={{ marginBottom: "15px" }}>
-              <p><strong>Mesa:</strong> {pedido.mesa}</p>
-              <p><strong>Pedido a nombre de:</strong> {pedido.nombre}</p>
-              <p><strong>Ingredientes:</strong> {pedido.ingredientes.join(", ")}</p>
-              <button onClick={() => verificarInventario(pedido.id)}>Verificar Inventario</button>
-            </div>
-          ))}
-      </div>
-      
-      <div style={{ border: "1px solid black", padding: "20px", flex: 1 }}>
-        <h2>Preparacion</h2>
-        {pedidos
-          .filter((pedido) => pedido.estado === "Preparacion")
-          .map((pedido) => (
-            <div key={pedido.id} style={{ marginBottom: "15px" }}>
-              <p><strong>Mesa:</strong> {pedido.mesa}</p>
-              <p><strong>Pedido a nombre de:</strong> {pedido.nombre}</p>
-              <button onClick={() => actualizarEstado(pedido.id, "Entrega")}>Actualizar a Entrega</button>
-            </div>
-          ))}
-      </div>
-      
-      <div style={{ border: "1px solid black", padding: "20px", flex: 1 }}>
-        <h2>Falta de ingredientes</h2>
-        {pedidos
-          .filter((pedido) => pedido.estado === "Falta de ingredientes")
-          .map((pedido) => (
-            <div key={pedido.id} style={{ marginBottom: "15px" }}>
-              <p><strong>Mesa:</strong> {pedido.mesa}</p>
-              <p><strong>Pedido a nombre de:</strong> {pedido.nombre}</p>
-              <p style={{ color: "red" }}>Falta de ingredientes</p>
-            </div>
-          ))}
-      </div>
+    <div style={{ display: "flex", gap: "20px", marginTop: "10vh", fontFamily: "Arial, sans-serif" }}>
+      {["En Espera", "Preparacion", "Falta de ingredientes"].map((estado) => (
+        <div
+          key={estado}
+          style={{
+            border: "1px solid #ddd",
+            borderRadius: "8px",
+            padding: "20px",
+            flex: 1,
+            backgroundColor: "#f9f9f9",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <h2 style={{ color: estado === "Falta de ingredientes" ? "red" : "#333" }}>{estado}</h2>
+          {pedidos
+            .filter((pedido) => pedido.estado === estado)
+            .map((pedido) => (
+              <div key={pedido.id} style={{ marginBottom: "15px", padding: "10px", backgroundColor: "#fff", borderRadius: "5px", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
+                <p><strong>Mesa:</strong> {pedido.mesa}</p>
+                <p><strong>Pedido a nombre de:</strong> {pedido.nombre}</p>
+                <button
+                  style={{ padding: "8px 12px", border: "none", backgroundColor: "#28a745", color: "white", borderRadius: "4px", cursor: "pointer" }}
+                  onClick={() => abrirModalIngredientes(pedido)}
+                >
+                  Ver Pedido
+                </button>
+                {estado === "En Espera" && (
+                  <button
+                    style={{ padding: "8px 12px", border: "none", backgroundColor: "#007bff", color: "white", borderRadius: "4px", cursor: "pointer", marginLeft: "10px" }}
+                    onClick={() => verificarInventario(pedido.id)}
+                  >
+                    Verificar Inventario
+                  </button>
+                )}
+                {estado === "Preparacion" && (
+                  <button
+                    style={{ padding: "8px 12px", border: "none", backgroundColor: "#ffc107", color: "white", borderRadius: "4px", cursor: "pointer", marginLeft: "10px" }}
+                    onClick={() => actualizarEstado(pedido.id, "Entrega")}
+                  >
+                    Actualizar a Entrega
+                  </button>
+                )}
+                {estado === "Falta de ingredientes" && (
+                  <button
+                    style={{ padding: "8px 12px", border: "none", backgroundColor: "#17a2b8", color: "white", borderRadius: "4px", cursor: "pointer", marginLeft: "10px" }}
+                    onClick={() => verificarInventario(pedido.id)}
+                  >
+                    Actualizar Pedido
+                  </button>
+                )}
+              </div>
+            ))}
+        </div>
+      ))}
+
+      {modalVisible && pedidoSeleccionado && (
+        <div style={{
+          position: "fixed",
+          top: "0",
+          left: "0",
+          width: "100vw",
+          height: "100vh",
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
+        }}>
+          <div style={{
+            width: "300px",
+            padding: "20px",
+            backgroundColor: "white",
+            borderRadius: "8px",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)"
+          }}>
+            <h3>Ingredientes del Pedido</h3>
+            <ul>
+              {pedidoSeleccionado.ingredientes.map((ing, index) => (
+                <li key={index}>{ing}</li>
+              ))}
+            </ul>
+            <button
+              style={{
+                marginTop: "20px",
+                padding: "8px 12px",
+                border: "none",
+                backgroundColor: "#dc3545",
+                color: "white",
+                borderRadius: "4px",
+                cursor: "pointer",
+              }}
+              onClick={cerrarModal}
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
