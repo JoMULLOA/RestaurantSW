@@ -44,5 +44,46 @@ export const deleteIngrediente = async (id) => {
       throw error;
     }
   };
-  
+
+  export const canPrepareDish = async (requiredIngredients) => {
+  try {
+    const response = await fetch(`${API_URL}/preparar`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ requiredIngredients }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error HTTP: ${response.status}`);
+    }
+
+    return await response.json(); // Retorna el resultado con `success: true` o `success: false`
+  } catch (error) {
+    console.error("Error al verificar la preparación del plato: ", error);
+    throw error;
+  }
+};
+
+export const preparar = async (requiredIngredients) => {
+  try {
+    const response = await fetch(`${API_URL}/preparar`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ requiredIngredients }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error HTTP: ${response.status}`);
+    }
+
+    return await response.json(); // Retorna el resultado con `success: true` o `success: false`
+  } catch (error) {
+    console.error("Error al verificar la preparación del plato: ", error);
+    throw error;
+  }
+};
   

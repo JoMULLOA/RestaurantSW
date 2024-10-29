@@ -1,5 +1,5 @@
 // ingrediente.controller.js
-import { addIngrediente, getIngredientes } from "../services/ingrediente.service.js";
+import { addIngrediente, getIngredientes, prepararin } from "../services/ingrediente.service.js";
 
 export const getAllIngredientes = async (req, res) => {
   try {
@@ -18,3 +18,21 @@ export const createIngrediente = async (req, res) => {
     res.status(500).json({ status: "Error", message: error.message });
   }
 };
+
+export const prepararinall = async (req, res) => {
+  try {
+    // Obtener los ingredientes requeridos desde el cuerpo de la solicitud
+    const requiredIngredients = req.body.requiredIngredients;
+
+    // Llamar a la función 'prepararin' para verificar si se puede preparar el plato
+    const result = await prepararin(requiredIngredients);
+
+    // Enviar la respuesta en formato JSON con el resultado
+    res.status(200).json({ status: "Success", data: result });
+  } catch (error) {
+    // Enviar mensaje de error en caso de falla
+    res.status(500).json({ status: "Error", message: error.message });
+  }
+};
+
+
