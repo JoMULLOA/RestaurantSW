@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import "@styles/mesas.css"; // Asegúrate de tener este archivo de estilos
+import "@styles/mesas.css";
+import { obtenerMesas, liberarMesa, reservarMesa } from "@services/mesa.service.js";
 
 function Mesas() {
   const [mesas, setMesas] = useState([]);
@@ -7,14 +8,13 @@ function Mesas() {
 
   // useEffect para obtener los datos de las mesas desde la API cuando se carga el componente
   useEffect(() => {
-    obtenerMesas();
+    fetchMesas();
   }, []);
 
-  // Función para obtener las mesas desde el backend
-  const obtenerMesas = async () => {
+  // Función para obtener las mesas usando el servicio
+  const fetchMesas = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/mesas");
-      const data = await response.json();
+      const data = await obtenerMesas();
       setMesas(data);
     } catch (error) {
       console.error("Error al obtener las mesas:", error);
@@ -29,39 +29,22 @@ function Mesas() {
   // Filtrar las mesas según el estado seleccionado en el filtro
   const mesasFiltradas = filtro ? mesas.filter((mesa) => mesa.estado === filtro) : mesas;
 
-  const liberarMesa = async (numeroMesa) => {
+  // Función para liberar una mesa usando el servicio
+  const handleLiberarMesa = async (numeroMesa) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/mesas/liberar/${numeroMesa}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-      });
-      if (response.ok) {
-        obtenerMesas(); // Refresca la lista de mesas después de liberar
-      } else {
-        const errorData = await response.json();
-        console.error("Error al liberar la mesa:", errorData.message);
-      }
+      await liberarMesa(numeroMesa);
+      fetchMesas(); // Refresca la lista de mesas después de liberar
     } catch (error) {
       console.error("Error al liberar la mesa:", error);
     }
   };
 
-  // Función para reservar una mesa
-  const reservarMesa = async (numeroMesa) => {
+  // Función para reservar una mesa usando el servicio
+  const handleReservarMesa = async (numeroMesa) => {
     try {
-      const response = await fetch("http://localhost:3000/api/mesas/reservar", { // URL completa del endpoint
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ numeroMesa, garzonId: 9 }), // Usar el ID del garzón, o pasar un ID dinámico si es necesario
-      });
-      
-      if (!response.ok) { // Verificar si la respuesta no es exitosa
-        const errorData = await response.json();
-        console.error("Error al reservar la mesa:", errorData.message);
-      } else {
-        obtenerMesas(); // Refresca las mesas después de reservar solo si la solicitud fue exitosa
-        console.log(`Mesa ${numeroMesa} reservada correctamente.`);
-      }
+      await reservarMesa(numeroMesa, 9); // Cambia `9` por el ID dinámico si es necesario
+      fetchMesas(); // Refresca la lista de mesas después de reservar
+      console.log(`Mesa ${numeroMesa} reservada correctamente.`);
     } catch (error) {
       console.error("Error al reservar la mesa:", error);
     }
@@ -93,11 +76,11 @@ function Mesas() {
               <td>{mesa.garzonAsignado ? mesa.garzonAsignado.nombreCompleto : "N/A"}</td>
               <td>
                 {mesa.estado === "Disponible" ? (
-                  <button className="reservar-button" onClick={() => reservarMesa(mesa.numeroMesa)}>
+                  <button className="reservar-button" onClick={() => handleReservarMesa(mesa.numeroMesa)}>
                     Reservar
                   </button>
                 ) : (
-                  <button className="liberar-button" onClick={() => liberarMesa(mesa.numeroMesa)}>
+                  <button className="liberar-button" onClick={() => handleLiberarMesa(mesa.numeroMesa)}>
                     Liberar
                   </button>
                 )}

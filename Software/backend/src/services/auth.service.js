@@ -50,48 +50,37 @@ export async function loginService(user) {
 
 export async function registerService(user) {
   try {
-    console.log("Rol recibido:", user.rol);
     const userRepository = AppDataSource.getRepository(User);
 
-    const { nombreCompleto, rut, email } = user;
+    const { nombreCompleto, email, rut, rol, password } = user;
 
-    const createErrorMessage = (dataInfo, message) => ({
-      dataInfo,
-      message
-    });
+    // Verificación de existencia de email o rut
+    const existingEmailUser = await userRepository.findOne({ where: { email } });
+    if (existingEmailUser) {
+      return [null, { field: "email", message: "Correo electrónico en uso" }];
+    }
 
-    const existingEmailUser = await userRepository.findOne({
-      where: {
-        email,
-      },
-    });
-    
-    if (existingEmailUser) return [null, createErrorMessage("email", "Correo electrónico en uso")];
+    const existingRutUser = await userRepository.findOne({ where: { rut } });
+    if (existingRutUser) {
+      return [null, { field: "rut", message: "Rut ya asociado a una cuenta" }];
+    }
 
-    const existingRutUser = await userRepository.findOne({
-      where: {
-        rut,
-      },
-    });
+    console.log("Rol recibido en la solicitud:", rol); // Verificar que rol llega correctamente
 
-    if (existingRutUser) return [null, createErrorMessage("rut", "Rut ya asociado a una cuenta")];
-
-    //com
     const newUser = userRepository.create({
       nombreCompleto,
       email,
       rut,
-      password: await encryptPassword(user.password),
-      rol: user.rol || "usuario", // usa el rol proporcionado o "usuario" por defecto
+      password: await encryptPassword(password),
+      rol: rol, // Asigna el rol recibido desde el frontend
     });
 
     await userRepository.save(newUser);
 
-    const { password, ...dataUser } = newUser;
-
+    const { password: _, ...dataUser } = newUser; // Excluye la contraseña del objeto devuelto
     return [dataUser, null];
   } catch (error) {
-    console.error("Error al registrar un usuario", error);
+    console.error("Error al registrar un usuario:", error);
     return [null, "Error interno del servidor"];
   }
 }
