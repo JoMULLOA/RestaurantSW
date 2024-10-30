@@ -1,5 +1,5 @@
 // ingrediente.controller.js
-import { addIngrediente, getIngredientes, prepararin } from "../services/ingrediente.service.js";
+import { addIngrediente, getIngredientes, prepararin, removeIngrediente } from "../services/ingrediente.service.js";
 
 export const getAllIngredientes = async (req, res) => {
   try {
@@ -18,6 +18,24 @@ export const createIngrediente = async (req, res) => {
     res.status(500).json({ status: "Error", message: error.message });
   }
 };
+
+export const deleteIngrediente = async (req, res) => {
+  try {
+    const { id } = req.params; 
+
+    const deletedIngrediente = await removeIngrediente(id); 
+
+    if (!deletedIngrediente) {
+      return res.status(404).json({ status: "Error", message: "Ingrediente no encontrado" });
+    }
+
+    res.status(200).json({ status: "Success", message: "Ingrediente eliminado correctamente" });
+  } catch (error) {
+    res.status(500).json({ status: "Error", message: error.message });
+  }
+};
+
+
 
 export const prepararinall = async (req, res) => {
   try {

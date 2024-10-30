@@ -1,6 +1,6 @@
 // Ingrediente.jsx
 import { useState, useEffect } from 'react';
-import { addIngrediente, getIngredientes, deleteIngrediente } from '../services/ingrediente.service.js';
+import { addIngrediente, getIngredientes, removeIngrediente } from '../services/ingrediente.service.js';
 import '@styles/inventario.css';
 
 const Ingrediente = () => {
@@ -58,14 +58,15 @@ const Ingrediente = () => {
 
   const handleDelete = async (id) => {
     try {
-      const data = await deleteIngrediente(id);
-      if (data.status === 'Success') {
-        setIngredientes(ingredientes.filter((ingrediente) => ingrediente.id !== id));
-      } else {
-        console.error("Error al eliminar el ingrediente: ", data.message);
-      }
+      const response = await removeIngrediente(id);
+      console.log("Ingrediente eliminado:", response);
+  
+      // Actualiza la lista de ingredientes en el frontend
+      setIngredientes((prevIngredientes) =>
+        prevIngredientes.filter((ingrediente) => ingrediente.id !== id)
+      );
     } catch (error) {
-      console.error("Error al conectar con el servidor: ", error);
+      console.error("Error al eliminar el ingrediente:", error);
     }
   };
 

@@ -13,6 +13,18 @@ export const addIngrediente = async (data) => {
     return await ingredientRepository.save(newIngrediente);
 };
 
+export const removeIngrediente = async (id) => {
+  const ingredientRepository = AppDataSource.getRepository(ingrediente);
+  const ingredienteToDelete = await ingredientRepository.findOneBy({ id });
+
+  if (!ingredienteToDelete) {
+      return null; 
+  }
+
+  await ingredientRepository.remove(ingredienteToDelete);
+  return ingredienteToDelete; // 
+};
+
 export const prepararin = async (requiredIngredients) => {
   try {
     const { nombre, cantidad } = requiredIngredients

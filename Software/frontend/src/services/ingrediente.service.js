@@ -21,19 +21,20 @@ export const getIngredientes = async () => {
   }
 };
 
-export const deleteIngrediente = async (id) => {
-    try {
-      const response = await axios.post('/ingredientes/delete', id)
-  
-      if (!response.ok) {
-        throw new Error(`Error HTTP: ${response.status}`);
+export const removeIngrediente = async (id) => {
+  try {
+      const response = await axios.delete(`/ingredientes/delete`, id);
+
+      // Revisa si la respuesta tiene un status 200.
+      if (response.status !== 200) {
+          throw new Error(`Error HTTP: ${response.status}`);
       }
-  
+
       return response.data;
-    } catch (error) {
-      console.error("Error al eliminar el ingrediente: ", error);
+  } catch (error) {
+      console.error("Error al eliminar el ingrediente:", error);
       throw error;
-    }
+  }
 };
 
 export const preparar = async (requiredIngredients) => {
