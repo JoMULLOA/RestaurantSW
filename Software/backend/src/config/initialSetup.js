@@ -1,122 +1,53 @@
-"use strict";
+import ingrediente from "../entity/ingrediente.entity.js";
 import User from "../entity/user.entity.js";
-import pedido from "../entity/pedido.entity.js";
 import { AppDataSource } from "./configDb.js";
 import { encryptPassword } from "../helpers/bcrypt.helper.js";
+import pedido from "../entity/pedido.entity.js";
+import Mesa from "../entity/mesa.entity.js"; // Importar la entidad de Mesas
 
-async function createUsers() {
+async function createInitialData() {
   try {
+    // Crear Usuarios
     const userRepository = AppDataSource.getRepository(User);
-
-    const count = await userRepository.count();
-    if (count > 0) return;
-
-    await Promise.all([
-      userRepository.save(
-        userRepository.create({
-          nombreCompleto: "Diego Alexis Salazar Jara",
-          rut: "21.308.770-3",
-          email: "administrador2024@gmail.cl",
-          password: await encryptPassword("admin1234"),
-          rol: "administrador",
-        }),
-      ),
-      userRepository.save(
-        userRepository.create({
-          nombreCompleto: "Diego Sebastián Ampuero Belmar",
-          rut: "21.151.897-9",
-          email: "usuario1.2024@gmail.cl",
-          password: await encryptPassword("user1234"),
-          rol: "usuario",
-        })
-      ),
+    const userCount = await userRepository.count();
+    if (userCount === 0) {
+      const users = await Promise.all([
         userRepository.save(
           userRepository.create({
-            nombreCompleto: "Alexander Benjamín Marcelo Carrasco Fuentes",
-            rut: "20.630.735-8",
-            email: "usuario2.2024@gmail.cl",
-            password: await encryptPassword("user1234"),
-            rol: "usuario",
-<<<<<<< Updated upstream
-          }),
-      ),
-      userRepository.save(
-        userRepository.create({
-          nombreCompleto: "Pablo Andrés Castillo Fernández",
-          rut: "20.738.450-K",
-          email: "usuario3.2024@gmail.cl",
-          password: await encryptPassword("user1234"),
-          rol: "usuario",
-        }),
-      ),
-      userRepository.save(
-        userRepository.create({
-          nombreCompleto: "Felipe Andrés Henríquez Zapata",
-          rut: "20.976.635-3",
-          email: "usuario4.2024@gmail.cl",
-          password: await encryptPassword("user1234"),
-          rol: "usuario",
-        }),
-      ),
-      userRepository.save(
-        userRepository.create({
-          nombreCompleto: "Diego Alexis Meza Ortega",
-          rut: "21.172.447-1",
-          email: "usuario5.2024@gmail.cl",
-          password: await encryptPassword("user1234"),
-          rol: "usuario",
-        }),
-      ),
-      userRepository.save(
-        userRepository.create({
-          nombreCompleto: "Juan Pablo Rosas Martin",
-          rut: "20.738.415-1",
-          email: "usuario6.2024@gmail.cl",
-          password: await encryptPassword("user1234"),
-          rol: "usuario",
-        }),
-      ),
-    ]);
-    console.log("* => Usuarios creados exitosamente");
-=======
+            nombreCompleto: "Diego Alexis Salazar Jara",
+            rut: "21.308.770-3",
+            email: "administrador2024@gmail.cl",
+            password: await encryptPassword("admin1234"),
+            rol: "administrador",
           })
         ),
         userRepository.save(
           userRepository.create({
-            nombreCompleto: "Pablo Andrés Castillo Fernández",
-            rut: "20.738.450-K",
-            email: "usuario3.2024@gmail.cl",
+            nombreCompleto: "Diego Sebastián Ampuero Belmar",
+            rut: "21.151.897-9",
+            email: "usuario1.2024@gmail.cl",
             password: await encryptPassword("user1234"),
             rol: "usuario",
           })
         ),
         userRepository.save(
           userRepository.create({
-            nombreCompleto: "Felipe Andrés Henríquez Zapata",
-            rut: "20.976.635-3",
-            email: "usuario4.2024@gmail.cl",
-            password: await encryptPassword("user1234"),
-            rol: "usuario",
-          })
-        ),
-        userRepository.save(
-          userRepository.create({
-            nombreCompleto: "Diego Alexis Meza Ortega",
+            nombreCompleto: "Juan Pérez",
             rut: "21.172.447-1",
-            email: "usuario5.2024@gmail.cl",
-            password: await encryptPassword("user1234"),
-            rol: "usuario",
+            email: "garzon1@gmail.cl",
+            password: await encryptPassword("garzon123"),
+            rol: "garzon",
           })
         ),
         userRepository.save(
           userRepository.create({
-            nombreCompleto: "Juan Pablo Rosas Martin",
+            nombreCompleto: "Ana Sánchez",
             rut: "20.738.415-1",
-            email: "usuario6.2024@gmail.cl",
-            password: await encryptPassword("user1234"),
-            rol: "usuario",
+            email: "garzon2@gmail.cl",
+            password: await encryptPassword("garzon123"),
+            rol: "garzon",
           })
-        ),
+        )
       ]);
       console.log("* => Usuarios creados exitosamente");
     }
@@ -140,10 +71,12 @@ async function createUsers() {
             cantidad: 20,
           })
         ),
-        // Agregar más ingredientes aquí...
+        // Más ingredientes si es necesario...
       ]);
       console.log("* => Ingredientes creados exitosamente");
     }
+
+    // Crear Pedidos
     const pedidoRepository = AppDataSource.getRepository(pedido);
     const pedidoCount = await pedidoRepository.count();
     if (pedidoCount === 0) {
@@ -159,12 +92,52 @@ async function createUsers() {
           })
         ),
       ]);
-      console.log("* => Ingredientes creados exitosamente");
+      console.log("* => Pedidos creados exitosamente");
     }
->>>>>>> Stashed changes
+
+    // Crear Mesas
+    const mesaRepository = AppDataSource.getRepository(Mesa);
+    const mesaCount = await mesaRepository.count();
+    if (mesaCount === 0) {
+      const [garzon1, garzon2] = await userRepository.find({
+        where: { rol: "garzon" },
+      });
+
+      await Promise.all([
+        mesaRepository.save(
+          mesaRepository.create({
+            numeroMesa: 1,
+            estado: "Ocupada",
+            garzonAsignado: garzon1,
+          })
+        ),
+        mesaRepository.save(
+          mesaRepository.create({
+            numeroMesa: 2,
+            estado: "Disponible",
+            garzonAsignado: null,
+          })
+        ),
+        mesaRepository.save(
+          mesaRepository.create({
+            numeroMesa: 3,
+            estado: "Ocupada",
+            garzonAsignado: garzon2,
+          })
+        ),
+        mesaRepository.save(
+          mesaRepository.create({
+            numeroMesa: 4,
+            estado: "Disponible",
+            garzonAsignado: null,
+          })
+        ),
+      ]);
+      console.log("* => Mesas creadas exitosamente");
+    }
   } catch (error) {
-    console.error("Error al crear usuarios:", error);
+    console.error("Error al crear datos iniciales:", error);
   }
 }
 
-export { createUsers };
+export { createInitialData };

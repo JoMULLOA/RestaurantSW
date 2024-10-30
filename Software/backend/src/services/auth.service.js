@@ -50,6 +50,7 @@ export async function loginService(user) {
 
 export async function registerService(user) {
   try {
+    console.log("Rol recibido:", user.rol);
     const userRepository = AppDataSource.getRepository(User);
 
     const { nombreCompleto, rut, email } = user;
@@ -75,12 +76,13 @@ export async function registerService(user) {
 
     if (existingRutUser) return [null, createErrorMessage("rut", "Rut ya asociado a una cuenta")];
 
+    //com
     const newUser = userRepository.create({
       nombreCompleto,
       email,
       rut,
       password: await encryptPassword(user.password),
-      rol: "usuario",
+      rol: user.rol || "usuario", // usa el rol proporcionado o "usuario" por defecto
     });
 
     await userRepository.save(newUser);

@@ -26,18 +26,22 @@ export async function login(dataUser) {
 export async function register(data) {
     try {
         const dataRegister = convertirMinusculas(data);
-        const { nombreCompleto, email, rut, password } = dataRegister
+        const { nombreCompleto, email, rut, password } = dataRegister;
+        
         const response = await axios.post('/auth/register', {
             nombreCompleto,
             email,
             rut,
             password
         });
+        
         return response.data;
     } catch (error) {
+        console.log("Error en la respuesta del backend:", error.response.data); // Verifica el mensaje de error específico
         return error.response.data;
     }
 }
+
 
 export async function logout() {
     try {

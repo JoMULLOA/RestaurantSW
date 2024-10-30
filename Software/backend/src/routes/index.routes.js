@@ -2,17 +2,15 @@
 import { Router } from "express";
 import userRoutes from "./user.routes.js";
 import authRoutes from "./auth.routes.js";
-<<<<<<< Updated upstream
-=======
 import ingredienteRoutes from "./ingrediente.routes.js"
 import pedidoRoutes from "./pedido.routes.js"
->>>>>>> Stashed changes
 
 const router = Router();
 
 router
     .use("/auth", authRoutes)
+    .use("/ingredientes", ingredienteRoutes)
     .use("/user", userRoutes)
-    .use("/pedidos", pedidoRoutes);
+    .use("/pedido", pedidoRoutes)
 
 export default router;

@@ -1,99 +1,35 @@
-"use strict";
-import {
-  deleteIngredienteService,
-  getIngredienteService,
-  getIngredientesService,
-  updateIngredienteService,
-} from "../services/ingrediente.service.js";
-import {
-  ingredienteBodyValidation,
-  ingredienteQueryValidation,
-} from "../validations/ingrediente.validation.js";
-import {
-  handleErrorClient,
-  handleErrorServer,
-  handleSuccess,
-} from "../handlers/responseHandlers.js";
+// ingrediente.controller.js
+import { addIngrediente, getIngredientes, prepararin } from "../services/ingrediente.service.js";
 
-export async function getIngrediente(req, res) {
+export const getAllIngredientes = async (req, res) => {
   try {
-    const { id, tipo } = req.query;
-
-    const { error } = ingredienteQueryValidation.validate({ id, tipo });
-
-    if (error) return handleErrorClient(res, 400, error.message);
-
-    const [ingrediente, errorIngrediente] = await getIngredienteService({ id, tipo });
-
-    if (errorIngrediente) return handleErrorClient(res, 404, errorIngrediente);
-
-    handleSuccess(res, 200, "Ingrediente encontrado", ingrediente);
+    const ingredientes = await getIngredientes();
+    res.status(200).json({ status: "Success", data: ingredientes });
   } catch (error) {
-    handleErrorServer(res, 500, error.message);
+    res.status(500).json({ status: "Error", message: error.message });
   }
-}
+};
 
-export async function getIngredientes(req, res) {
+export const createIngrediente = async (req, res) => {
   try {
-    const [ingredientes, errorIngredientes] = await getIngredientesService();
-
-    if (errorIngredientes) return handleErrorClient(res, 404, errorIngredientes);
-
-    ingredientes.length === 0
-      ? handleSuccess(res, 204)
-      : handleSuccess(res, 200, "Ingredientes encontrados", ingredientes);
+    const ingrediente = await addIngrediente(req.body);
+    res.status(201).json({ status: "Success", data: ingrediente });
   } catch (error) {
-    handleErrorServer(
-      res,
-      500,
-      error.message,
-    );
+    res.status(500).json({ status: "Error", message: error.message });
   }
-}
+};
 
-export async function updateIngrediente(req, res) {
+export const prepararinall = async (req, res) => {
   try {
-    const { id, tipo } = req.query;
-    const { body } = req;
-
-    const { error: queryError } = ingredienteQueryValidation.validate({
-      id,
-      tipo,
-    });
-
-    if (queryError) return handleErrorClient(res, 400, queryError.message);
-
-    const { error: bodyError } = ingredienteBodyValidation.validate(body);
-
-    if (bodyError) return handleErrorClient(res, 400, bodyError.message);
-
-    const [updatedIngrediente, errorIngrediente] = await updateIngredienteService(
-      { id, tipo },
-      body
-    );
-
-    if (errorIngrediente) return handleErrorClient(res, 404, errorIngrediente);
-
-    handleSuccess(res, 200, "Ingrediente actualizado", updatedIngrediente);
+    const requiredIngredients = req.body;
+    // Validar los datos que llegan por el body con joi -> nombre y cantidad
+    const [dataPreparin, errorPreparin] = await prepararin(requiredIngredients);
+    if(errorPreparin) return res.status(400).json({ status: "Error", data: null });
+    res.status(200).json({ status: "Success", data: dataPreparin });
   } catch (error) {
-    handleErrorServer(res, 500, error.message);
+    // Enviar mensaje de error en caso de falla
+    res.status(500).json({ status: "Error", message: error.message });
   }
-}
+};
 
-export async function deleteIngrediente(req, res) {
-  try {
-    const { id, tipo } = req.query;
 
-    const { error } = ingredienteQueryValidation.validate({ id, tipo });
-
-    if (error) return handleErrorClient(res, 400, error.message);
-
-    const [deletedIngrediente, errorIngrediente] = await deleteIngredienteService({ id, tipo });
-
-    if (errorIngrediente) return handleErrorClient(res, 404, errorIngrediente);
-
-    handleSuccess(res, 200, "Ingrediente eliminado", deletedIngrediente);
-  } catch (error) {
-    handleErrorServer(res, 500, error.message);
-  }
-}

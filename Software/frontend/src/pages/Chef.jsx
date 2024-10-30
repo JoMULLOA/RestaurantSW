@@ -1,102 +1,174 @@
 import { useState, useEffect } from "react";
+import { getIngredientes, preparar } from "../services/ingrediente.service.js";
 
 const Chef = () => {
-  const [pedidos, setPedidos] = useState([
-    {
-      id: 1,
-      mesa: 12,
-      nombre: "Jose Manriquez",
-      ingredientes: ["zanahoria"],
-      estado: "En Espera",
-    },
-  ]);
-  const [ingredientes, setIngredientes] = useState([]);
+  const [setIngredientes] = useState([]);
+  const [stockDisponible, setStockDisponible] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [ordenEstado, setOrdenEstado] = useState("En Espera");
 
-  // Función para obtener ingredientes desde el backend
-  const fetchIngredientes = async () => {
-    try {
-      const response = await fetch("/ingredients");
-      if (!response.ok) {
-        throw new Error("Error al obtener los ingredientes");
+  useEffect(() => {
+    const fetchIngredientes = async () => {
+      try {
+        const data = await getIngredientes();
+        if (data.status === "Success") {
+          setIngredientes(data.data);
+        } else {
+          console.error("Error al obtener los ingredientes: ", data.message);
+        }
+      } catch (error) {
+        console.error("Error al conectar con el servidor: ", error);
       }
-      const data = await response.json();
-      setIngredientes(data);
+    };
+    fetchIngredientes();
+  }, );
+
+  const stock = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const ingrediente = {
+        nombre: "Zanahoria",
+        cantidad: 1,
+      };
+      const result = await preparar(ingrediente);
+      setStockDisponible(result.success);
+
+      if (result.success) {
+        setOrdenEstado("Falta de ingredientes");
+      } else {
+        setOrdenEstado("Preparación");
+      }
     } catch (error) {
-      console.error("Error fetching ingredients:", error);
+      setError("Error al verificar el stock: " + error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchIngredientes();
-  }, []);
-
-  const verificarInventario = (pedidoId) => {
-    setPedidos((prevPedidos) =>
-      prevPedidos.map((pedido) => {
-        if (pedido.id === pedidoId) {
-          const ingredientesDisponibles = pedido.ingredientes.every((ing) =>
-            ingredientes.some((item) => item.nombre === ing)
-          );
-
-          return {
-            ...pedido,
-            estado: ingredientesDisponibles ? "Preparacion" : "Falta de ingredientes",
-          };
-        }
-        return pedido;
-      })
-    );
-  };
-
-  const actualizarEstado = (pedidoId, nuevoEstado) => {
-    setPedidos((prevPedidos) =>
-      prevPedidos.map((pedido) =>
-        pedido.id === pedidoId ? { ...pedido, estado: nuevoEstado } : pedido
-      )
-    );
-  };
+  const handleOpenModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
 
   return (
-    <div style={{ display: "flex", gap: "20px", marginTop: "10vh" }}>
-      <div style={{ border: "1px solid black", padding: "20px", flex: 1 }}>
-        <h2>En Espera</h2>
-        {pedidos
-          .filter((pedido) => pedido.estado === "En Espera")
-          .map((pedido) => (
-            <div key={pedido.id} style={{ marginBottom: "15px" }}>
-              <p><strong>Mesa:</strong> {pedido.mesa}</p>
-              <p><strong>Pedido a nombre de:</strong> {pedido.nombre}</p>
-              <p><strong>Ingredientes:</strong> {pedido.ingredientes.join(", ")}</p>
-              <button onClick={() => verificarInventario(pedido.id)}>Verificar Inventario</button>
+    <div style={{ display: "flex", gap: "40px", marginTop: "5vh", fontFamily: "Arial, sans-serif", padding: "0 10%" }}>
+      {["En Espera", "Preparación", "Falta de ingredientes"].map((estado) => (
+        <div
+          key={estado}
+          style={{
+            border: "1px solid #ddd",
+            borderRadius: "12px",
+            padding: "20px",
+            flex: 1,
+            backgroundColor: "#f1f1f1",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
+            textAlign: "center",
+          }}
+        >
+          <p style={{ fontWeight: "bold", color: "#333", fontSize: "1.2em" }}>{estado}</p>
+
+          {estado === ordenEstado && (
+            <div
+              style={{
+                border: "1px solid #bbb",
+                borderRadius: "8px",
+                padding: "15px",
+                backgroundColor: "#ffffff",
+                marginTop: "15px",
+              }}
+            >
+              <p style={{ fontWeight: "bold" }}>Orden: #12345</p>
+              <p>Mesa: 10</p>
+              <button
+                onClick={handleOpenModal}
+                style={{
+                  marginTop: "15px",
+                  padding: "10px 15px",
+                  borderRadius: "6px",
+                  backgroundColor: "#7A4F42", // Color marrón aplicado aquí
+                  color: "#ffffff",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                Ver Pedido
+              </button>
             </div>
-          ))}
-      </div>
-      
-      <div style={{ border: "1px solid black", padding: "20px", flex: 1 }}>
-        <h2>Preparacion</h2>
-        {pedidos
-          .filter((pedido) => pedido.estado === "Preparacion")
-          .map((pedido) => (
-            <div key={pedido.id} style={{ marginBottom: "15px" }}>
-              <p><strong>Mesa:</strong> {pedido.mesa}</p>
-              <p><strong>Pedido a nombre de:</strong> {pedido.nombre}</p>
-              <button onClick={() => actualizarEstado(pedido.id, "Entrega")}>Actualizar a Entrega</button>
-            </div>
-          ))}
-      </div>
-      
-      <div style={{ border: "1px solid black", padding: "20px", flex: 1 }}>
-        <h2>Falta de ingredientes</h2>
-        {pedidos
-          .filter((pedido) => pedido.estado === "Falta de ingredientes")
-          .map((pedido) => (
-            <div key={pedido.id} style={{ marginBottom: "15px" }}>
-              <p><strong>Mesa:</strong> {pedido.mesa}</p>
-              <p><strong>Pedido a nombre de:</strong> {pedido.nombre}</p>
-              <p style={{ color: "red" }}>Falta de ingredientes</p>
-            </div>
-          ))}
-      </div>
+          )}
+        </div>
+      ))}
+
+      {showModal && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.6)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "#fff",
+              padding: "30px",
+              borderRadius: "12px",
+              width: "350px",
+              textAlign: "center",
+              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.3)",
+            }}
+          >
+            <h3 style={{ color: "#333", marginBottom: "15px" }}>Detalles del Pedido</h3>
+            <button
+              onClick={stock}
+              style={{
+                padding: "8px 12px",
+                borderRadius: "6px",
+                backgroundColor: "#7A4F42",
+                color: "#ffffff",
+                border: "none",
+                cursor: "pointer",
+                marginBottom: "15px",
+              }}
+            >
+              Verificar disponibilidad de Zanahoria
+            </button>
+
+            {loading && <p>Verificando...</p>}
+            {error && <p style={{ color: "red" }}>{error}</p>}
+
+            {stockDisponible !== null && !loading && !error && (
+              <p style={{ color: "#333", fontSize: "1em", marginTop: "10px" }}>
+                {stockDisponible
+                  ? "No hay zanahoria suficiente en la base de datos."
+                  : "Hay zanahoria suficiente en la base de datos."}
+              </p>
+            )}
+
+            <button
+              onClick={handleCloseModal}
+              style={{
+                marginTop: "15px",
+                padding: "8px 12px",
+                borderRadius: "6px",
+                backgroundColor: "#7A4F42",
+                color: "#ffffff",
+                border: "none",
+                cursor: "pointer",
+                width: "auto", // Ajuste de ancho automático
+              }}
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
