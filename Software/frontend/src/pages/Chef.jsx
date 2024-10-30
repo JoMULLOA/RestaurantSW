@@ -1,76 +1,62 @@
 import { useState, useEffect } from "react";
+import { getIngredientes, preparar } from "../services/ingrediente.service.js";
 
 const Chef = () => {
-  const [pedidos, setPedidos] = useState([
-    {
-      id: 1,
-      mesa: 12,
-      nombre: "Jose Manriquez",
-      ingredientes: ["zanahoria"],
-      estado: "Falta de ingredientes",
-    },
-  ]);
-  const [ingredientes, setIngredientes] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [pedidoSeleccionado, setPedidoSeleccionado] = useState(null);
+  const [setIngredientes] = useState([]);
+  const [stockDisponible, setStockDisponible] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [ordenEstado, setOrdenEstado] = useState("En Espera"); // Estado para el pedido
 
-  // Función para obtener ingredientes desde el backend
-  const fetchIngredientes = async () => {
-    try {
-      const response = await fetch("/ingredients");
-      if (!response.ok) {
-        throw new Error("Error al obtener los ingredientes");
+  useEffect(() => {
+    const fetchIngredientes = async () => {
+      try {
+        const data = await getIngredientes();
+        if (data.status === "Success") {
+          setIngredientes(data.data);
+        } else {
+          console.error("Error al obtener los ingredientes: ", data.message);
+        }
+      } catch (error) {
+        console.error("Error al conectar con el servidor: ", error);
       }
-      const data = await response.json();
-      setIngredientes(data);
+    };
+    fetchIngredientes();
+  }, );
+
+  const stock = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const ingrediente = {
+        nombre: "Zanahoria",
+        cantidad: 1
+      };
+      const result = await preparar(ingrediente);
+      setStockDisponible(result.success);
+
+      // Actualizar el estado de la orden basado en la disponibilidad
+      if (result.success) {
+        setOrdenEstado("Preparación");
+      } else {
+        setOrdenEstado("Falta de ingredientes");
+      }
+
     } catch (error) {
-      console.error("Error fetching ingredients:", error);
+      setError("Error al verificar el stock: " + error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchIngredientes();
-  }, []);
-
-  const verificarInventario = (pedidoId) => {
-    setPedidos((prevPedidos) =>
-      prevPedidos.map((pedido) => {
-        if (pedido.id === pedidoId) {
-          const ingredientesDisponibles = pedido.ingredientes.every((ing) =>
-            ingredientes.some((item) => item.nombre === ing)
-          );
-
-          return {
-            ...pedido,
-            estado: ingredientesDisponibles ? "Preparacion" : "Falta de ingredientes",
-          };
-        }
-        return pedido;
-      })
-    );
-  };
-
-  const actualizarEstado = (pedidoId, nuevoEstado) => {
-    setPedidos((prevPedidos) =>
-      prevPedidos.map((pedido) =>
-        pedido.id === pedidoId ? { ...pedido, estado: nuevoEstado } : pedido
-      )
-    );
-  };
-
-  const abrirModalIngredientes = (pedido) => {
-    setPedidoSeleccionado(pedido);
-    setModalVisible(true);
-  };
-
-  const cerrarModal = () => {
-    setModalVisible(false);
-    setPedidoSeleccionado(null);
-  };
+  const handleOpenModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
 
   return (
     <div style={{ display: "flex", gap: "20px", marginTop: "10vh", fontFamily: "Arial, sans-serif" }}>
-      {["En Espera", "Preparacion", "Falta de ingredientes"].map((estado) => (
+      {["En Espera", "Preparación", "Falta de ingredientes"].map((estado) => (
         <div
           key={estado}
           style={{
@@ -82,92 +68,63 @@ const Chef = () => {
             boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
           }}
         >
-          <h2 style={{ color: estado === "Falta de ingredientes" ? "red" : "#333" }}>{estado}</h2>
-          {pedidos
-            .filter((pedido) => pedido.estado === estado)
-            .map((pedido) => (
-              <div key={pedido.id} style={{ marginBottom: "15px", padding: "10px", backgroundColor: "#fff", borderRadius: "5px", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
-                <p><strong>Mesa:</strong> {pedido.mesa}</p>
-                <p><strong>Pedido a nombre de:</strong> {pedido.nombre}</p>
-                <button
-                  style={{ padding: "8px 12px", border: "none", backgroundColor: "#28a745", color: "white", borderRadius: "4px", cursor: "pointer" }}
-                  onClick={() => abrirModalIngredientes(pedido)}
-                >
-                  Ver Pedido
-                </button>
-                {estado === "En Espera" && (
-                  <button
-                    style={{ padding: "8px 12px", border: "none", backgroundColor: "#007bff", color: "white", borderRadius: "4px", cursor: "pointer", marginLeft: "10px" }}
-                    onClick={() => verificarInventario(pedido.id)}
-                  >
-                    Verificar Inventario
-                  </button>
-                )}
-                {estado === "Preparacion" && (
-                  <button
-                    style={{ padding: "8px 12px", border: "none", backgroundColor: "#ffc107", color: "white", borderRadius: "4px", cursor: "pointer", marginLeft: "10px" }}
-                    onClick={() => actualizarEstado(pedido.id, "Entrega")}
-                  >
-                    Actualizar a Entrega
-                  </button>
-                )}
-                {estado === "Falta de ingredientes" && (
-                  <button
-                    style={{ padding: "8px 12px", border: "none", backgroundColor: "#17a2b8", color: "white", borderRadius: "4px", cursor: "pointer", marginLeft: "10px" }}
-                    onClick={() => verificarInventario(pedido.id)}
-                  >
-                    Actualizar Pedido
-                  </button>
-                )}
-              </div>
-            ))}
+          <p>{estado}</p>
+
+          {estado === ordenEstado && (
+            <div style={{
+              border: "1px solid #bbb",
+              borderRadius: "4px",
+              padding: "10px",
+              backgroundColor: "#ffffff",
+              marginTop: "10px"
+            }}>
+              <p><strong>Orden:</strong> #12345</p>
+              <p><strong>Mesa:</strong> 10</p>
+              <button onClick={handleOpenModal} style={{ marginTop: "10px" }}>Ver Pedido</button>
+            </div>
+          )}
         </div>
       ))}
 
-      {modalVisible && pedidoSeleccionado && (
+      {showModal && (
         <div style={{
           position: "fixed",
-          top: "0",
-          left: "0",
-          width: "100vw",
-          height: "100vh",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
           backgroundColor: "rgba(0, 0, 0, 0.5)",
           display: "flex",
-          alignItems: "center",
-          justifyContent: "center"
+          justifyContent: "center",
+          alignItems: "center"
         }}>
           <div style={{
-            width: "300px",
+            backgroundColor: "#fff",
             padding: "20px",
-            backgroundColor: "white",
             borderRadius: "8px",
-            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)"
+            width: "300px",
+            textAlign: "center",
           }}>
-            <h3>Ingredientes del Pedido</h3>
-            <ul>
-              {pedidoSeleccionado.ingredientes.map((ing, index) => (
-                <li key={index}>{ing}</li>
-              ))}
-            </ul>
-            <button
-              style={{
-                marginTop: "20px",
-                padding: "8px 12px",
-                border: "none",
-                backgroundColor: "#dc3545",
-                color: "white",
-                borderRadius: "4px",
-                cursor: "pointer",
-              }}
-              onClick={cerrarModal}
-            >
-              Cerrar
-            </button>
+            <h3>Detalles del Pedido</h3>
+            <button onClick={stock} style={{ marginTop: "10px" }}>Verificar disponibilidad de Zanahoria</button>
+
+            {loading && <p>Verificando...</p>}
+            {error && <p style={{ color: "black" }}>{error}</p>}
+
+            {stockDisponible !== null && !loading && !error && (
+              <p>
+                {stockDisponible
+                  ? "Hay zanahoria disponible en la base de datos."
+                  : "No hay zanahoria suficiente en la base de datos."}
+              </p>
+            )}
+
+            <button onClick={handleCloseModal} style={{ marginTop: "15px", color: "white" }}>Cerrar</button>
           </div>
         </div>
       )}
     </div>
   );
-};
+}
 
 export default Chef;

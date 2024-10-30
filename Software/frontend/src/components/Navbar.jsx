@@ -104,26 +104,14 @@ const Navbar = () => {
                     <>
                         <li>
                         <NavLink 
-                            to="/chef" 
+                            to="/Chef" 
                             onClick={() => { 
                             setMenuOpen(false); 
                             addActiveClass();
                             }} 
                             activeClassName="active"
                         >
-                            chef
-                        </NavLink>
-                        </li>
-                        <li>
-                        <NavLink 
-                            to="/chefsito" 
-                            onClick={() => { 
-                            setMenuOpen(false); 
-                            addActiveClass();
-                            }} 
-                            activeClassName="active"
-                        >
-                            chefsito
+                            Chef
                         </NavLink>
                         </li>
                     </>

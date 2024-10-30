@@ -12,7 +12,6 @@ import Garzon from '@pages/Garzon';
 import '@styles/styles.css';
 import Inventario from '@pages/Inventario';
 import Menu from '@pages/Menu';
-import Chefsito from './pages/chefsito';
 
 
 const router = createBrowserRouter([
@@ -36,14 +35,6 @@ const router = createBrowserRouter([
         <Chef />
       </ProtectedRoute>)
       },
-      {
-        path: '/chefsito',
-        element: (
-        <ProtectedRoute allowedRoles={['chef']}>
-        <Chefsito />
-      </ProtectedRoute>)
-      }
-      ,
       {
         path: '/Garzon',
         element: (

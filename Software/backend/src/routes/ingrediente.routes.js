@@ -5,7 +5,7 @@ import { createIngrediente, getAllIngredientes, prepararinall } from "../control
 const router = Router();
 
 router.get("/all", getAllIngredientes);
-router.post("/", createIngrediente);
+router.post("/get", createIngrediente);
 router.post("/preparar", prepararinall);
 
 export default router;

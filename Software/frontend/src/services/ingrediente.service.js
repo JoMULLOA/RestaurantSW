@@ -1,17 +1,10 @@
 import axios from './root.service.js';
 
-const API_URL = "http://localhost:3000/api/ingredientes";
 
 export const addIngrediente = async (ingrediente) => {
   try {
-    const response = await fetch(API_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(ingrediente),
-    });
-    return await response.json();
+    const response = await axios.post('/ingredientes/get',ingrediente)
+    return response.data;
   } catch (error) {
     console.error("Error al agregar el ingrediente: ", error);
     throw error;
@@ -20,7 +13,7 @@ export const addIngrediente = async (ingrediente) => {
 
 export const getIngredientes = async () => {
   try {
-    const response = await fetch(API_URL);
+    const response = await axios.get('/ingredientes/all')
     return await response.json();
   } catch (error) {
     console.error("Error al obtener los ingredientes: ", error);
@@ -30,9 +23,7 @@ export const getIngredientes = async () => {
 
 export const deleteIngrediente = async (id) => {
     try {
-      const response = await fetch(`${API_URL}/${id}`, {
-        method: "DELETE",
-      });
+      const response = await axios.post('/ingredientes/delete', id)
   
       if (!response.ok) {
         throw new Error(`Error HTTP: ${response.status}`);
