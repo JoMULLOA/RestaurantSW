@@ -8,7 +8,6 @@ import Error404 from '@pages/Error404';
 import Root from '@pages/Root';
 import ProtectedRoute from '@components/ProtectedRoute';
 import Chef from '@pages/Chef';
-import Garzon from '@pages/Garzon';
 import '@styles/styles.css';
 import Inventario from '@pages/Inventario';
 import Menu from '@pages/Menu';
@@ -36,14 +35,6 @@ const router = createBrowserRouter([
         <Chef />
       </ProtectedRoute>)
       },
-      {
-        path: '/Garzon',
-        element: (
-        <ProtectedRoute allowedRoles={['garzon']}>
-        <Garzon />
-      </ProtectedRoute>)
-      }
-      ,
       {
         path: '/pedido',
         element: (
