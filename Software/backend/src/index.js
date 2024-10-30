@@ -62,8 +62,7 @@ async function setupServer() {
     passportJwtSetup();
 
     app.use("/api", indexRoutes);
-    app.use("/api", ingredienteRoutes); // Agregar las rutas de ingredientes
-    app.use("/api", IngrechefRoutes);
+    app.use("/api", ingredienteRoutes); 
 
     app.listen(PORT, () => {
       console.log(`=> Servidor corriendo en ${HOST}:${PORT}/api`);

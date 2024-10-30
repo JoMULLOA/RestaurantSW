@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { getIngredientes, preparar } from "../services/ingrediente.service.js";
 
-const Ingrediente = () => {
+const Chefsito = () => {
   const [ingredientes, setIngredientes] = useState([]);
   const [form, setForm] = useState({
     id: "",
@@ -34,13 +34,19 @@ const Ingrediente = () => {
     setForm({ ...form, [name]: value });
   };
 
-  const stock = async (nombreIngrediente) => {
+  const stock = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      const result = await preparar([{ nombre: nombreIngrediente, cantidadNecesaria: 1 }]);
+      const ingrediente = {
+        nombre: "Zanahoria",
+        cantidad: 1
+      }
+      const result = await preparar(ingrediente);
+      console.log("Data en la page recibida desde el backend: ", result.data)
       setStockDisponible(result.success);
+
     } catch (error) {
       setError("Error al verificar el stock: " + error.message);
     } finally {
@@ -52,7 +58,7 @@ const Ingrediente = () => {
     <div>
       <h1>Gestión de Ingredientes</h1>
 
-      <button onClick={() => stock("zanahoria")}>Verificar disponibilidad de Zanahoria</button>
+      <button onClick={() => stock()}>Verificar disponibilidad de Zanahoria</button>
 
       {loading && <p>Verificando...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
@@ -102,4 +108,4 @@ const Ingrediente = () => {
   );
 };
 
-export default Ingrediente;
+export default Chefsito;

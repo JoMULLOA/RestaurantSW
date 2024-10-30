@@ -4,8 +4,8 @@ import { createIngrediente, getAllIngredientes, prepararinall } from "../control
 
 const router = Router();
 
-router.get("/ingredientes", getAllIngredientes);
-router.post("/ingredientes", createIngrediente);
-router.get("/ingredientes", prepararinall);
+router.get("/all", getAllIngredientes);
+router.post("/", createIngrediente);
+router.post("/preparar", prepararinall);
 
 export default router;

@@ -101,19 +101,32 @@ const Navbar = () => {
                         </>
                     )}
                     {userRole === 'chef' && (
-                    <li>
+                    <>
+                        <li>
+                        <NavLink 
+                            to="/chef" 
+                            onClick={() => { 
+                            setMenuOpen(false); 
+                            addActiveClass();
+                            }} 
+                            activeClassName="active"
+                        >
+                            chef
+                        </NavLink>
+                        </li>
+                        <li>
                         <NavLink 
                             to="/chefsito" 
                             onClick={() => { 
-                                setMenuOpen(false); 
-                                addActiveClass();
+                            setMenuOpen(false); 
+                            addActiveClass();
                             }} 
                             activeClassName="active"
                         >
                             chefsito
                         </NavLink>
-                    </li>
-                    
+                        </li>
+                    </>
                     )}
                     {userRole === 'garzon' && (
                     <li>

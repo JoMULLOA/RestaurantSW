@@ -14,25 +14,20 @@ export const addIngrediente = async (data) => {
 };
 
 export const prepararin = async (requiredIngredients) => {
-  // Obtener todos los ingredientes de la base de datos
-  const ingredientes = await getIngredientes();
-
-  for (const reqIngredient of requiredIngredients) {
-    const { nombre, cantidadNecesaria } = reqIngredient;
-
-    // Buscar el ingrediente en la lista obtenida
-    const ingredient = ingredientes.find((ing) => ing.nombre === nombre);
-
-    if (!ingredient || ingredient.cantidad < cantidadNecesaria) {
-      // Si falta o no hay suficiente cantidad, retornar que no se puede preparar
-      return {
-        success: false,
-      };
+  try {
+    const { nombre, cantidad } = requiredIngredients
+    const ingredientRepository = AppDataSource.getRepository(ingrediente);
+  
+    const ingredientF = await ingredientRepository.findOne({
+      where: { nombre: nombre }
+    })
+    if ( ingredientF.cantidad > 0) {
+      ingredientF.cantidad = ingredientF.cantidad - cantidad
+      await ingredientRepository.save(ingredientF)
+      return [ingredientF, null]
     }
+    return [null, "No queda stock"]
+  } catch (error) {
+    console.log("Error en service de preparin");
   }
-
-  // Todos los ingredientes están disponibles en cantidad suficiente
-  return {
-    success: true,
-  };
 };
