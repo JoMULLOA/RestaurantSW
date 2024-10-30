@@ -39,9 +39,9 @@ const Chef = () => {
 
       // Actualizar el estado de la orden basado en la disponibilidad
       if (result.success) {
-        setOrdenEstado("Preparación");
-      } else {
         setOrdenEstado("Falta de ingredientes");
+      } else {
+        setOrdenEstado("Preparación");
       }
 
     } catch (error) {
@@ -53,7 +53,7 @@ const Chef = () => {
 
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
-
+  
   return (
     <div style={{ display: "flex", gap: "20px", marginTop: "10vh", fontFamily: "Arial, sans-serif" }}>
       {["En Espera", "Preparación", "Falta de ingredientes"].map((estado) => (
@@ -114,8 +114,8 @@ const Chef = () => {
             {stockDisponible !== null && !loading && !error && (
               <p>
                 {stockDisponible
-                  ? "Hay zanahoria disponible en la base de datos."
-                  : "No hay zanahoria suficiente en la base de datos."}
+                  ? "No hay zanahoria disponible en la base de datos."
+                  : "Hay zanahoria suficiente en la base de datos."}
               </p>
             )}
 

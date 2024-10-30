@@ -12,7 +12,7 @@ import Garzon from '@pages/Garzon';
 import '@styles/styles.css';
 import Inventario from '@pages/Inventario';
 import Menu from '@pages/Menu';
-
+import Mesa from '../../backend/src/entity/mesa.entity';
 
 const router = createBrowserRouter([
   {
@@ -40,6 +40,14 @@ const router = createBrowserRouter([
         element: (
         <ProtectedRoute allowedRoles={['garzon']}>
         <Garzon />
+      </ProtectedRoute>)
+      }
+      ,
+      {
+        path: '/Mesas',
+        element: (
+        <ProtectedRoute allowedRoles={['garzon']}>
+        <Mesa />
       </ProtectedRoute>)
       }
       ,
