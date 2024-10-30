@@ -11,7 +11,7 @@ import { connectDB } from "./config/configDb.js";
 import { createInitialData } from "./config/initialSetup.js";
 import { passportJwtSetup } from "./auth/passport.auth.js";
 import ingredienteRoutes from "./routes/ingrediente.routes.js"; // Importar las rutas de Ingredientes
-import IngrechefRoutes from "./routes/Ingrechef.routes.js";
+
 
 async function setupServer() {
   try {
