@@ -2,6 +2,7 @@ import ingrediente from "../entity/ingrediente.entity.js"; // Importar la entida
 import User from "../entity/user.entity.js";
 import { AppDataSource } from "./configDb.js";
 import { encryptPassword } from "../helpers/bcrypt.helper.js";
+import pedido from "../entity/pedido.entity.js";
 
 async function createInitialData() {
   try {
@@ -99,6 +100,23 @@ async function createInitialData() {
         // Puedes agregar más ingredientes aquí...
       ]);
       console.log("* => Ingredientes creados exitosamente");
+    }
+    const pedidoRepository = AppDataSource.getRepository(pedido);
+    const pedidoCount = await pedidoRepository.count();
+    if (pedidoCount === 0) {
+      await Promise.all([
+        pedidoRepository.save(
+          pedidoRepository.create({
+            mesa: 1,
+            plato: "Salchipapas",
+            bebestible: "Coca Cola",
+            postre: "Brownie",
+            modificaciones: "+ Salchichas",
+            fechaIngreso: new Date("2024-10-01"),
+          })
+        ),
+      ]);
+      console.log("* => Pedidos creados exitosamente");
     }
   } catch (error) {
     console.error("Error al crear datos iniciales:", error);

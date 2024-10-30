@@ -8,11 +8,11 @@ import Error404 from '@pages/Error404';
 import Root from '@pages/Root';
 import ProtectedRoute from '@components/ProtectedRoute';
 import Chef from '@pages/Chef';
-import Garzon from '@pages/Garzon';
 import '@styles/styles.css';
 import Inventario from '@pages/Inventario';
 import Menu from '@pages/Menu';
-import Mesa from '../../backend/src/entity/mesa.entity';
+import Pedido from '@pages/pedido';
+
 
 const router = createBrowserRouter([
   {
@@ -36,18 +36,10 @@ const router = createBrowserRouter([
       </ProtectedRoute>)
       },
       {
-        path: '/Garzon',
+        path: '/pedido',
         element: (
         <ProtectedRoute allowedRoles={['garzon']}>
-        <Garzon />
-      </ProtectedRoute>)
-      }
-      ,
-      {
-        path: '/Mesas',
-        element: (
-        <ProtectedRoute allowedRoles={['garzon']}>
-        <Mesa />
+        <Pedido />
       </ProtectedRoute>)
       }
       ,

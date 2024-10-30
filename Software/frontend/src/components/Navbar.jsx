@@ -129,18 +129,20 @@ const Navbar = () => {
                     </>
                     )}
                     {userRole === 'garzon' && (
-                    <li>
+                    <>
+                        <li>
                         <NavLink 
-                            to="/Garzon" 
+                            to="/pedido" 
                             onClick={() => { 
                                 setMenuOpen(false); 
                                 addActiveClass();
                             }} 
                             activeClassName="active"
                         >
-                            Garzón
+                            Pedido
                         </NavLink>
-                    </li>
+                        </li>
+                    </>
                     )}
                     <li>
                         <NavLink 
