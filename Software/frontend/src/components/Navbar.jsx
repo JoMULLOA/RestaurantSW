@@ -101,36 +101,51 @@ const Navbar = () => {
                         </>
                     )}
                     {userRole === 'chef' && (
-                    <>
-                        <li>
-                        <NavLink 
-                            to="/Chef" 
-                            onClick={() => { 
-                            setMenuOpen(false); 
-                            addActiveClass();
-                            }} 
-                            activeClassName="active"
-                        >
-                            Chef
-                        </NavLink>
-                        </li>
-                    </>
+                        <>
+                            <li>
+                                <NavLink 
+                                    to="/Chef" 
+                                    onClick={() => { 
+                                        setMenuOpen(false); 
+                                        addActiveClass();
+                                    }} 
+                                    activeClassName="active"
+                                >
+                                    Chef
+                                </NavLink>
+                            </li>
+                        </>
                     )}
                     {userRole === 'garzon' && (
-                    <>
+                        <>
+                            <li>
+                                <NavLink 
+                                    to="/pedido" 
+                                    onClick={() => { 
+                                        setMenuOpen(false); 
+                                        addActiveClass();
+                                    }} 
+                                    activeClassName="active"
+                                >
+                                    Pedido
+                                </NavLink>
+                            </li>
+                        </>
+                    )}
+                    {/* Mostrar el enlace "Mesas" para los roles "administrador" y "garzon" */}
+                    {(userRole === 'administrador' || userRole === 'garzon') && (
                         <li>
-                        <NavLink 
-                            to="/pedido" 
-                            onClick={() => { 
-                                setMenuOpen(false); 
-                                addActiveClass();
-                            }} 
-                            activeClassName="active"
-                        >
-                            Pedido
-                        </NavLink>
+                            <NavLink 
+                                to="/mesas" 
+                                onClick={() => { 
+                                    setMenuOpen(false); 
+                                    addActiveClass();
+                                }} 
+                                activeClassName="active"
+                            >
+                                Mesas
+                            </NavLink>
                         </li>
-                    </>
                     )}
                     <li>
                         <NavLink 

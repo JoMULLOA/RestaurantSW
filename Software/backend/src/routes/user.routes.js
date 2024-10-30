@@ -1,24 +1,33 @@
 "use strict";
-import { Router } from "express";
+import express from "express";
 import { isAdmin } from "../middlewares/authorization.middleware.js";
 import { authenticateJwt } from "../middlewares/authentication.middleware.js";
-import {
-  deleteUser,
-  getUser,
-  getUsers,
-  updateUser,
-} from "../controllers/user.controller.js";
+import { deleteUser, getUser, getUsers, updateUser } from "../controllers/user.controller.js";
+import { AppDataSource } from "../config/configDb.js";
+import User from "../entity/user.entity.js";
 
-const router = Router();
+const router = express.Router();
 
-router
-  .use(authenticateJwt)
-  .use(isAdmin);
+// Middleware para autenticar y verificar si el usuario es administrador
+router.use(authenticateJwt);
+router.use(isAdmin);
 
-router
-  .get("/", getUsers)
-  .get("/detail/", getUser)
-  .patch("/detail/", updateUser)
-  .delete("/detail/", deleteUser);
+// Rutas de usuario
+router.get("/", getUsers);
+router.get("/detail/", getUser);
+router.patch("/detail/", updateUser);
+router.delete("/detail/", deleteUser);
+
+// Ruta para obtener todos los usuarios con rol de garzón
+router.get("/garzones", async (req, res) => {
+  try {
+    const garzones = await AppDataSource.getRepository(User).find({
+      where: { rol: "garzon" },
+    });
+    res.json(garzones);
+  } catch (error) {
+    res.status(500).json({ message: "Error al obtener garzones", error });
+  }
+});
 
 export default router;

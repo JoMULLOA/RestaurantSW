@@ -1,0 +1,81 @@
+.mesas-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .filtros {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .filtros button {
+    padding: 8px 16px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .filtros button:hover {
+    background-color: #0056b3;
+  }
+  
+  .mesas-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .mesas-table th,
+  .mesas-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .mesas-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+  }
+  
+  .mesas-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .reservar-button,
+  .liberar-button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .reservar-button {
+    background-color: #28a745;
+  }
+  
+  .reservar-button:hover {
+    background-color: #218838;
+  }
+  
+  .liberar-button {
+    background-color: #dc3545;
+  }
+  
+  .liberar-button:hover {
+    background-color: #c82333;
+  }
+  
