@@ -84,14 +84,18 @@ const Register = () => {
                         name: "rol",
                         fieldType: 'select',
                         options: [
-                            { value: 'administrador', text: 'Administrador',  },
+                            { value: 'administrador', text: 'Administrador' },
                             { value: 'chef', text: 'Chef' },
                             { value: 'garzon', text: 'Garzon' },
                         ],
                         required: true,
-                        onChange: (e) => handleInputChange('rol', e.target.value),
+                        onChange: (e) => {
+                            console.log("Rol seleccionado:", e.target.value); // Muestra el rol seleccionado en la consola
+                            handleInputChange('rol', e.target.value);
+                        },
                         style: { color: 'black' } // Asegura que el texto sea visible
-                    },
+                    }
+                    ,
                     {
                         label: "Contraseña",
                         name: "password",
