@@ -88,6 +88,17 @@ const Navbar = () => {
                             </li>
                             <li>
                                 <NavLink 
+                                    to="/iRegister" 
+                                    onClick={() => { 
+                                        setMenuOpen(false); 
+                                    }} 
+                                    activeClassName="active"
+                                >
+                                    Registrar ingrediente
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink 
                                     to="/Inventario" 
                                     onClick={() => { 
                                         setMenuOpen(false); 
@@ -115,24 +126,37 @@ const Navbar = () => {
                     </li>
                     )}
                     {userRole === 'garzon' && (
-                    <li>
+                    <>
+                        <li>
+                            <NavLink 
+                                to="/Garzon" 
+                                onClick={() => { 
+                                    setMenuOpen(false); 
+                                    addActiveClass();
+                                }} 
+                                activeClassName="active"
+                            >
+                                Garzón
+                            </NavLink>
+                        </li>
+                        <li>
                         <NavLink 
-                            to="/Garzon" 
+                            to="/pedido" 
                             onClick={() => { 
                                 setMenuOpen(false); 
                                 addActiveClass();
                             }} 
                             activeClassName="active"
                         >
-                            Garzón
+                            Pedido
                         </NavLink>
-                    </li>
+                        </li>
+                    </>
                     )}
                     <li>
                         <NavLink 
                             to="/menu" 
                             onClick={() => { 
-                                logoutSubmit(); 
                                 setMenuOpen(false); 
                             }} 
                             activeClassName="active"

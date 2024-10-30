@@ -12,7 +12,13 @@ import Garzon from '@pages/Garzon';
 import '@styles/styles.css';
 import Inventario from '@pages/Inventario';
 import Menu from '@pages/Menu';
+<<<<<<< Updated upstream
+import IRegister from './pages/iRegister';
+=======
+import Chefsito from './pages/chefsito';
+import Pedido from './pages/pedido';
 
+>>>>>>> Stashed changes
 
 const router = createBrowserRouter([
   {
@@ -45,6 +51,14 @@ const router = createBrowserRouter([
       }
       ,
       {
+        path: '/pedido',
+        element: (
+        <ProtectedRoute allowedRoles={['garzon']}>
+        <Pedido />
+      </ProtectedRoute>)
+      }
+      ,
+      {
         path: '/users',
         element: (
         <ProtectedRoute allowedRoles={['administrador']}>
@@ -59,6 +73,15 @@ const router = createBrowserRouter([
           element: (
             <ProtectedRoute allowedRoles={['administrador']}>
               <Inventario />
+            </ProtectedRoute>
+            ),
+        }
+        ,
+        {
+          path: '/iRegister',
+          element: (
+            <ProtectedRoute allowedRoles={['administrador']}>
+              <IRegister />
             </ProtectedRoute>
             ),
         }

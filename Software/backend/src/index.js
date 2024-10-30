@@ -10,6 +10,11 @@ import { cookieKey, HOST, PORT } from "./config/configEnv.js";
 import { connectDB } from "./config/configDb.js";
 import { createUsers } from "./config/initialSetup.js";
 import { passportJwtSetup } from "./auth/passport.auth.js";
+<<<<<<< Updated upstream
+=======
+import ingredienteRoutes from "./routes/ingrediente.routes.js"; // Importar las rutas de Ingredientes
+import pedidoRoutes from "./routes/pedido.routes.js"; // Importar las rutas de Pedidos
+>>>>>>> Stashed changes
 
 async function setupServer() {
   try {
@@ -60,7 +65,12 @@ async function setupServer() {
     passportJwtSetup();
 
     app.use("/api", indexRoutes);
+<<<<<<< Updated upstream
     
+=======
+    app.use("/api", ingredienteRoutes); 
+    app.use("/api", pedidoRoutes);
+>>>>>>> Stashed changes
 
     app.listen(PORT, () => {
       console.log(`=> Servidor corriendo en ${HOST}:${PORT}/api`);

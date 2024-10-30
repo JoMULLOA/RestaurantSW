@@ -1,5 +1,6 @@
 "use strict";
 import User from "../entity/user.entity.js";
+import pedido from "../entity/pedido.entity.js";
 import { AppDataSource } from "./configDb.js";
 import { encryptPassword } from "../helpers/bcrypt.helper.js";
 
@@ -36,6 +37,7 @@ async function createUsers() {
             email: "usuario2.2024@gmail.cl",
             password: await encryptPassword("user1234"),
             rol: "usuario",
+<<<<<<< Updated upstream
           }),
       ),
       userRepository.save(
@@ -76,6 +78,90 @@ async function createUsers() {
       ),
     ]);
     console.log("* => Usuarios creados exitosamente");
+=======
+          })
+        ),
+        userRepository.save(
+          userRepository.create({
+            nombreCompleto: "Pablo Andrés Castillo Fernández",
+            rut: "20.738.450-K",
+            email: "usuario3.2024@gmail.cl",
+            password: await encryptPassword("user1234"),
+            rol: "usuario",
+          })
+        ),
+        userRepository.save(
+          userRepository.create({
+            nombreCompleto: "Felipe Andrés Henríquez Zapata",
+            rut: "20.976.635-3",
+            email: "usuario4.2024@gmail.cl",
+            password: await encryptPassword("user1234"),
+            rol: "usuario",
+          })
+        ),
+        userRepository.save(
+          userRepository.create({
+            nombreCompleto: "Diego Alexis Meza Ortega",
+            rut: "21.172.447-1",
+            email: "usuario5.2024@gmail.cl",
+            password: await encryptPassword("user1234"),
+            rol: "usuario",
+          })
+        ),
+        userRepository.save(
+          userRepository.create({
+            nombreCompleto: "Juan Pablo Rosas Martin",
+            rut: "20.738.415-1",
+            email: "usuario6.2024@gmail.cl",
+            password: await encryptPassword("user1234"),
+            rol: "usuario",
+          })
+        ),
+      ]);
+      console.log("* => Usuarios creados exitosamente");
+    }
+
+    // Crear Ingredientes
+    const ingredientRepository = AppDataSource.getRepository(ingrediente);
+    const ingredientCount = await ingredientRepository.count();
+    if (ingredientCount === 0) {
+      await Promise.all([
+        ingredientRepository.save(
+          ingredientRepository.create({
+            nombre: "Harina",
+            fechaIngreso: new Date("2024-10-01"),
+            cantidad: 50,
+          })
+        ),
+        ingredientRepository.save(
+          ingredientRepository.create({
+            nombre: "Azúcar",
+            fechaIngreso: new Date("2024-10-05"),
+            cantidad: 20,
+          })
+        ),
+        // Agregar más ingredientes aquí...
+      ]);
+      console.log("* => Ingredientes creados exitosamente");
+    }
+    const pedidoRepository = AppDataSource.getRepository(pedido);
+    const pedidoCount = await pedidoRepository.count();
+    if (pedidoCount === 0) {
+      await Promise.all([
+        pedidoRepository.save(
+          pedidoRepository.create({
+            mesa: 1,
+            plato: "Salchipapas",
+            bebestible: "Coca Cola",
+            postre: "Brownie",
+            modificaciones: "+ Salchichas",
+            fechaIngreso: new Date("2024-10-01"),
+          })
+        ),
+      ]);
+      console.log("* => Ingredientes creados exitosamente");
+    }
+>>>>>>> Stashed changes
   } catch (error) {
     console.error("Error al crear usuarios:", error);
   }
