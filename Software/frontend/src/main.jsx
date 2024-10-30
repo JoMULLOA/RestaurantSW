@@ -51,7 +51,7 @@ const router = createBrowserRouter([
         </ProtectedRoute>
         )
         ,
-        }
+      }
         ,
         {
           path: '/inventario',

@@ -75,6 +75,20 @@ const Navbar = () => {
                                     Usuarios
                                 </NavLink>
                             </li>
+                            <>
+                            <li>
+                            <NavLink 
+                                to="/pedido" 
+                                onClick={() => { 
+                                    setMenuOpen(false); 
+                                    addActiveClass();
+                                }} 
+                                activeClassName="active"
+                            >
+                                Pedido
+                            </NavLink>
+                            </li>
+                        </>
                             <li>
                                 <NavLink 
                                     to="/Register" 
