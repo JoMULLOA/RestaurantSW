@@ -14,7 +14,7 @@ export const addIngrediente = async (ingrediente) => {
 export const getIngredientes = async () => {
   try {
     const response = await axios.get('/ingredientes/all')
-    return await response.json();
+    return response.data;
   } catch (error) {
     console.error("Error al obtener los ingredientes: ", error);
     throw error;
@@ -29,7 +29,7 @@ export const deleteIngrediente = async (id) => {
         throw new Error(`Error HTTP: ${response.status}`);
       }
   
-      return await response.json();
+      return response.data;
     } catch (error) {
       console.error("Error al eliminar el ingrediente: ", error);
       throw error;
