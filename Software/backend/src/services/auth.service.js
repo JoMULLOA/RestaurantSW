@@ -76,7 +76,7 @@ export async function registerService(user) {
 
     if (existingRutUser) return [null, createErrorMessage("rut", "Rut ya asociado a una cuenta")];
 
-
+    //com
     const newUser = userRepository.create({
       nombreCompleto,
       email,
