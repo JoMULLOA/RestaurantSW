@@ -6,13 +6,12 @@ import '@styles/pedido.css';
 const Pedido = () => {
   const [pedidos, setPedidos] = useState([]);
   const [form, setForm] = useState({
-    id: '',
     mesa: '',
     plato: '',
     bebestible: '',
     postre: '',
     modificaciones: '',
-    fechaIngreso: ''
+    fechaIngreso: new Date().toISOString().split('T')[0]
   });
 
   useEffect(() => {
@@ -46,13 +45,12 @@ const Pedido = () => {
       if (data.status === 'Success') {
         setPedidos([...pedidos, data.data]);
         setForm({
-          id: '',
           mesa: '',
           plato: '',
           bebestible: '',
           postre: '',
           modificaciones: '',
-          fechaIngreso: ''
+          fechaIngreso: new Date().toISOString().split('T')[0]
         });
       } else {
         console.error("Error al agregar el pedido: ", data.message);
@@ -84,7 +82,6 @@ const Pedido = () => {
             <table className="form-table">
               <thead>
                 <tr>
-                  <th>ID</th>
                   <th>Mesa</th>
                   <th>Plato</th>
                   <th>Bebestible</th>
@@ -96,16 +93,6 @@ const Pedido = () => {
               </thead>
               <tbody>
                 <tr>
-                  <td>
-                    <input
-                      type="text"
-                      id="id"
-                      name="id"
-                      value={form.id}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </td>
                   <td>
                     <input
                       type="text"
@@ -157,15 +144,15 @@ const Pedido = () => {
                     />
                   </td>
                   <td>
-                    <input
-                      type="date"
-                      id="fechaIngreso"
-                      name="fechaIngreso"
-                      value={form.fechaIngreso}
-                      onChange={handleInputChange}
-                      required
-                    />
-                    </td>
+                  <input
+                    type="date"
+                    id="fechaIngreso"
+                    name="fechaIngreso"
+                    value={form.fechaIngreso}
+                    onChange={handleInputChange}
+                    disabled
+                  />
+                </td>
                   <td>
                     <button type="submit" className="action-button">Agregar</button>
                   </td>

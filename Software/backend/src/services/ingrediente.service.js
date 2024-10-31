@@ -9,6 +9,8 @@ export const getIngredientes = async () => {
 
 export const addIngrediente = async (data) => {
     const ingredientRepository = AppDataSource.getRepository(ingrediente);
+    /*saber si existe el nombre para agregar*/
+
     const newIngrediente = ingredientRepository.create(data);
     return await ingredientRepository.save(newIngrediente);
 };

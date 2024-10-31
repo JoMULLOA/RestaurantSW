@@ -45,6 +45,15 @@
   text-align: left;
 }
 
+/* tamaño de fecha de ingreso*/
+.form-table input[type="date"] {
+  width: 100%; 
+  padding: 8px;
+  min-width: 150px; 
+  box-sizing: border-box;
+}
+
+
 .form-table th {
   background-color: #f2f2f2;
 }

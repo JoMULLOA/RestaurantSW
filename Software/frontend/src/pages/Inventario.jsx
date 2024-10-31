@@ -6,9 +6,8 @@ import '@styles/inventario.css';
 const Ingrediente = () => {
   const [ingredientes, setIngredientes] = useState([]);
   const [form, setForm] = useState({
-    id: '',
     nombre: '',
-    fechaIngreso: '',
+    fechaIngreso: new Date().toISOString().split('T')[0], // Fecha actual
     cantidad: ''
   });
 
@@ -43,9 +42,8 @@ const Ingrediente = () => {
       if (data.status === 'Success') {
         setIngredientes([...ingredientes, data.data]);
         setForm({
-          id: '',
           nombre: '',
-          fechaIngreso: '',
+          fechaIngreso: new Date().toISOString().split('T')[0], // Resetear fecha a la actual
           cantidad: ''
         });
       } else {
@@ -79,7 +77,6 @@ const Ingrediente = () => {
             <table className="form-table">
               <thead>
                 <tr>
-                  <th>ID</th>
                   <th>Nombre</th>
                   <th>Fecha de Ingreso</th>
                   <th>Cantidad</th>
@@ -88,16 +85,6 @@ const Ingrediente = () => {
               </thead>
               <tbody>
                 <tr>
-                  <td>
-                    <input
-                      type="text"
-                      id="id"
-                      name="id"
-                      value={form.id}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </td>
                   <td>
                     <input
                       type="text"
@@ -114,8 +101,7 @@ const Ingrediente = () => {
                       id="fechaIngreso"
                       name="fechaIngreso"
                       value={form.fechaIngreso}
-                      onChange={handleInputChange}
-                      required
+                      disabled
                     />
                   </td>
                   <td>

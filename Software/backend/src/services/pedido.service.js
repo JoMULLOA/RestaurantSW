@@ -12,3 +12,15 @@ export const addPedido = async (data) => {
     const newPedido = pedidoRepository.create(data);
     return await pedidoRepository.save(newPedido);
 };
+
+export const removePedido = async (id) => {
+  const pedidoRepository = AppDataSource.getRepository(pedido);
+  const pedidoToDelete = await pedidoRepository.findOneBy({ id });
+
+  if (!pedidoToDelete) {
+      return null; 
+  }
+
+  await pedidoRepository.remove(pedidoToDelete);
+  return pedidoToDelete; // 
+};
