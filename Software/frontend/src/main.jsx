@@ -8,73 +8,79 @@ import Error404 from '@pages/Error404';
 import Root from '@pages/Root';
 import ProtectedRoute from '@components/ProtectedRoute';
 import Chef from '@pages/Chef';
-import Garzon from '@pages/Garzon';
 import '@styles/styles.css';
 import Inventario from '@pages/Inventario';
 import Menu from '@pages/Menu';
-
+import Pedido from '@pages/Pedido';
+import Mesas from '@pages/Mesas'; // Importa el componente Mesas
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Root/>,
-    errorElement: <Error404/>,
+    element: <Root />,
+    errorElement: <Error404 />,
     children: [
       {
         path: '/home',
-        element: <Home/>
+        element: <Home />
       },
       {
-        path: '/Menu',
-        element: <Menu/>
+        path: '/menu',
+        element: <Menu />
       },
       {
-        path: '/Chef',
+        path: '/chef',
         element: (
-        <ProtectedRoute allowedRoles={['chef']}>
-        <Chef />
-      </ProtectedRoute>)
-      }
-      ,
+          <ProtectedRoute allowedRoles={['chef']}>
+            <Chef />
+          </ProtectedRoute>
+        )
+      },
       {
-        path: '/Garzon',
+        path: '/pedido',
         element: (
-        <ProtectedRoute allowedRoles={['garzon']}>
-        <Garzon />
-      </ProtectedRoute>)
-      }
-      ,
+          <ProtectedRoute allowedRoles={['garzon']}>
+            <Pedido />
+          </ProtectedRoute>
+        )
+      },
       {
         path: '/users',
         element: (
-        <ProtectedRoute allowedRoles={['administrador']}>
-          <Users />
-        </ProtectedRoute>
+          <ProtectedRoute allowedRoles={['administrador']}>
+            <Users />
+          </ProtectedRoute>
         )
-        ,
-        }
-        ,
-        {
-          path: '/inventario',
-          element: (
-            <ProtectedRoute allowedRoles={['administrador']}>
-              <Inventario />
-            </ProtectedRoute>
-            ),
-        }
-        ,
-    {
-      path: '/register',
-      element: <Register/>
-    }
+      },
+      {
+        path: '/inventario',
+        element: (
+          <ProtectedRoute allowedRoles={['administrador']}>
+            <Inventario />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: '/register',
+        element: <Register />
+      },
+      // Nueva ruta para Mesas
+      {
+        path: '/mesas',
+        element: (
+          <ProtectedRoute allowedRoles={['administrador', 'garzon']}>
+            <Mesas />
+          </ProtectedRoute>
+        )
+      }
     ]
   },
   {
     path: '/auth',
-    element: <Login/>
+    element: <Login />
   }
-])
+]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <RouterProvider router={router}/>
-)
+  <RouterProvider router={router} />
+);

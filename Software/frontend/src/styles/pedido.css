@@ -1,4 +1,4 @@
-/* src/styles/inventario.css */
+/* src/styles/pedido.css */
 .container {
   display: flex;
   flex-direction: column;
@@ -7,7 +7,7 @@
   padding: 20px;
 }
 
-.titleInventario {
+.titlePedido {
   text-align: center;
   color: #003366;
   margin-top: 20px;
@@ -55,81 +55,74 @@
   padding: 8px;
 }
 
-/* Redimensionar el campo de cantidad en modo edición */
-.edit-input {
-  width: 60px;
-  padding: 5px;
-  text-align: center;
+.form-table input#id,
+.form-table input#mesa,
+.form-table input#plato,
+.form-table input#bebestible,
+.form-table input#postre,
+.form-table input#modificaciones,
+.form-table input#fechaIngreso {
+  width: 60px; /* Campos más pequeños */
 }
 
 .action-button {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
+  background-color: #007bff; /* Color azul */
   color: white;
   cursor: pointer;
-  margin-right: 8px; /* Ajusta el margen entre botones */
 }
 
-.edit-button {
-  background-color: #4caf50; /* Verde para el botón de editar */
+.action-button:hover {
+  background-color: #0056b3; /* Color azul oscuro al pasar el cursor */
 }
 
-.delete-button {
-  background-color: #f44336; /* Rojo para el botón de eliminar */
-}
-
-.delete-button:hover {
-  background-color: #d32f2f; /* Oscurecer el rojo en hover */
-}
-
-.edit-button:hover {
-  background-color: #388e3c; /* Oscurecer el verde en hover */
-}
-
-.ingredient-table {
+.pedido-table {
   width: 100%;
   max-width: 800px;
   margin: 20px auto;
   border-collapse: collapse;
 }
 
-.ingredient-table th,
-.ingredient-table td {
+.pedido-table th,
+.pedido-table td {
   border: 1px solid #ccc;
   padding: 10px;
   text-align: left;
 }
 
-.ingredient-table th {
+.pedido-table th {
   background-color: #f2f2f2;
 }
 
-.ingredient-table td:last-child {
+.pedido-table td:last-child {
   text-align: center;
 }
 
-.ingredient-table .action-button {
+/* Asegurar que el botón se muestre como bloque y centrado */
+.pedido-table .action-button {
   display: inline-block;
   margin: 0 auto;
 }
 
-.button-container {
-  display: inline-block;
-  margin-right: 10px; /* Ajusta el valor según sea necesario */
-}
 
 /* Estilos responsivos */
 @media (max-width: 767px) {
   .form-container,
-  .ingredient-table {
+  .pedido-table {
     width: 100%;
     overflow-x: auto;
   }
 
-  .form-table input#id,
-  .form-table input#cantidad {
-    width: 100%;
+.form-table input#id,
+.form-table input#mesa,
+.form-table input#plato,
+.form-table input#bebestible,
+.form-table input#postre,
+.form-table input#modificaciones,
+.form-table input#fechaIngreso {
+    width: 100%; /* En pantallas pequeñas, ocupan todo el ancho */
   }
 
   .form-table th,

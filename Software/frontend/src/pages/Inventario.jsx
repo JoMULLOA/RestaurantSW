@@ -1,16 +1,16 @@
-// Ingrediente.jsx
 import { useState, useEffect } from 'react';
-import { addIngrediente, getIngredientes, deleteIngrediente } from '../services/ingrediente.service.js';
-import '@styles/inventario.css';
+import { addIngrediente, getIngredientes, removeIngrediente, updateIngrediente } from '../services/ingrediente.service';
+import '../styles/Inventario.css';
 
 const Ingrediente = () => {
   const [ingredientes, setIngredientes] = useState([]);
   const [form, setForm] = useState({
-    id: '',
     nombre: '',
-    fechaIngreso: '',
+    fechaIngreso: new Date().toISOString().split('T')[0],
     cantidad: ''
   });
+  const [editMode, setEditMode] = useState(null); // Controla el ingrediente en modo edición
+  const [newCantidad, setNewCantidad] = useState(''); // Nueva cantidad para edición
 
   useEffect(() => {
     const fetchIngredientes = async () => {
@@ -43,9 +43,8 @@ const Ingrediente = () => {
       if (data.status === 'Success') {
         setIngredientes([...ingredientes, data.data]);
         setForm({
-          id: '',
           nombre: '',
-          fechaIngreso: '',
+          fechaIngreso: new Date().toISOString().split('T')[0],
           cantidad: ''
         });
       } else {
@@ -58,14 +57,33 @@ const Ingrediente = () => {
 
   const handleDelete = async (id) => {
     try {
-      const data = await deleteIngrediente(id);
-      if (data.status === 'Success') {
-        setIngredientes(ingredientes.filter((ingrediente) => ingrediente.id !== id));
+      const response = await removeIngrediente(id);
+      console.log("Ingrediente eliminado:", response);
+
+      setIngredientes((prevIngredientes) =>
+        prevIngredientes.filter((ingrediente) => ingrediente.id !== id)
+      );
+    } catch (error) {
+      console.error("Error al eliminar el ingrediente:", error);
+    }
+  };
+
+  const handleUpdate = async (id) => {
+    try {
+      const response = await updateIngrediente(id, newCantidad);
+      if (response.status === 'Success') {
+        setIngredientes((prevIngredientes) =>
+          prevIngredientes.map((ingrediente) =>
+            ingrediente.id === id ? { ...ingrediente, cantidad: newCantidad } : ingrediente
+          )
+        );
+        setEditMode(null);
+        setNewCantidad('');
       } else {
-        console.error("Error al eliminar el ingrediente: ", data.message);
+        console.error("Error al actualizar el ingrediente: ", response.message);
       }
     } catch (error) {
-      console.error("Error al conectar con el servidor: ", error);
+      console.error("Error al actualizar el ingrediente:", error);
     }
   };
 
@@ -78,7 +96,6 @@ const Ingrediente = () => {
             <table className="form-table">
               <thead>
                 <tr>
-                  <th>ID</th>
                   <th>Nombre</th>
                   <th>Fecha de Ingreso</th>
                   <th>Cantidad</th>
@@ -87,16 +104,6 @@ const Ingrediente = () => {
               </thead>
               <tbody>
                 <tr>
-                  <td>
-                    <input
-                      type="text"
-                      id="id"
-                      name="id"
-                      value={form.id}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </td>
                   <td>
                     <input
                       type="text"
@@ -113,8 +120,7 @@ const Ingrediente = () => {
                       id="fechaIngreso"
                       name="fechaIngreso"
                       value={form.fechaIngreso}
-                      onChange={handleInputChange}
-                      required
+                      disabled
                     />
                   </td>
                   <td>
@@ -143,18 +149,66 @@ const Ingrediente = () => {
               <th>Nombre</th>
               <th>Fecha de Ingreso</th>
               <th>Cantidad</th>
-              <th></th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {ingredientes.map((ingrediente, index) => (
-              <tr key={index}>
+            {ingredientes.map((ingrediente) => (
+              <tr key={ingrediente.id}>
                 <td>{ingrediente.id}</td>
                 <td>{ingrediente.nombre}</td>
                 <td>{ingrediente.fechaIngreso}</td>
-                <td>{ingrediente.cantidad}</td>
                 <td>
-                  <button className="action-button" onClick={() => handleDelete(ingrediente.id)}>Eliminar</button>
+                  {editMode === ingrediente.id ? (
+                    <input
+                      type="number"
+                      className="edit-input"
+                      value={newCantidad}
+                      onChange={(e) => setNewCantidad(e.target.value)}
+                    />
+                  ) : (
+                    ingrediente.cantidad
+                  )}
+                </td>
+                <td>
+                  {editMode === ingrediente.id ? (
+                    <>
+                      <button
+                        className="action-button edit-button"
+                        onClick={() => handleUpdate(ingrediente.id)}
+                      >
+                        Guardar
+                      </button>
+                      <button
+                        className="action-button"
+                        onClick={() => setEditMode(null)}
+                      >
+                        Cancelar
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <div className="button-container">
+                        <button
+                          className="action-button edit-button"
+                          onClick={() => {
+                            setEditMode(ingrediente.id);
+                            setNewCantidad(ingrediente.cantidad);
+                          }}
+                        >
+                          Editar
+                        </button>
+                      </div>
+                      <div className="button-container">
+                        <button
+                          className="action-button delete-button"
+                          onClick={() => handleDelete(ingrediente.id)}
+                        >
+                          Eliminar
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </td>
               </tr>
             ))}
