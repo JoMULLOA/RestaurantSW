@@ -33,9 +33,7 @@ const Menu = () => {
 
     return (
         <div className="menu-container">
-            <br />
-            <br />
-            <h2>Menú del Restaurante</h2>
+            <marquee><h2>Menú del Restaurante</h2></marquee>
             <div className="menu-sections">
                 <div className="menu-section">
                     <h3>Platos</h3>

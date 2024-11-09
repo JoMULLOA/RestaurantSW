@@ -63,6 +63,9 @@ const Navbar = () => {
                     </li>
                     {userRole === 'administrador' && (
                         <>
+                            <div className="user-role-indicator">
+                                🧑‍💼 Administrador
+                            </div>
                             <li>
                                 <NavLink 
                                     to="/users" 
@@ -102,6 +105,9 @@ const Navbar = () => {
                     )}
                     {userRole === 'chef' && (
                         <>
+                            <div className="user-role-indicator">
+                                🧑‍🍳 Chef 
+                            </div>
                             <li>
                                 <NavLink 
                                     to="/Chef" 
@@ -117,7 +123,10 @@ const Navbar = () => {
                         </>
                     )}
                     {userRole === 'garzon' && (
-                        <>
+                        <>  
+                            <div className="user-role-indicator">
+                              🤵 Garzón
+                            </div>
                             <li>
                                 <NavLink 
                                     to="/pedido" 

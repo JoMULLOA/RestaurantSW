@@ -18,6 +18,29 @@
     height: 100%;
 }
 
+/* .user-role-indicator {
+    color: white;
+    font-size: 0.9em;
+    position: absolute;
+    left: 5vw;
+} */
+
+.user-role-indicator {
+    color: white;
+    font-size: 2em;
+    position: absolute;
+    left: 5vw;
+    /* background-color: #764536; Color de fondo para destacar */
+    padding: 5px 10px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    display: flex;
+    align-items: center;
+}
+
+.user-role-indicator i {
+    margin-right: 5px; /* Espacio entre el ícono y el texto */
+}
+
 .nav-menu ul {
     display: flex;
     align-items: center;
