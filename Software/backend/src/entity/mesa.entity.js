@@ -1,5 +1,4 @@
 import { EntitySchema } from "typeorm";
-import User from "./user.entity.js";
 
 class Mesa {
   constructor(id, numeroMesa, estado, garzonAsignado) {

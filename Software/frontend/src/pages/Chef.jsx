@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { getIngredientes, preparar } from "../services/ingrediente.service.js";
+import { getIngredientes } from "../services/ingrediente.service.js";
+import { preparar } from "../services/chef.service.js";
 
 const Chef = () => {
-  const [setIngredientes] = useState([]);
+  const [ingredientes, setIngredientes] = useState([]);
   const [stockDisponible, setStockDisponible] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -23,24 +24,26 @@ const Chef = () => {
       }
     };
     fetchIngredientes();
-  }, );
+  }, []);
 
   const stock = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      const ingrediente = {
-        nombre: "Zanahoria",
+      const ingrediente = { 
+        nombre: "zanahoria",
         cantidad: 1,
       };
       const result = await preparar(ingrediente);
+      console.log("Ingrediente enviado:", ingrediente);
       setStockDisponible(result.success);
-
-      if (result.success) {
-        setOrdenEstado("Falta de ingredientes");
-      } else {
+      console.log("chef:",result.success);
+      if (!result.success) {
         setOrdenEstado("Preparación");
+        
+      } else {
+        setOrdenEstado("Falta de ingredientes");
       }
     } catch (error) {
       setError("Error al verificar el stock: " + error.message);
@@ -87,12 +90,13 @@ const Chef = () => {
                   marginTop: "15px",
                   padding: "10px 15px",
                   borderRadius: "6px",
-                  backgroundColor: "#7A4F42", // Color marrón aplicado aquí
+                  backgroundColor: "#7A4F42",
                   color: "#ffffff",
                   border: "none",
                   cursor: "pointer",
                 }}
               >
+              
                 Ver Pedido
               </button>
             </div>
@@ -146,22 +150,35 @@ const Chef = () => {
             {stockDisponible !== null && !loading && !error && (
               <p style={{ color: "#333", fontSize: "1em", marginTop: "10px" }}>
                 {stockDisponible
-                  ? "No hay zanahoria suficiente en la base de datos."
-                  : "Hay zanahoria suficiente en la base de datos."}
+                  ? "Hay zanahoria suficiente en la base de datos."
+                  : "No hay zanahoria suficiente en la base de datos."}
               </p>
             )}
+
+            <div style={{ marginTop: "20px", textAlign: "left" }}>
+              <h4>Ingredientes en Inventario:</h4>
+              {ingredientes.length === 0 ? (
+                <p>No hay ingredientes disponibles.</p>
+              ) : (
+                <ul>
+                  {ingredientes.map((ingrediente, index) => (
+                    <li key={index}>{ingrediente.nombre} : {ingrediente.cantidad}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
 
             <button
               onClick={handleCloseModal}
               style={{
-                marginTop: "15px",
+                marginTop: "20px", // Ajuste de margen superior para separar el botón del contenido anterior
                 padding: "8px 12px",
                 borderRadius: "6px",
                 backgroundColor: "#7A4F42",
                 color: "#ffffff",
                 border: "none",
                 cursor: "pointer",
-                width: "auto", // Ajuste de ancho automático
+                width: "auto",
               }}
             >
               Cerrar

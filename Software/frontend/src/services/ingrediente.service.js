@@ -37,15 +37,5 @@ export const removeIngrediente = async (id) => {
   }
 };
 
-export const preparar = async (requiredIngredients) => {
-  try {
-    const response = await axios.post('/ingredientes/preparar', requiredIngredients);
-    
-    if(response.status === 200) {
-      return response.data;
-    }
-  } catch (error) {
-    console.log(error.response);
-  }
-};
+
   
