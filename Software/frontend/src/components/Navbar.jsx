@@ -63,6 +63,9 @@ const Navbar = () => {
                     </li>
                     {userRole === 'administrador' && (
                         <>
+                            <div className="user-role-indicator">
+                                🧑‍💼 Administrador
+                            </div>
                             <li>
                                 <NavLink 
                                     to="/users" 
@@ -88,17 +91,6 @@ const Navbar = () => {
                             </li>
                             <li>
                                 <NavLink 
-                                    to="/iRegister" 
-                                    onClick={() => { 
-                                        setMenuOpen(false); 
-                                    }} 
-                                    activeClassName="active"
-                                >
-                                    Registrar ingrediente
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink 
                                     to="/Inventario" 
                                     onClick={() => { 
                                         setMenuOpen(false); 
@@ -112,46 +104,57 @@ const Navbar = () => {
                         </>
                     )}
                     {userRole === 'chef' && (
-                    <li>
-                        <NavLink 
-                            to="/Chef" 
-                            onClick={() => { 
-                                setMenuOpen(false); 
-                                addActiveClass();
-                            }} 
-                            activeClassName="active"
-                        >
-                            Chef
-                        </NavLink>
-                    </li>
+                        <>
+                            <div className="user-role-indicator">
+                                🧑‍🍳 Chef 
+                            </div>
+                            <li>
+                                <NavLink 
+                                    to="/Chef" 
+                                    onClick={() => { 
+                                        setMenuOpen(false); 
+                                        addActiveClass();
+                                    }} 
+                                    activeClassName="active"
+                                >
+                                    Chef
+                                </NavLink>
+                            </li>
+                        </>
                     )}
                     {userRole === 'garzon' && (
-                    <>
+                        <>  
+                            <div className="user-role-indicator">
+                              🤵 Garzón
+                            </div>
+                            <li>
+                                <NavLink 
+                                    to="/pedido" 
+                                    onClick={() => { 
+                                        setMenuOpen(false); 
+                                        addActiveClass();
+                                    }} 
+                                    activeClassName="active"
+                                >
+                                    Pedido
+                                </NavLink>
+                            </li>
+                        </>
+                    )}
+                    {/* Mostrar el enlace "Mesas" para los roles "administrador" y "garzon" */}
+                    {(userRole === 'administrador' || userRole === 'garzon') && (
                         <li>
                             <NavLink 
-                                to="/Garzon" 
+                                to="/mesas" 
                                 onClick={() => { 
                                     setMenuOpen(false); 
                                     addActiveClass();
                                 }} 
                                 activeClassName="active"
                             >
-                                Garzón
+                                Mesas
                             </NavLink>
                         </li>
-                        <li>
-                        <NavLink 
-                            to="/pedido" 
-                            onClick={() => { 
-                                setMenuOpen(false); 
-                                addActiveClass();
-                            }} 
-                            activeClassName="active"
-                        >
-                            Pedido
-                        </NavLink>
-                        </li>
-                    </>
                     )}
                     <li>
                         <NavLink 

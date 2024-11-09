@@ -1,7 +1,6 @@
-"use strict";
 import { EntitySchema } from "typeorm";
 
-const IngredienteSchema = new EntitySchema({
+const Ingrediente = new EntitySchema({
   name: "Ingrediente",
   tableName: "ingredientes",
   columns: {
@@ -10,29 +9,20 @@ const IngredienteSchema = new EntitySchema({
       primary: true,
       generated: true,
     },
-    tipo: {
+    nombre: {
       type: "varchar",
-      length: 255,
+      length: 100,
+      nullable: false,
+    },
+    fechaIngreso: {
+      type: "date",
       nullable: false,
     },
     cantidad: {
-        type: "int",
-        primary: true,
-        generated: true,
-    },
-    fechaIngreso: {
-        type: "timestamp with time zone",
-        default: () => "CURRENT_TIMESTAMP",
-        nullable: false,
+      type: "int",
+      nullable: false,
     },
   },
-  indices: [
-    {
-      name: "IDX_INGREDIENTE",
-      columns: ["id"],
-      unique: true,
-    },
-  ],
 });
 
-export default IngredienteSchema;
+export default Ingrediente;

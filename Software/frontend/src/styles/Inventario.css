@@ -1,35 +1,145 @@
 /* src/styles/inventario.css */
 .container {
-  padding: 20px;
-}
-.title {
-  text-align: start;
-  margin-bottom: 20px;
-}
-.form-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px; /* Espacio entre los elementos */
-  justify-content: center; /* Centrar los elementos horizontalmente */
-}
-.form-group {
-  flex: 1 1 200px; /* Ajusta el tamaño de los elementos del formulario */
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 }
-.product-list {
-  list-style-type: none;
-  padding: 0;
-}
-.product-item {
+
+.titleInventario {
+  text-align: center;
+  color: #003366;
+  margin-top: 20px;
   margin-bottom: 20px;
 }
-.product-info {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 20px; /* Espacio entre los elementos */
+
+.dashboard {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  border: 1px solid #ccc;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
 }
-.product-info p {
-  margin: 0;
+
+.form-wrapper {
+  margin-bottom: 20px;
+}
+
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.form-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.form-table th,
+.form-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+/* tamaño de fecha de ingreso*/
+.form-table input[type="date"] {
+  width: 100%; 
+  padding: 8px;
+  min-width: 150px; 
+  box-sizing: border-box;
+}
+
+
+.form-table th {
+  background-color: #f2f2f2;
+}
+
+.form-table input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+}
+
+.form-table input#id,
+.form-table input#cantidad {
+  width: 60px; /* Campos más pequeños */
+}
+
+.action-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff; /* Color azul */
+  color: white;
+  cursor: pointer;
+}
+
+.action-button:hover {
+  background-color: #0056b3; /* Color azul oscuro al pasar el cursor */
+}
+
+.ingredient-table {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  border-collapse: collapse;
+}
+
+.ingredient-table th,
+.ingredient-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+.ingredient-table th {
+  background-color: #f2f2f2;
+}
+
+.ingredient-table td:last-child {
+  text-align: center;
+}
+
+/* Asegurar que el botón se muestre como bloque y centrado */
+.ingredient-table .action-button {
+  display: inline-block;
+  margin: 0 auto;
+}
+
+
+/* Estilos responsivos */
+@media (max-width: 767px) {
+  .form-container,
+  .ingredient-table {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .form-table input#id,
+  .form-table input#cantidad {
+    width: 100%; /* En pantallas pequeñas, ocupan todo el ancho */
+  }
+
+  .form-table th,
+  .form-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .form-table tr {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .form-table th {
+    text-align: left;
+  }
+
+  .form-table td {
+    text-align: left;
+  }
 }
