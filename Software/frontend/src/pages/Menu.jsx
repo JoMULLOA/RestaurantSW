@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import '../styles/Menu.css';
-import { getMenus } from '../services/menu.service'; // Asegúrate de que la ruta sea correcta
+import { getMenus } from '../services/menu.service';
 
 const Menu = () => {
     const [selectedItem, setSelectedItem] = useState(null);
@@ -8,7 +8,8 @@ const Menu = () => {
     useEffect(() => {
         const fetchMenu = async () => {
             try {
-                const data = await getMenus();
+                const response = await getMenus();
+                const data = response.data;
                 const platos = data.filter(item => item.tipo === 'Plato');
                 const bebestibles = data.filter(item => item.tipo === 'Bebestible');
                 const postres = data.filter(item => item.tipo === 'Postre');
