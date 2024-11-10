@@ -13,7 +13,6 @@ const Register = () => {
         errorData,
         handleInputChange
     } = useRegister();
-
 	const registerSubmit = async (data) => {
 	    try {
 	        const response = await register(data);
@@ -41,7 +40,7 @@ const Register = () => {
 					{
 						label: "Nombre completo",
 						name: "nombreCompleto",
-						placeholder: "Diego Alexis Salazar Jara",
+						placeholder: "Nombre de la persona",
                         fieldType: 'input',
 						type: "text",
 						required: true,
