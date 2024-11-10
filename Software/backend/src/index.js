@@ -11,6 +11,7 @@ import indexRoutes from "./routes/index.routes.js";
 import ingredienteRoutes from "./routes/ingrediente.routes.js";
 import pedidoRoutes from "./routes/pedido.routes.js";
 import mesaRoutes from "./routes/mesa.routes.js";
+import menuRoutes from "./routes/menu.routes.js";
 
 import { cookieKey, HOST, PORT } from "./config/configEnv.js";
 import { connectDB } from "./config/configDb.js";
@@ -62,7 +63,8 @@ async function setupServer() {
     app.use("/api/users", userRoutes); // Rutas de usuarios, que incluye /api/users/garzones
     app.use("/api/ingredientes", ingredienteRoutes);
     app.use("/api/pedidos", pedidoRoutes);
-    app.use("/api/mesas", mesaRoutes); // Rutas de mesas
+    app.use("/api/mesas", mesaRoutes);
+    app.use("/api/menus", menuRoutes);
 
     // Inicio del servidor
     app.listen(PORT, () => {

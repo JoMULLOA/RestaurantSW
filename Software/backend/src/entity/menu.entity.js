@@ -15,9 +15,8 @@ const Menu = new EntitySchema({
         nullable: false,
     },
     ingredientes: {
-        type: "varchar",
-        length: 100,
-        nullable: false,
+        type: "json",
+      nullable: false,
     },
     precio: {
         type: "float",

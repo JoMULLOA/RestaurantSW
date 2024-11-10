@@ -54,7 +54,7 @@
 }
 
 .nav-menu ul li a {
-    color: white;
+    color: #795548;
     font-size: 0.9em;
     text-decoration: none;
     padding: 0 10px;
@@ -86,3 +86,4 @@
 .container {
     padding-top: 9vh; /* Ajusta este valor al alto del navbar */
 }
+

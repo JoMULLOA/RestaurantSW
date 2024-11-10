@@ -1,5 +1,5 @@
 import { AppDataSource } from "../config/configDb.js";
-import menu from "../entity/menu.entity";
+import menu from "../entity/menu.entity.js";
 
 export const getMenus = async () => {
     const menuRepository = AppDataSource.getRepository(menu);

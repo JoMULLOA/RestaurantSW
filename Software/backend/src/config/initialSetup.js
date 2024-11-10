@@ -4,6 +4,8 @@ import { AppDataSource } from "./configDb.js";
 import { encryptPassword } from "../helpers/bcrypt.helper.js";
 import pedido from "../entity/pedido.entity.js";
 import Mesa from "../entity/mesa.entity.js"; // Importar la entidad de Mesas
+import menu from "../entity/menu.entity.js"; 
+
 
 async function createInitialData() {
   try {
@@ -84,15 +86,136 @@ async function createInitialData() {
         pedidoRepository.save(
           pedidoRepository.create({
             mesa: 1,
-            plato: "Salchipapas",
-            bebestible: "Coca Cola",
-            postre: "Brownie",
+            plato: ["Salchipapas"],
+            bebestible: ["Coca Cola"],
+            postre: ["Brownie"],
             modificaciones: "+ Salchichas",
             fechaIngreso: new Date("2024-10-01"),
           })
         ),
       ]);
       console.log("* => Pedidos creados exitosamente");
+    }
+
+    // Crear Menú
+    const menuRepository = AppDataSource.getRepository(menu);
+    const menuCount = await menuRepository.count();
+    if (menuCount === 0) {
+      await Promise.all([
+        menuRepository.save(
+          menuRepository.create({
+            nombre: "Salchipapas",
+            ingredientes: ["Papas", "Salchichas", "Sal"],
+            precio: 5000,
+            tipo: "Plato",
+          })
+        ),
+        menuRepository.save(
+          menuRepository.create({
+            nombre: "Jugo de Naranja",
+            ingredientes: ["Naranjas frescas", "Agua"],
+            precio: 1500,
+            tipo: "Bebestible",
+          })
+        ),
+        menuRepository.save(
+          menuRepository.create({
+            nombre: "Coca Cola",
+            ingredientes: ["Coca Cola", "Hielos"],
+            precio: 1000,
+            tipo: "Bebestible",
+          })
+        ),
+        menuRepository.save(
+          menuRepository.create({
+            nombre: "Brownie",
+            ingredientes: ["Chocolate", "Mantequilla", "Azúcar", "Harina", "Huevos"],
+            precio: 3000,
+            tipo: "Postre",
+          })
+        ),
+        menuRepository.save(
+          menuRepository.create({
+            nombre: "Ensalada César",
+            ingredientes: ["Lechuga romana", "Queso parmesano", "Crutones", "Aderezo César"],
+            precio: 7000,
+            tipo: "Plato",
+          })
+        ),
+        menuRepository.save(
+          menuRepository.create({
+            nombre: "Pizza Margarita",
+            ingredientes: ["Masa de pizza", "Salsa de tomate", "Queso mozzarella", "Albahaca fresca"],
+            precio: 12000,
+            tipo: "Plato",
+          })
+        ),
+        menuRepository.save(
+          menuRepository.create({
+            nombre: "Sopa de Tomate",
+            ingredientes: ["Tomates", "Ajo", "Cebolla", "Caldo de verduras", "Aceite de oliva"],
+            precio: 5000,
+            tipo: "Plato",
+          })
+        ),
+        menuRepository.save(
+          menuRepository.create({
+            nombre: "Pasta Alfredo",
+            ingredientes: ["Pasta fettuccine", "Mantequilla", "Crema", "Queso parmesano"],
+            precio: 10000,
+            tipo: "Plato",
+          })
+        ),
+        menuRepository.save(
+          menuRepository.create({
+            nombre: "Limonada",
+            ingredientes: ["Limones frescos", "Agua", "Azúcar", "Hielos"],
+            precio: 2000,
+            tipo: "Bebestible",
+          })
+        ),
+        menuRepository.save(
+          menuRepository.create({
+            nombre: "Café",
+            ingredientes: ["Café molido", "Agua caliente", "Azúcar"],
+            precio: 1000,
+            tipo: "Bebestible",
+          })
+        ),
+        menuRepository.save(
+          menuRepository.create({
+            nombre: "Té Verde",
+            ingredientes: ["Hojas de té verde", "Agua caliente"],
+            precio: 1500,
+            tipo: "Bebestible",
+          })
+        ),
+        menuRepository.save(
+          menuRepository.create({
+            nombre: "Tiramisú",
+            ingredientes: ["Queso mascarpone", "Café", "Huevos", "Azúcar", "Cacao en polvo"],
+            precio: 8000,
+            tipo: "Postre",
+          })
+        ),
+        menuRepository.save(
+          menuRepository.create({
+            nombre: "Helado de Vainilla",
+            ingredientes: ["Leche", "Azúcar", "Extracto de vainilla", "Crema"],
+            precio: 5000,
+            tipo: "Postre",
+          })
+        ),
+        menuRepository.save(
+          menuRepository.create({
+            nombre: "Cheesecake",
+            ingredientes: ["Queso crema", "Galletas", "Mantequilla", "Azúcar"],
+            precio: 9000,
+            tipo: "Postre",
+          })
+        ),
+      ]);
+      console.log("* => Menú creado exitosamente");
     }
 
     // Crear Mesas

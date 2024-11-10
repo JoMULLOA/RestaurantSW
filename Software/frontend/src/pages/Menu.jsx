@@ -1,31 +1,25 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../styles/Menu.css';
+import { getMenus } from '../services/menu.service'; // Asegúrate de que la ruta sea correcta
 
 const Menu = () => {
     const [selectedItem, setSelectedItem] = useState(null);
+    const [menuSections, setMenuSections] = useState({ platos: [], bebestibles: [], postres: [] });
+    useEffect(() => {
+        const fetchMenu = async () => {
+            try {
+                const data = await getMenus();
+                const platos = data.filter(item => item.tipo === 'Plato');
+                const bebestibles = data.filter(item => item.tipo === 'Bebestible');
+                const postres = data.filter(item => item.tipo === 'Postre');
+                setMenuSections({ platos, bebestibles, postres });
+            } catch (error) {
+                console.error('Error fetching menu:', error);
+            }
+        };
 
-    const menuSections = {
-        platos: [
-            { name: 'Ensalada César', ingredients: ['Lechuga romana', 'Queso parmesano', 'Crutones', 'Aderezo César'] },
-            { name: 'Pizza Margarita', ingredients: ['Masa de pizza', 'Salsa de tomate', 'Queso mozzarella', 'Albahaca fresca'] },
-            { name: 'Sopa de Tomate', ingredients: ['Tomates', 'Ajo', 'Cebolla', 'Caldo de verduras', 'Aceite de oliva'] },
-            { name: 'Pasta Alfredo', ingredients: ['Pasta fettuccine', 'Mantequilla', 'Crema', 'Queso parmesano'] },
-            { name: 'Salchipapas', ingredients: ['Papas', 'Salchichas', 'Sal'] },
-        ],
-        bebestibles: [
-            { name: 'Jugo de Naranja', ingredients: ['Naranjas frescas', 'Agua'] },
-            { name: 'Limonada', ingredients: ['Limones frescos', 'Agua', 'Azúcar', 'Hielos'] },
-            { name: 'Café', ingredients: ['Café molido', 'Agua caliente', 'Azúcar'] },
-            { name: 'Té Verde', ingredients: ['Hojas de té verde', 'Agua caliente'] },
-            { name: 'Coca-cola', ingredients: ['Coca-cola', 'Hielos'] },
-        ],
-        postres: [
-            { name: 'Tiramisú', ingredients: ['Queso mascarpone', 'Café', 'Huevos', 'Azúcar', 'Cacao en polvo'] },
-            { name: 'Helado de Vainilla', ingredients: ['Leche', 'Azúcar', 'Extracto de vainilla', 'Crema'] },
-            { name: 'Cheesecake', ingredients: ['Queso crema', 'Galletas', 'Mantequilla', 'Azúcar'] },
-            { name: 'Brownie', ingredients: ['Chocolate', 'Mantequilla', 'Azúcar', 'Harina', 'Huevos'] },
-        ]
-    };
+        fetchMenu();
+    }, []);
 
     const handleItemClick = (item) => {
         setSelectedItem(item);
@@ -33,7 +27,6 @@ const Menu = () => {
 
     return (
         <div className="menu-container">  
-                 
             <marquee><h2>🧾 Menú del Restaurante 🍴</h2></marquee>
             <div className="menu-sections">
 
@@ -46,7 +39,7 @@ const Menu = () => {
                                 className={`menu-item ${selectedItem === item ? 'selected' : ''}`}
                                 onClick={() => handleItemClick(item)}
                             >
-                                {item.name}
+                                {item.nombre}
                             </li>
                         ))}
                     </ul>
@@ -61,7 +54,7 @@ const Menu = () => {
                                 className={`menu-item ${selectedItem === item ? 'selected' : ''}`}
                                 onClick={() => handleItemClick(item)}
                             >
-                                {item.name}
+                                {item.nombre}
                             </li>
                         ))}
                     </ul>
@@ -76,7 +69,7 @@ const Menu = () => {
                                 className={`menu-item ${selectedItem === item ? 'selected' : ''}`}
                                 onClick={() => handleItemClick(item)}
                             >
-                                {item.name}
+                                {item.nombre}
                             </li>
                         ))}
                     </ul>
@@ -85,10 +78,10 @@ const Menu = () => {
 
             {selectedItem && (
                 <div className="selected-item-info">
-                    <p>Seleccionaste: <strong>{selectedItem.name}</strong></p>
+                    <p>Seleccionaste: <strong>{selectedItem.nombre}</strong></p>
                     <h4 className="left-align">Sus ingredientes son:</h4>
                     <ul className="ingredients-list">
-                        {selectedItem.ingredients.map((ingredient, index) => (
+                        {selectedItem.ingredientes.map((ingredient, index) => (
                             <li key={index}>{ingredient}</li>
                         ))}
                     </ul>
