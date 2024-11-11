@@ -105,7 +105,11 @@ async function createInitialData() {
         menuRepository.save(
           menuRepository.create({
             nombre: "Salchipapas",
-            ingredientes: ["Papas", "Salchichas", "Sal"],
+            ingredientes: [
+              { nombre: "Papas", cantidad: 2 }, 
+              { nombre: "Salchichas", cantidad: 2 }, 
+              { nombre: "Sal", cantidad: 1 },
+            ],
             precio: 5000,
             tipo: "Plato",
           })
@@ -113,7 +117,10 @@ async function createInitialData() {
         menuRepository.save(
           menuRepository.create({
             nombre: "Jugo de Naranja",
-            ingredientes: ["Naranjas frescas", "Agua"],
+            ingredientes: [
+              { nombre: "Naranjas frescas", cantidad: 3 }, 
+              { nombre: "Agua", cantidad: 1 },
+            ],
             precio: 1500,
             tipo: "Bebestible",
           })
@@ -121,7 +128,10 @@ async function createInitialData() {
         menuRepository.save(
           menuRepository.create({
             nombre: "Coca Cola",
-            ingredientes: ["Coca Cola", "Hielos"],
+            ingredientes: [
+              { nombre: "Coca Cola", cantidad:1 },
+              { nombre: "Hielos", cantidad: 4 },
+            ],
             precio: 1000,
             tipo: "Bebestible",
           })
@@ -129,39 +139,39 @@ async function createInitialData() {
         menuRepository.save(
           menuRepository.create({
             nombre: "Brownie",
-            ingredientes: ["Chocolate", "Mantequilla", "Azúcar", "Harina", "Huevos"],
+            ingredientes: [
+              { nombre: "Chocolate", cantidad: 1 }, 
+              { nombre: "Mantequilla", cantidad: 0.5 },
+              { nombre: "Azúcar", cantidad: 1 }, 
+              { nombre: "Harina", cantidad: 0.3 }, 
+              { nombre: "Huevos", cantidad: 2 },
+            ],
             precio: 3000,
             tipo: "Postre",
           })
         ),
         menuRepository.save(
           menuRepository.create({
-            nombre: "Ensalada César",
-            ingredientes: ["Lechuga romana", "Queso parmesano", "Crutones", "Aderezo César"],
-            precio: 7000,
-            tipo: "Plato",
-          })
-        ),
-        menuRepository.save(
-          menuRepository.create({
             nombre: "Pizza Margarita",
-            ingredientes: ["Masa de pizza", "Salsa de tomate", "Queso mozzarella", "Albahaca fresca"],
+            ingredientes: [
+              { nombre: "Masa de pizza", cantidad: 1 },
+              { nombre: "Salsa de tomate", cantidad: 1 },
+              { nombre: "Queso mozzarella", cantidad: 1 },
+              { nombre: "Albahaca", cantidad: 1 },
+                ],
             precio: 12000,
             tipo: "Plato",
           })
         ),
         menuRepository.save(
           menuRepository.create({
-            nombre: "Sopa de Tomate",
-            ingredientes: ["Tomates", "Ajo", "Cebolla", "Caldo de verduras", "Aceite de oliva"],
-            precio: 5000,
-            tipo: "Plato",
-          })
-        ),
-        menuRepository.save(
-          menuRepository.create({
             nombre: "Pasta Alfredo",
-            ingredientes: ["Pasta fettuccine", "Mantequilla", "Crema", "Queso parmesano"],
+            ingredientes: [
+              { nombre: "Pasta fettuccine", cantidad: 1 }, 
+              { nombre: "Mantequilla", cantidad: 0.5 }, 
+              { nombre: "Crema", cantidad: 1 }, 
+              { nombre: "Queso parmesano", cantidad: 1 },
+            ],
             precio: 10000,
             tipo: "Plato",
           })
@@ -169,7 +179,12 @@ async function createInitialData() {
         menuRepository.save(
           menuRepository.create({
             nombre: "Limonada",
-            ingredientes: ["Limones frescos", "Agua", "Azúcar", "Hielos"],
+            ingredientes: [
+              { nombre: "Limones frescos", cantidad: 3 },
+              { nombre: "Agua", cantidad: 1 }, 
+              { nombre: "Azúcar", cantidad: 1 }, 
+              { nombre: "Hielos", cantidad: 4 },
+              ],
             precio: 2000,
             tipo: "Bebestible",
           })
@@ -177,7 +192,11 @@ async function createInitialData() {
         menuRepository.save(
           menuRepository.create({
             nombre: "Café",
-            ingredientes: ["Café molido", "Agua caliente", "Azúcar"],
+            ingredientes: [
+              { nombre: "Café molido", cantidad: 1 }, 
+              { nombre: "Agua caliente", cantidad: 1 }, 
+              { nombre: "Azúcar", cantidad: 1 },
+            ],
             precio: 1000,
             tipo: "Bebestible",
           })
@@ -185,23 +204,21 @@ async function createInitialData() {
         menuRepository.save(
           menuRepository.create({
             nombre: "Té Verde",
-            ingredientes: ["Hojas de té verde", "Agua caliente"],
+            ingredientes: [
+              { nombre: "Hojas de té verde", cantidad: 4 }, 
+              { nombre: "Agua caliente", cantidad: 1 }, 
+            ],
             precio: 1500,
             tipo: "Bebestible",
           })
         ),
         menuRepository.save(
           menuRepository.create({
-            nombre: "Tiramisú",
-            ingredientes: ["Queso mascarpone", "Café", "Huevos", "Azúcar", "Cacao en polvo"],
-            precio: 8000,
-            tipo: "Postre",
-          })
-        ),
-        menuRepository.save(
-          menuRepository.create({
             nombre: "Helado de Vainilla",
-            ingredientes: ["Leche", "Azúcar", "Extracto de vainilla", "Crema"],
+            ingredientes: [
+              { nombre: "Helado vainilla", cantidad: 1 }, 
+              { nombre: "Crema", cantidad: 1 },
+            ],
             precio: 5000,
             tipo: "Postre",
           })
@@ -209,7 +226,12 @@ async function createInitialData() {
         menuRepository.save(
           menuRepository.create({
             nombre: "Cheesecake",
-            ingredientes: ["Queso crema", "Galletas", "Mantequilla", "Azúcar"],
+            ingredientes: [
+              { nombre: "Queso crema", cantidad: 1 }, 
+              { nombre: "Galletas", cantidad: 10 }, 
+              { nombre: "Mantequilla", cantidad: 0.5 }, 
+              { nombre: "Azúcar", cantidad: 1 },
+            ],
             precio: 9000,
             tipo: "Postre",
           })

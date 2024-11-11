@@ -74,3 +74,8 @@
 .left-align {
     text-align: left;
 }
+
+/* Distancia entre el boton eliminar y el nombre */
+.delete-button {
+    margin-left: 5px; /* Ajusta el valor según sea necesario */
+}

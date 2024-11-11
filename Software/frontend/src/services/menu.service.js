@@ -2,7 +2,7 @@ import axios from './root.service.js';
 
 export const addMenu = async (menu) => {
   try {
-    const response = await axios.post('/menu/addMenu', menu);
+    const response = await axios.post('/menus/addMenu', menu);
     return response.data;
   } catch (error) {
     console.error("Error al agregar el menu: ", error);
