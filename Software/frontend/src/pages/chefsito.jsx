@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-
 import { getPedidos } from '../services/pedido.service.js';
+import { prepararPedido } from '../services/chefsito.service.js';
 
 const Chefsito = () => {
     const [pedidos, setPedidos] = useState([]);
@@ -29,6 +29,15 @@ const Chefsito = () => {
 
     const cerrarDetallesPedido = () => {
         setPedidoSeleccionado(null);
+    };
+
+    const manejarPreparacionPedido = async () => {
+        try {
+            await prepararPedido(pedidoSeleccionado);
+            console.log('Pedido en preparación', pedidoSeleccionado);
+        } catch (error) {
+            console.error('Error al preparar el pedido:', error);
+        }
     };
 
     return (
@@ -83,7 +92,8 @@ const Chefsito = () => {
                         padding: '20px',
                         borderRadius: '8px',
                         maxWidth: '500px',
-                        width: '90%'
+                        width: '90%',
+                        position: 'relative'
                     }}>
                         <h2>Detalles del Pedido</h2>
                         <p><strong>Mesa:</strong> {pedidoSeleccionado.mesa}</p>
@@ -105,6 +115,22 @@ const Chefsito = () => {
                             }}
                         >
                             Cerrar
+                        </button>
+                        <button 
+                            onClick={manejarPreparacionPedido}
+                            style={{
+                                backgroundColor: '#5cb85c',
+                                color: 'white',
+                                padding: '8px 16px',
+                                border: 'none',
+                                borderRadius: '4px',
+                                cursor: 'pointer',
+                                marginTop: '10px',
+                                marginLeft: '10px',
+                                float: 'right'
+                            }}
+                        >
+                            Preparar Pedido
                         </button>
                     </div>
                 </div>
