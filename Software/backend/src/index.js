@@ -12,6 +12,7 @@ import ingredienteRoutes from "./routes/ingrediente.routes.js";
 import pedidoRoutes from "./routes/pedido.routes.js";
 import mesaRoutes from "./routes/mesa.routes.js";
 import menuRoutes from "./routes/menu.routes.js";
+import chefRoutes from "./routes/chef.routes.js";
 
 import { cookieKey, HOST, PORT } from "./config/configEnv.js";
 import { connectDB } from "./config/configDb.js";
@@ -65,7 +66,7 @@ async function setupServer() {
     app.use("/api/pedidos", pedidoRoutes);
     app.use("/api/mesas", mesaRoutes);
     app.use("/api/menus", menuRoutes);
-
+    app.use("/api/chef", chefRoutes);
     // Inicio del servidor
     app.listen(PORT, () => {
       console.log(`=> Servidor corriendo en ${HOST}:${PORT}/api`);
