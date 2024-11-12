@@ -22,14 +22,15 @@ export const getchefmenus = async () => {
 export const preparapedido = async (prepararpedido) => {
     try {
 
+        //console.log("pedidobacked:",prepararpedido);
         // Obtener todos los pedidos y menús
         const pedidos = await getPedidos();
         const menus = await getMenus();
 
         // Encontrar el pedido específico basado en las propiedades del `prepararpedido`
         const pedido = pedidos.find(p => p.id === prepararpedido.id);
-
-        if (pedido) {
+        console.log("pedidobackedPEDIDOO:",pedido);
+        if (pedido) {   
             // Verificar si el plato, bebestible o postre del pedido coincide con algún menú
             pedido.plato.forEach(plato => {
                 const menu = menus.find(m => m.nombre === plato);
