@@ -1,0 +1,155 @@
+.mesas-container {
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+  font-family: Arial, sans-serif;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Filtros */
+.filtros {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.filtros button {
+  padding: 8px 16px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.filtros button:hover {
+  background-color: #0056b3;
+}
+
+/* Tabla */
+.mesas-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.mesas-table th,
+.mesas-table td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.mesas-table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+}
+
+.mesas-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Botones de Reservar y Liberar */
+.reservar-button,
+.liberar-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+}
+
+.reservar-button {
+  background-color: #28a745;
+}
+
+.reservar-button:hover {
+  background-color: #218838;
+}
+
+.liberar-button {
+  background-color: #dc3545;
+}
+
+.liberar-button:hover {
+  background-color: #c82333;
+}
+
+/* Acciones (Agregar y Eliminar) */
+.acciones {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 10px;
+  justify-content: center;
+}
+
+.agregar-button,
+.eliminar-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+}
+
+.agregar-button {
+  background-color: #28a745;
+}
+
+.eliminar-button {
+  background-color: #dc3545;
+}
+
+/* Caja de texto para eliminar mesa */
+.acciones input[type="text"] {
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  font-size: 16px;
+  outline: none;
+  width: 200px;
+  transition: border-color 0.3s ease;
+}
+
+.acciones input[type="text"]:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Mensaje de éxito o error */
+.mensaje {
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* Colores condicionales para el mensaje */
+.mensaje.success {
+  color: green;
+}
+
+.mensaje.error {
+  color: red;
+}
+.acciones {
+  display: flex;
+  gap: 15px; /* Aumenta el espacio entre elementos */
+  align-items: center;
+  margin-top: 10px;
+  justify-content: center;
+  flex-wrap: wrap; /* Permite que los elementos se ajusten en múltiples líneas si es necesario */
+}
+
+.acciones button,
+.acciones input[type="text"] {
+  margin-bottom: 10px; /* Añade un poco de espacio inferior para separar visualmente */
+}

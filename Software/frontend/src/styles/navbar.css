@@ -1,0 +1,89 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #795548; /* Color del navbar */
+    height: 9vh;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.nav-menu {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding: 0 5vw;
+    margin: 0;
+    height: 100%;
+}
+
+/* .user-role-indicator {
+    color: white;
+    font-size: 0.9em;
+    position: absolute;
+    left: 5vw;
+} */
+
+.user-role-indicator {
+    color: white;
+    font-size: 2em;
+    position: absolute;
+    left: 5vw;
+    /* background-color: #764536; Color de fondo para destacar */
+    padding: 5px 10px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    display: flex;
+    align-items: center;
+}
+
+.user-role-indicator i {
+    margin-right: 5px; /* Espacio entre el ícono y el texto */
+}
+
+.nav-menu ul {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.nav-menu ul li {
+    margin: 0 15px;
+}
+
+.nav-menu ul li a {
+    color: #795548;
+    font-size: 0.9em;
+    text-decoration: none;
+    padding: 0 10px;
+    transition: color 0.3s;
+}
+
+.nav-menu ul li a.active {
+    font-weight: bold;
+    background-color: #eef7ff;
+    color: #795548;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.hamburger {
+    display: none; /* Mostrar solo en pantallas pequeñas */
+    cursor: pointer;
+}
+
+.hamburger .bar {
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    margin: 5px 0;
+    transition: 0.4s;
+}
+
+/* Para ajustar el contenido de la página y evitar que el navbar lo cubra */
+.container {
+    padding-top: 9vh; /* Ajusta este valor al alto del navbar */
+}
+

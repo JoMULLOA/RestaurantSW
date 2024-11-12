@@ -1,0 +1,176 @@
+/* src/styles/pedido.css */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.titlePedido {
+  text-align: center;
+  color: #000000;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.dashboard {
+  width: 100%;
+  max-width: 900px;
+  margin: 20px auto;
+  border: 1px solid #ccc;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+.form-wrapper {
+  margin-bottom: 20px;
+}
+
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.form-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.form-table th,
+.form-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+  width: 105px;
+}
+
+.form-table th {
+  background-color: #f2f2f2;
+}
+
+.form-table input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+}
+
+.form-table input#id,
+.form-table input#mesa,
+.form-table input#plato,
+.form-table input#bebestible,
+.form-table input#postre,
+.form-table input#modificaciones,
+.form-table input#fechaIngreso {
+  width: 60px; /* Campos más pequeños */
+}
+
+.form-table input#plato,
+.form-table input#bebestible,
+.form-table input#postre {
+  margin-top: 10px; /* Ajusta el valor según sea necesario */
+}
+
+.action-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff; /* Color azul */
+  color: white;
+  cursor: pointer;
+}
+
+.action-button:hover {
+  background-color: #0056b3; /* Color azul oscuro al pasar el cursor */
+}
+
+.pedido-table {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  border-collapse: collapse;
+}
+
+.pedido-table th,
+.pedido-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+.pedido-table th {
+  background-color: #007bff;
+}
+
+.pedido-table td:last-child {
+  text-align: center;
+}
+
+/* Asegurar que el botón se muestre como bloque y centrado */
+.pedido-table .action-button {
+  display: inline-block;
+  margin: 0 auto;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  background-color: #e0e0e0;
+  margin: 5px 0;
+  padding: 5px;
+  border-radius: 5px;
+}
+/* Estilos responsivos */
+@media (max-width: 767px) {
+  .form-container,
+  .pedido-table {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+.form-table input#id,
+.form-table input#mesa,
+.form-table input#plato,
+.form-table input#bebestible,
+.form-table input#postre,
+.form-table input#modificaciones,
+.form-table input#fechaIngreso {
+    width: 100%; /* En pantallas pequeñas, ocupan todo el ancho */
+  }
+
+  .form-table th,
+  .form-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .form-table tr {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .form-table th {
+    text-align: left;
+  }
+
+  .form-table td {
+    text-align: left;
+  }
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+}
+
+.input-group input {
+  flex: 1;
+}
+
+.input-group button {
+  margin-left: 5px;
+}
