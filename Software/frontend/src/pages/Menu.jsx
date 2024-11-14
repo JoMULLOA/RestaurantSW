@@ -1,12 +1,17 @@
 import { useState, useEffect } from 'react';
 import '../styles/Menu.css';
 import { getMenus, addMenu, deleteMenu } from '../services/menu.service';
+import chefGif from '../assets/chef.gif';
+import deleteI from '../assets/deleteIconDisabled.svg';
+import infoI from '../assets/info.png';
+
 
 const Menu = () => {
     const [selectedItem, setSelectedItem] = useState(null);
     const [menuSections, setMenuSections] = useState({ platos: [], bebestibles: [], postres: [] });
     const [newMenu, setNewMenu] = useState({ nombre: '', ingredientes: [], precio: 0, tipo: '' });
     const [newIngredient, setNewIngredient] = useState({ nombre: '', cantidad: 0 });
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchMenu = async () => {
@@ -25,10 +30,6 @@ const Menu = () => {
         fetchMenu();
     }, []);
 
-    const handleItemClick = (item) => {
-        setSelectedItem(item);
-    };
-
     const handleAddMenu = async () => {
         try {
             const response = await addMenu(newMenu);
@@ -37,6 +38,7 @@ const Menu = () => {
                 [newMenu.tipo.toLowerCase() + 's']: [...prevState[newMenu.tipo.toLowerCase() + 's'], response.data]
             }));
             setNewMenu({ nombre: '', ingredientes: [], precio: 0, tipo: '' });
+            setIsModalOpen(false);
         } catch (error) {
             console.error('Error adding menu:', error);
         }
@@ -62,9 +64,71 @@ const Menu = () => {
         }
     };
 
+    const handleMenuInfoClick = (item) => {
+        setSelectedItem(item);
+    };
+
     return (
         <div className="menu-container">
-            <marquee><h2>🧾 Menú del Restaurante 🍴</h2></marquee>
+            <div className="marquee">
+                <img src={chefGif} alt="Chef" className="chef" />
+            </div>
+            <h2>🧾 Menú del Restaurante 🍴</h2>
+            <button className="add-menu-button" onClick={() => setIsModalOpen(true)}>Agregar Menú</button>
+
+            {isModalOpen && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <span className="close" onClick={() => setIsModalOpen(false)}>&times;</span>
+                        <div className="add-menu-form">
+                            <h3>Agregar Nuevo Menú</h3>
+                            <input
+                                type="text"
+                                placeholder="Nombre"
+                                value={newMenu.nombre}
+                                onChange={(e) => setNewMenu({ ...newMenu, nombre: e.target.value })}
+                            />
+                            <input
+                                type="text"
+                                placeholder="Tipo"
+                                value={newMenu.tipo}
+                                onChange={(e) => setNewMenu({ ...newMenu, tipo: e.target.value })}
+                            />
+                            <input
+                                type="number"
+                                placeholder="Precio"
+                                value={newMenu.precio}
+                                onChange={(e) => setNewMenu({ ...newMenu, precio: parseFloat(e.target.value) })}
+                            />
+                            <div className="add-ingredient-form">
+                                <h4>Agregar Ingrediente</h4>
+                                <input
+                                    type="text"
+                                    placeholder="Nombre del Ingrediente"
+                                    value={newIngredient.nombre}
+                                    onChange={(e) => setNewIngredient({ ...newIngredient, nombre: e.target.value })}
+                                />
+                                <input
+                                    type="number"
+                                    placeholder="Cantidad"
+                                    value={newIngredient.cantidad}
+                                    onChange={(e) => setNewIngredient({ ...newIngredient, cantidad: parseFloat(e.target.value) })}
+                                />
+                                <button onClick={handleAddIngredient}>Agregar Ingrediente</button>
+                            </div>
+                            <ul className="ingredients-list">
+                                {newMenu.ingredientes.map((ingredient, index) => (
+                                    <li key={index}>
+                                        {ingredient.nombre}: {ingredient.cantidad}
+                                    </li>
+                                ))}
+                            </ul>
+                            <button onClick={handleAddMenu}>Agregar Menú</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div className="menu-sections">
                 <div className="menu-section">
                     <h3>Platos</h3>
@@ -73,10 +137,12 @@ const Menu = () => {
                             <li
                                 key={index}
                                 className={`menu-item ${selectedItem === item ? 'selected' : ''}`}
-                                onClick={() => handleItemClick(item)}
                             >
                                 {item.nombre}
-                                <button className="delete-button" onClick={() => handleDeleteMenu(item.id, 'Plato')}>⛔</button>
+                                <div className="menu-item-buttons">
+                                <img src={infoI} alt="Información" className="info-button" onClick={() => handleMenuInfoClick(item)} />
+                                    <img src={deleteI} alt="Eliminar" className="delete-icon" onClick={() => handleDeleteMenu(item.id, 'Plato')} />
+                                </div>
                             </li>
                         ))}
                     </ul>
@@ -88,10 +154,12 @@ const Menu = () => {
                             <li
                                 key={index}
                                 className={`menu-item ${selectedItem === item ? 'selected' : ''}`}
-                                onClick={() => handleItemClick(item)}
                             >
                                 {item.nombre}
-                                <button className="delete-button" onClick={() => handleDeleteMenu(item.id, 'Bebestible')}>⛔</button>
+                                <div className="menu-item-buttons">
+                                <img src={infoI} alt="Información" className="info-button" onClick={() => handleMenuInfoClick(item)} />
+                                    <img src={deleteI} alt="Eliminar" className="delete-icon" onClick={() => handleDeleteMenu(item.id, 'Bebestible')} />
+                                </div>
                             </li>
                         ))}
                     </ul>
@@ -103,10 +171,12 @@ const Menu = () => {
                             <li
                                 key={index}
                                 className={`menu-item ${selectedItem === item ? 'selected' : ''}`}
-                                onClick={() => handleItemClick(item)}
                             >
                                 {item.nombre}
-                                <button className="delete-button" onClick={() => handleDeleteMenu(item.id, 'Postre')}>⛔</button>
+                                <div className="menu-item-buttons">
+                                    <img src={infoI} alt="Información" className="info-button" onClick={() => handleMenuInfoClick(item)} />
+                                    <img src={deleteI} alt="Eliminar" className="delete-icon" onClick={() => handleDeleteMenu(item.id, 'Postre')} />
+                                </div>
                             </li>
                         ))}
                     </ul>
@@ -127,51 +197,6 @@ const Menu = () => {
                 </div>
             )}
 
-<div className="add-menu-form">
-                <h3>Agregar Nuevo Menú</h3>
-                <input
-                    type="text"
-                    placeholder="Nombre"
-                    value={newMenu.nombre}
-                    onChange={(e) => setNewMenu({ ...newMenu, nombre: e.target.value })}
-                />
-                <input
-                    type="text"
-                    placeholder="Tipo"
-                    value={newMenu.tipo}
-                    onChange={(e) => setNewMenu({ ...newMenu, tipo: e.target.value })}
-                />
-                <input
-                    type="number"
-                    placeholder="Precio"
-                    value={newMenu.precio}
-                    onChange={(e) => setNewMenu({ ...newMenu, precio: parseFloat(e.target.value) })}
-                />
-                <div className="add-ingredient-form">
-                    <h4>Agregar Ingrediente</h4>
-                    <input
-                        type="text"
-                        placeholder="Nombre del Ingrediente"
-                        value={newIngredient.nombre}
-                        onChange={(e) => setNewIngredient({ ...newIngredient, nombre: e.target.value })}
-                    />
-                    <input
-                        type="number"
-                        placeholder="Cantidad"
-                        value={newIngredient.cantidad}
-                        onChange={(e) => setNewIngredient({ ...newIngredient, cantidad: parseFloat(e.target.value) })}
-                    />
-                    <button onClick={handleAddIngredient}>Agregar Ingrediente</button>
-                </div>
-                <ul className="ingredients-list">
-                    {newMenu.ingredientes.map((ingredient, index) => (
-                        <li key={index}>
-                            {ingredient.nombre}: {ingredient.cantidad}
-                        </li>
-                    ))}
-                </ul>
-                <button onClick={handleAddMenu}>Agregar Menú</button>
-            </div>
         </div>
     );
 };

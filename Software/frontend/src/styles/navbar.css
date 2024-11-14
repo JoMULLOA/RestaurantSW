@@ -80,3 +80,11 @@
     padding-top: 9vh; /* Ajusta este valor al alto del navbar */
 }
 
+.user-role-indicator {
+    display: flex;
+    align-items: left;
+  }
+  
+  .user-role-text {
+    margin-left: 15px; /* Ajusta el valor según sea necesario */
+  }
