@@ -155,7 +155,8 @@
 
 /* Estilos para los campos de entrada dentro del modal */
 .add-menu-form input[type="text"],
-.add-menu-form input[type="number"] {
+.add-menu-form input[type="number"],
+.add-menu-form select.form-control {
     width: 100%;
     padding: 8px;
     margin: 8px 0;
@@ -179,6 +180,15 @@
 
 .add-menu-form button:hover {
     background-color: #45a049;
+}
+
+/*Arreglar el formulario de agregar menú */
+
+.add-ingredient-form,
+.add-menu-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espacio entre los elementos */
 }
 
 /* Estilos para la animación del chef */

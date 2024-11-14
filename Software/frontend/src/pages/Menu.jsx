@@ -9,7 +9,7 @@ import infoI from '../assets/info.png';
 const Menu = () => {
     const [selectedItem, setSelectedItem] = useState(null);
     const [menuSections, setMenuSections] = useState({ platos: [], bebestibles: [], postres: [] });
-    const [newMenu, setNewMenu] = useState({ nombre: '', ingredientes: [], precio: 0, tipo: '' });
+    const [newMenu, setNewMenu] = useState({ nombre: '', ingredientes: [], precio: '', tipo: '' });
     const [newIngredient, setNewIngredient] = useState({ nombre: '', cantidad: 0 });
     const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -88,12 +88,16 @@ const Menu = () => {
                                 value={newMenu.nombre}
                                 onChange={(e) => setNewMenu({ ...newMenu, nombre: e.target.value })}
                             />
-                            <input
-                                type="text"
-                                placeholder="Tipo"
+                            <select
+                                className="form-control"
                                 value={newMenu.tipo}
                                 onChange={(e) => setNewMenu({ ...newMenu, tipo: e.target.value })}
-                            />
+                            >
+                                <option value="">Selecciona un tipo</option>
+                                <option value="Plato">Plato</option>
+                                <option value="Bebestible">Bebestible</option>
+                                <option value="Postre">Postre</option>
+                            </select>
                             <input
                                 type="number"
                                 placeholder="Precio"
