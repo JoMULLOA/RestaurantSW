@@ -22,7 +22,7 @@ export const getMenus = async () => {
 
 export const deleteMenu = async (id) => {
   try {
-    const response = await axios.delete("/menus/delete", id);
+    const response = await axios.delete("/menus/deleteMenu/" + id);
     return response.data;
   } catch (error) {
     console.error("Error al eliminar el menu: ", error);

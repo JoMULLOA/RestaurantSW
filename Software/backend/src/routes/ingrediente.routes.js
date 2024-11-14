@@ -7,7 +7,7 @@ const router = Router();
 
 router.get("/all", getAllIngredientes);
 router.post("/get", createIngrediente);
-router.delete("/delete", deleteIngrediente)
+router.delete("/deleteIng/:id", deleteIngrediente)
 router.post("/preparar", prepararinall);
 
 export default router;

@@ -7,6 +7,6 @@ const router = Router();
 
 router.get("/all", getAllPedidos);
 router.post("/addPedido", createPedido);
-router.delete("/delete", deletePedido);
+router.delete("/deletePedido/:id", deletePedido);
 
 export default router;

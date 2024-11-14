@@ -7,6 +7,6 @@ const router = Router();
 
 router.get("/all", getAllMenus);
 router.post("/addMenu", createMenu);
-router.delete("/delete", deleteMenu);
+router.delete("/deleteMenu/:id", deleteMenu);
 
 export default router;

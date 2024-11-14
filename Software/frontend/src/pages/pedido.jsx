@@ -98,7 +98,7 @@ const Pedido = () => {
 
   return (
     <main className="container">
-      <h1 className="titleInventario">📝 Registro de Pedido</h1>
+      <h1 className="titlePedido">📝 Registro de Pedido</h1>
       <div className="dashboard">
         <div className="form-wrapper">
           <form onSubmit={handleSubmit} className="form-container">

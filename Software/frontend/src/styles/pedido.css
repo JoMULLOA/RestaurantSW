@@ -76,13 +76,13 @@
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  background-color: #007bff; /* Color azul */
+  background-color: #a1887f; /* Color azul */
   color: white;
   cursor: pointer;
 }
 
 .action-button:hover {
-  background-color: #0056b3; /* Color azul oscuro al pasar el cursor */
+  background-color: #795548; /* Color azul oscuro al pasar el cursor */
 }
 
 .pedido-table {
@@ -100,7 +100,7 @@
 }
 
 .pedido-table th {
-  background-color: #007bff;
+  background-color: #795548;
 }
 
 .pedido-table td:last-child {
@@ -173,4 +173,8 @@ ul li {
 
 .input-group button {
   margin-left: 5px;
+}
+
+.titlePedido {
+  color: black;
 }
