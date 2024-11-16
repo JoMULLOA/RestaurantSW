@@ -2,6 +2,9 @@ import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { logout } from '@services/auth.service.js';
 import '@styles/navbar.css';
 import { useState } from "react";
+import chefs from '../assets/chefso.svg';
+import waiter from '../assets/waiter.svg';
+import admin from '../assets/admin.svg';
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -63,6 +66,10 @@ const Navbar = () => {
                     </li>
                     {userRole === 'administrador' && (
                         <>
+                            <div className="user-role-indicator">
+                                <img src={admin} alt="admin" className="user-role-icon" />
+                                <span className="user-role-text">Administrador</span>
+                            </div>
                             <li>
                                 <NavLink 
                                     to="/users" 
@@ -102,6 +109,10 @@ const Navbar = () => {
                     )}
                     {userRole === 'chef' && (
                         <>
+                            <div className="user-role-indicator">
+                                <img src={chefs} alt="chef" className="user-role-icon" />
+                                <span className="user-role-text">Chef</span>
+                            </div>
                             <li>
                                 <NavLink 
                                     to="/Chef" 
@@ -114,10 +125,26 @@ const Navbar = () => {
                                     Chef
                                 </NavLink>
                             </li>
+                            <li>
+                                <NavLink 
+                                    to="/chefsito" 
+                                    onClick={() => { 
+                                        setMenuOpen(false); 
+                                        addActiveClass();
+                                    }} 
+                                    activeClassName="active"
+                                >
+                                    Chefsito
+                                </NavLink>
+                            </li>
                         </>
                     )}
                     {userRole === 'garzon' && (
-                        <>
+                        <>  
+                            <div className="user-role-indicator">
+                                <img src={waiter} alt="waiter" className="user-role-icon" />
+                                <span className="user-role-text">Garzón</span>
+                            </div>
                             <li>
                                 <NavLink 
                                     to="/pedido" 

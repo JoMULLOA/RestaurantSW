@@ -4,7 +4,6 @@ const useRegister = () => {
     const [errorEmail, setErrorEmail] = useState('');
     const [errorRut, setErrorRut] = useState('');
     const [inputData, setInputData] = useState({ email: '', rut: '' });
-
     useEffect(() => {
         if (inputData.email) setErrorEmail('');
         if (inputData.rut) setErrorRut('');

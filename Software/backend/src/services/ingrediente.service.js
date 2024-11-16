@@ -40,6 +40,7 @@ export const updateIngredienteService = async (id, cantidad) => {
   return ingredienteToUpdate;
 };
 
+
 export const prepararin = async (requiredIngredients) => {
   try {
     const { nombre, cantidad } = requiredIngredients

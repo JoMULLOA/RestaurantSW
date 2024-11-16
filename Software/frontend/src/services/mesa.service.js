@@ -23,11 +23,10 @@ export async function liberarMesa(numeroMesa) {
 }
 
 // Función para reservar una mesa específica
-export async function reservarMesa(numeroMesa, garzonId) {
+export async function reservarMesa(numeroMesa) {
   try {
     const response = await axios.put('/mesas/reservar', {
-      numeroMesa,
-      garzonId
+      numeroMesa
     });
     return response.data;
   } catch (error) {

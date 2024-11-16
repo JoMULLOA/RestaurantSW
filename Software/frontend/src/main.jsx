@@ -13,7 +13,7 @@ import Inventario from '@pages/Inventario';
 import Menu from '@pages/Menu';
 import Pedido from '@pages/Pedido';
 import Mesas from '@pages/Mesas'; // Importa el componente Mesas
-
+import Chefsito from '@pages/chefsito';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -41,6 +41,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute allowedRoles={['garzon']}>
             <Pedido />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: '/chefsito',
+        element: (
+          <ProtectedRoute allowedRoles={['chef']}>
+            <Chefsito />
           </ProtectedRoute>
         )
       },

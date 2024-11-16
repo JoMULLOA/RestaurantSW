@@ -4,6 +4,7 @@
     margin: 20px auto;
     text-align: center;
     font-family: Arial, sans-serif;
+    margin-top: 100px;
 }
 
 /* Contenedor de secciones en una fila */
@@ -49,8 +50,8 @@
 }
 
 .selected {
-    background-color: #d1e7dd;
-    color: #0f5132;
+    background-color: #cfcfcf;
+    color: #553300;
     font-weight: bold;
 }
 
@@ -73,3 +74,147 @@
 .left-align {
     text-align: left;
 }
+
+/* Mover botones de eliminar y información a la derecha */
+.menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Estilos para el icono de información */
+.info-button {
+    cursor: pointer;
+    background: none;
+    border: none;
+    width: 18px;
+    height: 18px;
+    margin-left: 10px;
+    font-size: 1.2em;
+  }
+
+/* Estilos para el popup */
+.modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    position: relative;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Mejorar el botón de agregar menú en la pantalla principal */
+.add-menu-button {
+    display: inline-block;
+    padding: 12px 24px;
+    margin: 20px 0;
+    background-color: #a1887f;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.add-menu-button:hover {
+    background-color: #795548;
+    transform: scale(1.05);
+}
+
+/* Estilos para los campos de entrada dentro del modal */
+.add-menu-form input[type="text"],
+.add-menu-form input[type="number"],
+.add-menu-form select.form-control {
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.add-menu-form button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.add-menu-form button:hover {
+    background-color: #45a049;
+}
+
+/*Arreglar el formulario de agregar menú */
+
+.add-ingredient-form,
+.add-menu-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espacio entre los elementos */
+}
+
+/* Estilos para la animación del chef */
+.menu-container {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.marquee {
+    display: inline-block;
+    animation: marquee-right 10s linear infinite;
+}
+
+.chef {
+    vertical-align: middle;
+    margin-right: 10px;
+    width: 100px; /* Ajusta el tamaño según tus necesidades */
+    height: auto; /* Mantiene la proporción de la imagen */
+}
+
+@keyframes marquee-right {
+    0% {
+        transform: translateX(-200%);
+    }
+    100% {
+        transform: translateX(200%);
+    }
+}
+

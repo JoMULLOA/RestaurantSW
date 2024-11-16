@@ -1,0 +1,144 @@
+/* Contenedor general */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff; /* Cambiado a blanco */
+}
+
+h1 {
+    color: #34495e;
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 20px;
+    animation: fadeIn 1s ease;
+}
+
+/* Estilos para la ventana de pedidos */
+.pedidos-ventana {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.5s ease;
+}
+
+.pedidos-ventana h2 {
+    text-align: center;
+    color: #2c3e50;
+}
+
+.pedido-card {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 12px;
+    margin: 12px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.pedido-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Ventana modal para los detalles */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    animation: zoomIn 0.3s ease;
+}
+
+.modal-content h2 {
+    color: #34495e;
+    text-align: center;
+}
+
+.modal-content p {
+    font-size: 1rem;
+    color: #555;
+}
+
+/* Botones */
+.button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.button-close {
+    background-color: #d9534f;
+}
+
+.button-close:hover {
+    background-color: #c9302c;
+    transform: scale(1.05);
+}
+
+.button-preparar {
+    background-color: #5cb85c;
+    margin-left: 10px;
+    float: right;
+}
+
+.button-preparar:hover {
+    background-color: #4cae4c;
+    transform: scale(1.05);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

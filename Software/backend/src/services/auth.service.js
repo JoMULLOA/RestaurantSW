@@ -66,13 +66,13 @@ export async function registerService(user) {
     }
 
     console.log("Rol recibido en la solicitud:", rol); // Verificar que rol llega correctamente
-
+    
     const newUser = userRepository.create({
       nombreCompleto,
       email,
       rut,
       password: await encryptPassword(password),
-      rol: rol, // Asigna el rol recibido desde el frontend
+      rol,
     });
 
     await userRepository.save(newUser);

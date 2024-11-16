@@ -26,12 +26,13 @@ export async function login(dataUser) {
 export async function register(data) {
     try {
         const dataRegister = convertirMinusculas(data);
-        const { nombreCompleto, email, rut, password } = dataRegister;
+        const { nombreCompleto, email, rut, rol, password } = dataRegister;
         
         const response = await axios.post('/auth/register', {
             nombreCompleto,
             email,
             rut,
+            rol,
             password
         });
         

@@ -23,7 +23,7 @@ export const getIngredientes = async () => {
 
 export const removeIngrediente = async (id) => {
   try {
-      const response = await axios.delete(`/ingredientes/delete`, id);
+      const response = await axios.delete('/ingredientes/deleteIng/' + id);
 
       // Revisa si la respuesta tiene un status 200.
       if (response.status !== 200) {

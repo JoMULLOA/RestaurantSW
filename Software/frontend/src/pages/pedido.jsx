@@ -7,11 +7,16 @@ const Pedido = () => {
   const [pedidos, setPedidos] = useState([]);
   const [form, setForm] = useState({
     mesa: '',
-    plato: '',
-    bebestible: '',
-    postre: '',
+    plato: [],
+    bebestible: [],
+    postre: [],
     modificaciones: '',
     fechaIngreso: new Date().toISOString().split('T')[0]
+  });
+  const [inputValues, setInputValues] = useState({
+    plato: '',
+    bebestible: '',
+    postre: ''
   });
 
   useEffect(() => {
@@ -37,6 +42,24 @@ const Pedido = () => {
       [name]: value
     });
   };
+  const handleArrayInputChange = (e) => {
+    const { name, value } = e.target;
+    setInputValues({
+      ...inputValues,
+      [name]: value
+    });
+  };
+
+  const handleAddToArray = (field) => {
+    setForm({
+      ...form,
+      [field]: [...form[field], inputValues[field]]
+    });
+    setInputValues({
+      ...inputValues,
+      [field]: ''
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,9 +69,9 @@ const Pedido = () => {
         setPedidos([...pedidos, data.data]);
         setForm({
           mesa: '',
-          plato: '',
-          bebestible: '',
-          postre: '',
+          plato: [],
+          bebestible: [],
+          postre: [],
           modificaciones: '',
           fechaIngreso: new Date().toISOString().split('T')[0]
         });
@@ -75,7 +98,7 @@ const Pedido = () => {
 
   return (
     <main className="container">
-      <h1 className="titleInventario">Registro de Pedido</h1>
+      <h1 className="titlePedido">📝 Registro de Pedido</h1>
       <div className="dashboard">
         <div className="form-wrapper">
           <form onSubmit={handleSubmit} className="form-container">
@@ -104,34 +127,55 @@ const Pedido = () => {
                     />
                   </td>
                   <td>
+                  <div className="input-group">
                     <input
-                      type="text"
-                      id="plato"
-                      name="plato"
-                      value={form.plato}
-                      onChange={handleInputChange}
-                      required
+                        type="text"
+                        id="plato"
+                        name="plato"
+                        value={inputValues.plato}
+                        onChange={handleArrayInputChange}
                     />
+                      <button type="button" onClick={() => handleAddToArray('plato')}>+</button>
+                    </div>
+                    <ul>
+                      {form.plato.map((item, index) => (
+                        <li key={index}>{item}</li>
+                      ))}
+                    </ul>
                   </td>
                   <td>
+                  <div className="input-group">
                     <input
                       type="text"
                       id="bebestible"
                       name="bebestible"
-                      value={form.bebestible}
-                      onChange={handleInputChange}
-                      required
+                      value={inputValues.bebestible}
+                      onChange={handleArrayInputChange}
                     />
+                      <button type="button" onClick={() => handleAddToArray('bebestible')}>+</button>
+                    </div>
+                    <ul>
+                      {form.bebestible.map((item, index) => (
+                        <li key={index}>{item}</li>
+                      ))}
+                    </ul>
                   </td>
                   <td>
+                  <div className="input-group">
                     <input
                       type="text"
                       id="postre"
                       name="postre"
-                      value={form.postre}
-                      onChange={handleInputChange}
-                      required
+                      value={inputValues.postre}
+                      onChange={handleArrayInputChange}
                     />
+                    <button type="button" onClick={() => handleAddToArray('postre')}>+</button>
+                  </div>
+                  <ul>
+                    {form.postre.map((item, index) => (
+                      <li key={index}>{item}</li>
+                    ))}
+                  </ul>
                   </td>
                   <td>
                     <input
@@ -179,9 +223,9 @@ const Pedido = () => {
               <tr key={index}>
                 <td>{pedido.id}</td>
                 <td>{pedido.mesa}</td>
-                <td>{pedido.plato}</td>
-                <td>{pedido.bebestible}</td>
-                <td>{pedido.postre}</td>
+                <td>{pedido.plato.join(', ')}</td>
+                <td>{pedido.bebestible.join(', ')}</td>
+                <td>{pedido.postre.join(', ')}</td>
                 <td>{pedido.modificaciones}</td>
                 <td>{pedido.fechaIngreso}</td>
                 <td>
