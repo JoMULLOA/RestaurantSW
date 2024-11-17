@@ -2,6 +2,7 @@
 import { addMenu, getMenus, removeMenu } from "../services/menu.service.js";
 import { menuBodyValidation } from "../validations/menu.validation.js";
 
+
 export const getAllMenus = async (req, res) => {
   try {
     const menus = await getMenus();

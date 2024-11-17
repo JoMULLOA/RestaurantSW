@@ -1,6 +1,8 @@
+
 import { useState, useEffect } from 'react';
 import { addIngrediente, getIngredientes, removeIngrediente, updateIngrediente } from '../services/ingrediente.service';
 import '../styles/Inventario.css';
+
 
 const Ingrediente = () => {
   const [ingredientes, setIngredientes] = useState([]);
@@ -11,6 +13,7 @@ const Ingrediente = () => {
   });
   const [editMode, setEditMode] = useState(null); // Controla el ingrediente en modo edición
   const [newCantidad, setNewCantidad] = useState(''); // Nueva cantidad para edición
+
 
   useEffect(() => {
     const fetchIngredientes = async () => {
@@ -59,7 +62,7 @@ const Ingrediente = () => {
     try {
       const response = await removeIngrediente(id);
       console.log("Ingrediente eliminado:", response);
-
+      // Actualiza la lista de ingredientes en el frontend
       setIngredientes((prevIngredientes) =>
         prevIngredientes.filter((ingrediente) => ingrediente.id !== id)
       );
@@ -218,5 +221,4 @@ const Ingrediente = () => {
     </main>
   );
 };
-
 export default Ingrediente;

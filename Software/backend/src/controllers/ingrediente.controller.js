@@ -57,6 +57,7 @@ export const updateIngrediente = async (req, res) => {
   }
 };
 
+
 export const prepararinall = async (req, res) => {
   try {
     const requiredIngredients = req.body;
