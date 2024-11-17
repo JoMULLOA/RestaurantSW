@@ -37,6 +37,16 @@ export const removeIngrediente = async (id) => {
   }
 };
 
+export const updateIngrediente = async (id, cantidad) => {
+  try {
+    const response = await axios.put(`/ingredientes/update/${id}`, { cantidad });
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar la cantidad del ingrediente:", error);
+    throw error;
+  }
+};
+
 export const preparar = async (requiredIngredients) => {
   try {
     const response = await axios.post('/ingredientes/preparar', requiredIngredients);
@@ -48,4 +58,3 @@ export const preparar = async (requiredIngredients) => {
     console.log(error.response);
   }
 };
-  

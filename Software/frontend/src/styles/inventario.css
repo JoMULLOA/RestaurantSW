@@ -1,0 +1,153 @@
+/* src/styles/inventario.css */
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.titleInventario {
+  text-align: center;
+  color: #003366;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.dashboard {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  border: 1px solid #ccc;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+.form-wrapper {
+  margin-bottom: 20px;
+}
+
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.form-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.form-table th,
+.form-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+.form-table th {
+  background-color: #f2f2f2;
+}
+
+.form-table input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
+}
+
+/* Redimensionar el campo de cantidad en modo edición */
+.edit-input {
+  width: 60px;
+  padding: 5px;
+  text-align: center;
+}
+
+.action-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  margin-right: 8px; /* Ajusta el margen entre botones */
+}
+
+.edit-button {
+  background-color: #4caf50; /* Verde para el botón de editar */
+}
+
+.delete-button {
+  background-color: #f44336; /* Rojo para el botón de eliminar */
+}
+
+.delete-button:hover {
+  background-color: #d32f2f; /* Oscurecer el rojo en hover */
+}
+
+.edit-button:hover {
+  background-color: #388e3c; /* Oscurecer el verde en hover */
+}
+
+.ingredient-table {
+  width: 100%;
+  max-width: 800px;
+  margin: 20px auto;
+  border-collapse: collapse;
+}
+
+.ingredient-table th,
+.ingredient-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+.ingredient-table th {
+  background-color: #f2f2f2;
+}
+
+.ingredient-table td:last-child {
+  text-align: center;
+}
+
+.ingredient-table .action-button {
+  display: inline-block;
+  margin: 0 auto;
+}
+
+.button-container {
+  display: inline-block;
+  margin-right: 10px; /* Ajusta el valor según sea necesario */
+}
+
+/* Estilos responsivos */
+@media (max-width: 767px) {
+  .form-container,
+  .ingredient-table {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .form-table input#id,
+  .form-table input#cantidad {
+    width: 100%;
+  }
+
+  .form-table th,
+  .form-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .form-table tr {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .form-table th {
+    text-align: left;
+  }
+
+  .form-table td {
+    text-align: left;
+  }
+}

@@ -27,6 +27,19 @@ export const removeIngrediente = async (id) => {
   return ingredienteToDelete; // 
 };
 
+export const updateIngredienteService = async (id, cantidad) => {
+  const ingredientRepository = AppDataSource.getRepository(ingrediente);
+  const ingredienteToUpdate = await ingredientRepository.findOneBy({ id });
+
+  if (!ingredienteToUpdate) {
+    return null;
+  }
+
+  ingredienteToUpdate.cantidad = cantidad;
+  await ingredientRepository.save(ingredienteToUpdate);
+  return ingredienteToUpdate;
+};
+
 export const prepararin = async (requiredIngredients) => {
   try {
     const { nombre, cantidad } = requiredIngredients
