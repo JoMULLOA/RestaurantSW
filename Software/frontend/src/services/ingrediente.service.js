@@ -58,4 +58,3 @@ export const preparar = async (requiredIngredients) => {
     console.log(error.response);
   }
 };
-  
