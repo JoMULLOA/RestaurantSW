@@ -1,7 +1,8 @@
-
+import { AppDataSource } from "../config/configDb.js";
 import { getPedidos } from "./pedido.service.js";
-import { getIngredientes, prepararin } from "./ingrediente.service.js";
+import { getIngredientes } from "./ingrediente.service.js";
 import { getMenus } from "./menu.service.js";
+
 
 export const getchefpedidos = async () => {
     const pedidos = await getPedidos();
@@ -21,51 +22,50 @@ export const getchefmenus = async () => {
 
 export const preparapedido = async (prepararpedido) => {
     try {
-
-        //console.log("pedidobacked:",prepararpedido);
-        // Obtener todos los pedidos y menús
         const pedidos = await getPedidos();
         const menus = await getMenus();
-
+        const ingredientesEs = await getIngredientes();
         // Encontrar el pedido específico basado en las propiedades del `prepararpedido`
         const pedido = pedidos.find(p => p.id === prepararpedido.id);
-        console.log("pedidobackedPEDIDOO:",pedido);
-        if (pedido) {   
-            // Verificar si el plato, bebestible o postre del pedido coincide con algún menú
-            pedido.plato.forEach(plato => {
-                const menu = menus.find(m => m.nombre === plato);
-                if (menu) {
-                    menu.ingredientes.forEach(ingrediente => {
-                        prepararin(ingrediente);
-                    });
-                }
-            });
+        const menu = menus.find(a => a.nombre == pedido.plato);
+        
 
-            pedido.bebestible.forEach(bebida => {
-                const menu = menus.find(m => m.nombre === bebida);
-                if (menu) {
-                    menu.ingredientes.forEach(ingrediente => {
-                        prepararin(ingrediente);
-                    });
+        //console.log("Ingredientes",ingredientesEs);
+        //console.log("pedidobackedPEDIDOO:",pedido.plato);
+        if(pedido.plato == menu.nombre){
+            
+            for(const ingrediente of menu.ingredientes){
+                const ingre = ingredientesEs.find(ing => ing.nombre === ingrediente.nombre);
+                
+                if (!ingre) {
+                    console.log(`No se encontró el ingrediente: ${ingrediente.nombre}`);
+                    continue;
                 }
-            });
-
-            pedido.postre.forEach(postre => {
-                const menu = menus.find(m => m.nombre === postre);
-                if (menu) {
-                    menu.ingredientes.forEach(ingrediente => {
-                        prepararin(ingrediente);
-                    });
+                
+                console.log("ingrediente->", ingrediente.nombre);
+                console.log("Cantidad->", ingrediente.cantidad);
+                console.log("IngredienteEs",ingre.nombre);
+                
+                if(ingre.nombre == ingrediente.nombre){
+                    console.log("cantidad",ingre.cantidad);
+                    ingre.cantidad = ingre.cantidad - ingrediente.cantidad
+                    console.log("cantidad",ingre.cantidad);
+                    console.log("Son iguals");
+                }else{
+                    console.log("Nosoniguales");
                 }
-            });
-        } else {
-            console.log("Pedido no encontrado");
+            }
+        }else{
+            console.log("No se encontro el plato"); 
         }
 
+        
     } catch (error) {
-        console.log("Error en service de preparapedido:", error);
+        console.log("No esta el plato en el menu");
     }
 };
+
+
 
 
 
