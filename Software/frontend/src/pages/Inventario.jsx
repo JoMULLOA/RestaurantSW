@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { addIngrediente, getIngredientes, removeIngrediente, updateIngrediente } from '../services/ingrediente.service';
-import '../styles/Inventario.css';
+import '@styles/Inventario.css';
 
 
 const Ingrediente = () => {
