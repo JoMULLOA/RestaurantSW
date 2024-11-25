@@ -53,7 +53,6 @@
   box-sizing: border-box;
 }
 
-
 .form-table th {
   background-color: #f2f2f2;
 }
@@ -64,22 +63,36 @@
   padding: 8px;
 }
 
-.form-table input#id,
-.form-table input#cantidad {
-  width: 60px; /* Campos más pequeños */
+/* Redimensionar el campo de cantidad en modo edición */
+.edit-input {
+  width: 60px;
+  padding: 5px;
+  text-align: center;
 }
 
 .action-button {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  background-color: #007bff; /* Color azul */
   color: white;
   cursor: pointer;
+  margin-right: 8px; /* Ajusta el margen entre botones */
 }
 
-.action-button:hover {
-  background-color: #0056b3; /* Color azul oscuro al pasar el cursor */
+.edit-button {
+  background-color: #4caf50; /* Verde para el botón de editar */
+}
+
+.delete-button {
+  background-color: #f44336; /* Rojo para el botón de eliminar */
+}
+
+.delete-button:hover {
+  background-color: #d32f2f; /* Oscurecer el rojo en hover */
+}
+
+.edit-button:hover {
+  background-color: #388e3c; /* Oscurecer el verde en hover */
 }
 
 .ingredient-table {
@@ -104,12 +117,23 @@
   text-align: center;
 }
 
-/* Asegurar que el botón se muestre como bloque y centrado */
 .ingredient-table .action-button {
   display: inline-block;
   margin: 0 auto;
 }
 
+.button-container {
+  display: inline-block;
+  margin-right: 10px; /* Ajusta el valor según sea necesario */
+}
+
+.search-container {
+  margin-bottom: 20px;
+  margin-left: 50px; /* Ajusta este valor según sea necesario */
+}
+.search-input-table {
+  width: 300px; 
+}
 
 /* Estilos responsivos */
 @media (max-width: 767px) {
@@ -121,7 +145,7 @@
 
   .form-table input#id,
   .form-table input#cantidad {
-    width: 100%; /* En pantallas pequeñas, ocupan todo el ancho */
+    width: 100%;
   }
 
   .form-table th,

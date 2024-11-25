@@ -45,6 +45,14 @@
   text-align: left;
 }
 
+/* tamaño de fecha de ingreso*/
+.form-table input[type="date"] {
+  width: 100%; 
+  padding: 8px;
+  min-width: 150px; 
+  box-sizing: border-box;
+}
+
 .form-table th {
   background-color: #f2f2f2;
 }
@@ -117,6 +125,14 @@
 .button-container {
   display: inline-block;
   margin-right: 10px; /* Ajusta el valor según sea necesario */
+}
+
+.search-container {
+  margin-bottom: 20px;
+  margin-left: 50px; /* Ajusta este valor según sea necesario */
+}
+.search-input-table {
+  width: 300px; 
 }
 
 /* Estilos responsivos */

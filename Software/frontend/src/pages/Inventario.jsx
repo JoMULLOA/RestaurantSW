@@ -1,8 +1,7 @@
-
 import { useState, useEffect } from 'react';
+import Search from '../components/Search';
 import { addIngrediente, getIngredientes, removeIngrediente, updateIngrediente } from '../services/ingrediente.service';
 import '../styles/Inventario.css';
-
 
 const Ingrediente = () => {
   const [ingredientes, setIngredientes] = useState([]);
@@ -13,7 +12,7 @@ const Ingrediente = () => {
   });
   const [editMode, setEditMode] = useState(null); // Controla el ingrediente en modo edición
   const [newCantidad, setNewCantidad] = useState(''); // Nueva cantidad para edición
-
+  const [searchTerm, setSearchTerm] = useState(''); // Texto de búsqueda
 
   useEffect(() => {
     const fetchIngredientes = async () => {
@@ -60,16 +59,19 @@ const Ingrediente = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await removeIngrediente(id);
-      console.log("Ingrediente eliminado:", response);
-      // Actualiza la lista de ingredientes en el frontend
-      setIngredientes((prevIngredientes) =>
-        prevIngredientes.filter((ingrediente) => ingrediente.id !== id)
-      );
+      const response = await removeIngrediente(id); // Llamada al servicio
+      if (response.status === 'Success') {
+        setIngredientes((prevIngredientes) =>
+          prevIngredientes.filter((ingrediente) => ingrediente.id !== id)
+        );
+      } else {
+        console.error("Error al eliminar el ingrediente:", response.message);
+      }
     } catch (error) {
-      console.error("Error al eliminar el ingrediente:", error);
+      console.error("Error al conectar con el servidor:", error);
     }
   };
+  
 
   const handleUpdate = async (id) => {
     try {
@@ -89,6 +91,10 @@ const Ingrediente = () => {
       console.error("Error al actualizar el ingrediente:", error);
     }
   };
+
+  const filteredIngredientes = ingredientes.filter((ingrediente) =>
+    ingrediente.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <main className="container">
@@ -127,14 +133,15 @@ const Ingrediente = () => {
                     />
                   </td>
                   <td>
-                    <input
-                      type="number"
-                      id="cantidad"
-                      name="cantidad"
-                      value={form.cantidad}
-                      onChange={handleInputChange}
-                      required
-                    />
+                  <input
+                    type="number"
+                    id="cantidad"
+                    name="cantidad"
+                    value={form.cantidad}
+                    onChange={handleInputChange}
+                    required
+                    min="1" // No permite números menores a 1
+                  />
                   </td>
                   <td>
                     <button type="submit" className="action-button">Agregar</button>
@@ -145,10 +152,16 @@ const Ingrediente = () => {
           </form>
         </div>
         <h2>Lista de Ingredientes</h2>
+        <div className="search-container">
+          <Search
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Buscar por nombre de ingrediente"
+          />
+        </div>
         <table className="ingredient-table">
           <thead>
             <tr>
-              <th>ID</th>
               <th>Nombre</th>
               <th>Fecha de Ingreso</th>
               <th>Cantidad</th>
@@ -156,9 +169,8 @@ const Ingrediente = () => {
             </tr>
           </thead>
           <tbody>
-            {ingredientes.map((ingrediente) => (
+            {filteredIngredientes.map((ingrediente) => (
               <tr key={ingrediente.id}>
-                <td>{ingrediente.id}</td>
                 <td>{ingrediente.nombre}</td>
                 <td>{ingrediente.fechaIngreso}</td>
                 <td>
@@ -221,4 +233,5 @@ const Ingrediente = () => {
     </main>
   );
 };
+
 export default Ingrediente;
