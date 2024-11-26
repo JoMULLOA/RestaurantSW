@@ -12,16 +12,27 @@ h1 {
     animation: fadeIn 1s ease;
 }
 
-/* Estilos para la ventana de pedidos */
-.pedidos-ventana {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 16px;
-    max-width: 600px;
+.pedidos-container {
+    display: flex; /* Alinea las secciones en fila */
+    justify-content: space-between;
+    gap: 20px;
     margin: 20px auto;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    animation: slideUp 0.5s ease;
+    max-width: 1200px; /* Define un ancho máximo */
+    padding: 20px;
+}
+
+.pedidos-seccion {
+    flex: 1; /* Ocupan igual espacio */
+    background-color: #f0f0f0; /* Fondo gris claro */
+    border: 1px solid #ddd; /* Borde claro */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+.pedidos-ventana {
+    flex: 1; /* Ambas secciones ocuparán el mismo espacio */
+    max-width: none; /* Anula el max-width actual */
 }
 
 .pedidos-ventana h2 {
@@ -112,6 +123,13 @@ h1 {
 }
 
 /* Animaciones */
+
+@media screen and (max-width: 768px) {
+    .pedidos-container {
+        flex-direction: column; /* Apila las ventanas verticalmente en pantallas pequeñas */
+    }
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;

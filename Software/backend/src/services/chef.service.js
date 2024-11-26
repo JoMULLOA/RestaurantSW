@@ -2,7 +2,7 @@ import { AppDataSource } from "../config/configDb.js";
 import { getPedidos } from "./pedido.service.js";
 import { getIngredientes } from "./ingrediente.service.js";
 import { getMenus } from "./menu.service.js";
-
+import ingrediente from "../entity/ingrediente.entity.js";
 
 export const getchefpedidos = async () => {
     const pedidos = await getPedidos();
@@ -28,7 +28,7 @@ export const preparapedido = async (prepararpedido) => {
         // Encontrar el pedido específico basado en las propiedades del `prepararpedido`
         const pedido = pedidos.find(p => p.id === prepararpedido.id);
         const menu = menus.find(a => a.nombre == pedido.plato);
-        
+        const ingredientRepository = AppDataSource.getRepository(ingrediente);
 
         //console.log("Ingredientes",ingredientesEs);
         //console.log("pedidobackedPEDIDOO:",pedido.plato);
@@ -41,16 +41,23 @@ export const preparapedido = async (prepararpedido) => {
                     console.log(`No se encontró el ingrediente: ${ingrediente.nombre}`);
                     continue;
                 }
-                
+                /*
                 console.log("ingrediente->", ingrediente.nombre);
                 console.log("Cantidad->", ingrediente.cantidad);
                 console.log("IngredienteEs",ingre.nombre);
+                */
                 
                 if(ingre.nombre == ingrediente.nombre){
-                    console.log("cantidad",ingre.cantidad);
-                    ingre.cantidad = ingre.cantidad - ingrediente.cantidad
-                    console.log("cantidad",ingre.cantidad);
-                    console.log("Son iguals");
+                    if ( ingre.cantidad >= ingrediente.cantidad){
+                        console.log("cantidad",ingre.cantidad);
+                        ingre.cantidad = ingre.cantidad - ingrediente.cantidad
+                        console.log("cantidad",ingre.cantidad);
+                        await ingredientRepository.save(ingre)
+                        return [ingre, null]
+                    }else{
+                        console.log(`No se encontró el ingrediente: ${ingrediente.nombre}`);
+                    }
+
                 }else{
                     console.log("Nosoniguales");
                 }
