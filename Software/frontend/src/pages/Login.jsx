@@ -26,6 +26,13 @@ const Login = () => {
         }
     };
 
+    const allowedDomains = ["@gmail.cl", "@gmail.com", "@hotmail.cl", "@cocina.cl"]; // Lista de dominios permitidos
+
+    const emailDomain = (value) => {
+        const isValidDomain = allowedDomains.some(domain => value.endsWith(domain));
+        return isValidDomain || `El correo debe terminar en uno de los siguientes dominios: ${allowedDomains.join(", ")}`;
+    };
+
     return (
         <main className="container">
             <Form
@@ -42,7 +49,7 @@ const Login = () => {
                         maxLength: 30,
                         errorMessageData: errorEmail,
                         validate: {
-                            emailDomain: (value) => value.endsWith('@gmail.cl') || 'El correo debe terminar en @gmail.cl'
+                            emailDomain: (value) => emailDomain(value)
                         },
                         onChange: (e) => handleInputChange('email', e.target.value),
                     },
@@ -63,7 +70,6 @@ const Login = () => {
                 ]}
                 buttonText="Iniciar sesión"
                 onSubmit={loginSubmit}
-
             />
         </main>
     );
