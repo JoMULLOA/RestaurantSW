@@ -125,18 +125,6 @@ const Navbar = () => {
                                     Chef
                                 </NavLink>
                             </li>
-                            <li>
-                                <NavLink 
-                                    to="/chefsito" 
-                                    onClick={() => { 
-                                        setMenuOpen(false); 
-                                        addActiveClass();
-                                    }} 
-                                    activeClassName="active"
-                                >
-                                    Chefsito
-                                </NavLink>
-                            </li>
                         </>
                     )}
                     {userRole === 'garzon' && (

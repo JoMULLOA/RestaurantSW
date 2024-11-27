@@ -40,21 +40,3 @@ export const updateIngredienteService = async (id, cantidad) => {
   return ingredienteToUpdate;
 };
 
-export const prepararin = async (requiredIngredients) => {
-  try {
-    const { nombre, cantidad } = requiredIngredients
-    const ingredientRepository = AppDataSource.getRepository(ingrediente);
-  
-    const ingredientF = await ingredientRepository.findOne({
-      where: { nombre: nombre }
-    })
-    if ( ingredientF.cantidad > 0) {
-      ingredientF.cantidad = ingredientF.cantidad - cantidad
-      await ingredientRepository.save(ingredientF)
-      return [ingredientF, null]
-    }
-    return [null, "No queda stock"]
-  } catch (error) {
-    console.log("Error en service de preparin");
-  }
-};

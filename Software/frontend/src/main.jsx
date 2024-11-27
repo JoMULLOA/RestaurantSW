@@ -7,13 +7,12 @@ import Register from '@pages/Register';
 import Error404 from '@pages/Error404';
 import Root from '@pages/Root';
 import ProtectedRoute from '@components/ProtectedRoute';
-import Chef from '@pages/Chef';
 import '@styles/styles.css';
 import Inventario from '@pages/Inventario';
 import Menu from '@pages/Menu';
 import Pedido from '@pages/Pedido';
 import Mesas from '@pages/Mesas'; // Importa el componente Mesas
-import Chefsito from '@pages/chefsito';
+import Chef from '@pages/chefsito';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -29,14 +28,6 @@ const router = createBrowserRouter([
         element: <Menu />
       },
       {
-        path: '/chef',
-        element: (
-          <ProtectedRoute allowedRoles={['chef']}>
-            <Chef />
-          </ProtectedRoute>
-        )
-      },
-      {
         path: '/pedido',
         element: (
           <ProtectedRoute allowedRoles={['garzon']}>
@@ -45,10 +36,10 @@ const router = createBrowserRouter([
         )
       },
       {
-        path: '/chefsito',
+        path: '/Chef',
         element: (
           <ProtectedRoute allowedRoles={['chef']}>
-            <Chefsito />
+            <Chef />
           </ProtectedRoute>
         )
       },
