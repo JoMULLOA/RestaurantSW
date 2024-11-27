@@ -32,6 +32,13 @@ const Register = () => {
 
 	const patternRut = new RegExp(/^(?:(?:[1-9]\d{0}|[1-2]\d{1})(\.\d{3}){2}|[1-9]\d{6}|[1-2]\d{7}|29\.999\.999|29999999)-[\dkK]$/)
 
+    const allowedDomains = ["@gmail.cl", "@gmail.com", "@hotmail.cl", "@cocina.cl"]; // Lista de dominios permitidos
+
+    const emailDomain = (value) => {
+        const isValidDomain = allowedDomains.some(domain => value.endsWith(domain));
+        return isValidDomain || `El correo debe terminar en uno de los siguientes dominios: ${allowedDomains.join(", ")}`;
+    };
+
 	return (
 	    <main className="container">
 			<Form
@@ -60,7 +67,7 @@ const Register = () => {
                         maxLength: 35,
                         errorMessageData: errorEmail,
                         validate: {
-                            emailDomain: (value) => value.endsWith('@gmail.cl') || 'El correo debe terminar en @gmail.cl'
+                            emailDomain: (value) => emailDomain(value)
                         },
                         onChange: (e) => handleInputChange('email', e.target.value)
                     },

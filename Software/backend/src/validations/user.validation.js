@@ -2,9 +2,12 @@
 import Joi from "joi";
 
 const domainEmailValidator = (value, helper) => {
-  if (!value.endsWith("@gmail.cl")) {
+  const allowedDomains = ["@gmail.cl", "@gmail.com", "@hotmail.cl", "@cocina.cl"]; // Lista de dominios permitidos
+
+  const isValidDomain = allowedDomains.some(domain => value.endsWith(domain));
+  if (!isValidDomain) {
     return helper.message(
-      "El correo electrónico debe ser del dominio @gmail.cl"
+      `El correo electrónico debe ser de uno de los siguientes dominios: ${allowedDomains.join(", ")}`
     );
   }
   return value;
@@ -26,7 +29,7 @@ export const userQueryValidation = Joi.object({
     .messages({
       "string.empty": "El correo electrónico no puede estar vacío.",
       "string.base": "El correo electrónico debe ser de tipo string.",
-      "string.email": "El correo electrónico debe finalizar en @gmail.cl.",
+      // "string.email": "El correo electrónico debe finalizar en @gmail.cl.",
       "string.min":
         "El correo electrónico debe tener como mínimo 15 caracteres.",
       "string.max":
@@ -73,7 +76,7 @@ export const userBodyValidation = Joi.object({
     .messages({
       "string.empty": "El correo electrónico no puede estar vacío.",
       "string.base": "El correo electrónico debe ser de tipo string.",
-      "string.email": "El correo electrónico debe finalizar en @gmail.cl.",
+      // "string.email": "El correo electrónico debe finalizar en @gmail.cl.",
       "string.min":
         "El correo electrónico debe tener como mínimo 15 caracteres.",
       "string.max":
