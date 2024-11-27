@@ -37,10 +37,10 @@ const Menu = () => {
                 ...prevState,
                 [newMenu.tipo.toLowerCase() + 's']: [...prevState[newMenu.tipo.toLowerCase() + 's'], response.data]
             }));
-            setNewMenu({ nombre: '', ingredientes: [], precio: 0, tipo: '' });
+            setNewMenu({ nombre: '', ingredientes: [], precio: 1, tipo: '' });
             setIsModalOpen(false);
         } catch (error) {
-            console.error('Error adding menu:', error);
+            console.error('Error al agregar menú:', error);
         }
     };
 
@@ -49,7 +49,7 @@ const Menu = () => {
             ...prevState,
             ingredientes: [...prevState.ingredientes, newIngredient]
         }));
-        setNewIngredient({ nombre: '', cantidad: 0 });
+        setNewIngredient({ nombre: '', cantidad: 1 });
     };
 
     const handleDeleteMenu = async (menuId, menuType) => {
@@ -103,6 +103,8 @@ const Menu = () => {
                                 placeholder="Precio"
                                 value={newMenu.precio}
                                 onChange={(e) => setNewMenu({ ...newMenu, precio: parseFloat(e.target.value) })}
+                                required
+                                min="1" // No permite números menores a 1
                             />
                             <div className="add-ingredient-form">
                                 <h4>Agregar Ingrediente</h4>
@@ -117,6 +119,8 @@ const Menu = () => {
                                     placeholder="Cantidad"
                                     value={newIngredient.cantidad}
                                     onChange={(e) => setNewIngredient({ ...newIngredient, cantidad: parseFloat(e.target.value) })}
+                                    required
+                                    min="1"
                                 />
                                 <button onClick={handleAddIngredient}>Agregar Ingrediente</button>
                             </div>

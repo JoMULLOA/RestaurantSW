@@ -12,7 +12,6 @@ const Pedido = new EntitySchema({
     mesa: {
       type: "int",
       primary: true,
-      generated: true,
     },
     //platos pueden ser varios, separados por coma
     plato: {

@@ -42,7 +42,7 @@ const Ingrediente = () => {
     e.preventDefault();
     try {
       const data = await addIngrediente(form);
-      if (data.status === 'Success') {
+      if (data.status === 'Success') { 
         setIngredientes([...ingredientes, data.data]);
         setForm({
           nombre: '',
@@ -59,7 +59,7 @@ const Ingrediente = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await removeIngrediente(id); // Llamada al servicio
+      const response = await removeIngrediente(id);
       if (response.status === 'Success') {
         setIngredientes((prevIngredientes) =>
           prevIngredientes.filter((ingrediente) => ingrediente.id !== id)

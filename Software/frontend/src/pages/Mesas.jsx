@@ -118,7 +118,7 @@ function Mesas() {
           <tr>
             <th>Número de Mesa</th>
             <th>Estado</th>
-            <th>Garzón Asignado</th>
+            {/* <th>Garzón Asignado</th> */}
             <th>Acciones</th>
           </tr>
         </thead>
@@ -127,7 +127,7 @@ function Mesas() {
             <tr key={mesa.id}>
               <td>{mesa.numeroMesa}</td>
               <td>{mesa.estado}</td>
-              <td>{mesa.garzonAsignado ? mesa.garzonAsignado.nombreCompleto : "N/A"}</td>
+              {/* <td>{mesa.garzonAsignado ? mesa.garzonAsignado.nombreCompleto : "N/A"}</td> */}
               <td>
                 {mesa.estado === "Disponible" ? (
                   <button className="reservar-button" onClick={() => handleReservarMesa(mesa.numeroMesa)}>

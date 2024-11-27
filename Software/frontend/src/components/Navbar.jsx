@@ -59,7 +59,7 @@ const Navbar = () => {
                                 setMenuOpen(false); 
                                 addActiveClass();
                             }} 
-                            activeClassName="active"
+                            className={({ isActive }) => (isActive ? 'active' : '')}
                         >
                             Inicio
                         </NavLink>
@@ -77,7 +77,7 @@ const Navbar = () => {
                                         setMenuOpen(false); 
                                         addActiveClass();
                                     }} 
-                                    activeClassName="active"
+                                    className={({ isActive }) => (isActive ? 'active' : '')}
                                 >
                                     Usuarios
                                 </NavLink>
@@ -88,7 +88,7 @@ const Navbar = () => {
                                     onClick={() => { 
                                         setMenuOpen(false); 
                                     }} 
-                                    activeClassName="active"
+                                    className={({ isActive }) => (isActive ? 'active' : '')}
                                 >
                                     Registrar
                                 </NavLink>
@@ -100,7 +100,7 @@ const Navbar = () => {
                                         setMenuOpen(false); 
                                         addActiveClass();
                                     }} 
-                                    activeClassName="active"
+                                    className={({ isActive }) => (isActive ? 'active' : '')}
                                 >
                                     Inventario
                                 </NavLink>
@@ -120,7 +120,7 @@ const Navbar = () => {
                                         setMenuOpen(false); 
                                         addActiveClass();
                                     }} 
-                                    activeClassName="active"
+                                    className={({ isActive }) => (isActive ? 'active' : '')}
                                 >
                                     Chef
                                 </NavLink>
@@ -140,7 +140,7 @@ const Navbar = () => {
                                         setMenuOpen(false); 
                                         addActiveClass();
                                     }} 
-                                    activeClassName="active"
+                                    className={({ isActive }) => (isActive ? 'active' : '')}
                                 >
                                     Pedido
                                 </NavLink>
@@ -148,7 +148,7 @@ const Navbar = () => {
                         </>
                     )}
                     {/* Mostrar el enlace "Mesas" para los roles "administrador" y "garzon" */}
-                    {(userRole === 'administrador') && (
+                    {(userRole === 'administrador' ) && (
                         <li>
                             <NavLink 
                                 to="/mesas" 
@@ -156,7 +156,7 @@ const Navbar = () => {
                                     setMenuOpen(false); 
                                     addActiveClass();
                                 }} 
-                                activeClassName="active"
+                                className={({ isActive }) => (isActive ? 'active' : '')}
                             >
                                 Mesas
                             </NavLink>
@@ -168,7 +168,7 @@ const Navbar = () => {
                             onClick={() => { 
                                 setMenuOpen(false); 
                             }} 
-                            activeClassName="active"
+                            className={({ isActive }) => (isActive ? 'active' : '')}
                         >
                             Menú
                         </NavLink>
@@ -180,7 +180,7 @@ const Navbar = () => {
                                 logoutSubmit(); 
                                 setMenuOpen(false); 
                             }} 
-                            activeClassName="active"
+                            className={({ isActive }) => (isActive ? 'active' : '')}
                         >
                             Cerrar sesión
                         </NavLink>

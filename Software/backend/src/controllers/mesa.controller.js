@@ -16,7 +16,7 @@ export const getMesas = async (req, res) => {
 
 // Reservar una mesa (cambiar estado a "Ocupada" y asignar un garzón)
 export const reservarMesa = async (req, res) => {
-  const { numeroMesa } = req.body;
+  const { numeroMesa } = req.params;
 
   try {
     const mesaRepository = AppDataSource.getRepository(Mesa);
@@ -41,6 +41,34 @@ export const reservarMesa = async (req, res) => {
   } catch (error) {
     console.error("Error al reservar la mesa:", error);
     return res.status(500).json({ message: "Error al reservar la mesa" });
+  }
+};
+
+export const ocuparMesa = async (req, res) => {
+  const { numeroMesa } = req.params;
+  try {
+    const mesaRepository = AppDataSource.getRepository(Mesa);
+
+    // Buscar la mesa en la base de datos
+    const mesa = await mesaRepository.findOne({ where: { numeroMesa } });
+
+    if (!mesa) {
+      return res.status(404).json({ message: "Mesa no encontrada" });
+    }
+
+    // Verificar si la mesa está disponible
+    if (mesa.estado !== "Disponible") {
+      return res.status(400).json({ message: "La mesa no está disponible para ocupar" });
+    }
+
+    // Actualizar el estado de la mesa y asignar el garzón
+    mesa.estado = "Ocupado";
+    await mesaRepository.save(mesa);
+
+    return res.status(200).json({ message: "Mesa ocupada correctamente", mesa });
+  } catch (error) {
+    console.error("Error al ocupar la mesa:", error);
+    return res.status(500).json({ message: "Error al ocupar la mesa" });
   }
 };
 

@@ -25,13 +25,21 @@ export async function liberarMesa(numeroMesa) {
 // Función para reservar una mesa específica
 export async function reservarMesa(numeroMesa) {
   try {
-    const response = await axios.put('/mesas/reservar', {
-      numeroMesa,
-    });
+    const response = await axios.put(`/mesas/reservar/${numeroMesa}`);
     return response.data;
   } catch (error) {
     console.error("Error en reservarMesa:", error);
     return error.response?.data || "Error al reservar la mesa";
+  }
+}
+
+export async function ocuparMesa(numeroMesa) {
+  try {
+    const response = await axios.put(`/mesas/ocupar/${numeroMesa}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error en ocuparMesa:", error);
+    return error.response?.data || "Error al ocupar la mesa";
   }
 }
 
@@ -59,6 +67,7 @@ export async function agregarMesa() {
     return error.response?.data || "Error al agregar la mesa";
   }
 }
+
 export async function obtenerGarzones() {
   try {
     const response = await axios.get("/usuarios/garzones");
