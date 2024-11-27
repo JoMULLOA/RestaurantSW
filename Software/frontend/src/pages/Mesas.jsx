@@ -1,17 +1,18 @@
 import { useState, useEffect } from "react";
 import "@styles/mesas.css";
-import { obtenerMesas, liberarMesa, reservarMesa } from "@services/mesa.service.js";
+import { obtenerMesas, liberarMesa, reservarMesa, agregarMesa, eliminarMesa } from "@services/mesa.service.js";
 
 function Mesas() {
   const [mesas, setMesas] = useState([]);
   const [filtro, setFiltro] = useState("");
+  const [mensaje, setMensaje] = useState(""); // Para mostrar mensajes de éxito o error
+  const [mensajeError, setMensajeError] = useState(false); // Para cambiar el color del mensaje
+  const [numeroMesaEliminar, setNumeroMesaEliminar] = useState("");
 
-  // useEffect para obtener los datos de las mesas desde la API cuando se carga el componente
   useEffect(() => {
     fetchMesas();
   }, []);
 
-  // Función para obtener las mesas usando el servicio
   const fetchMesas = async () => {
     try {
       const data = await obtenerMesas();
@@ -21,44 +22,97 @@ function Mesas() {
     }
   };
 
-  // Función para filtrar las mesas según el estado seleccionado
   const filtrarMesas = (estado) => {
     setFiltro(estado);
   };
 
-  // Filtrar las mesas según el estado seleccionado en el filtro
   const mesasFiltradas = filtro ? mesas.filter((mesa) => mesa.estado === filtro) : mesas;
 
-  // Función para liberar una mesa usando el servicio
   const handleLiberarMesa = async (numeroMesa) => {
     try {
       await liberarMesa(numeroMesa);
-      fetchMesas(); // Refresca la lista de mesas después de liberar
+      fetchMesas();
+      setMensaje(`Mesa ${numeroMesa} liberada correctamente.`);
+      setMensajeError(false); // Mensaje de éxito en verde
     } catch (error) {
       console.error("Error al liberar la mesa:", error);
+      setMensaje("Error al liberar la mesa.");
+      setMensajeError(true); // Mensaje de error en rojo
     }
   };
 
-  // Función para reservar una mesa usando el servicio
   const handleReservarMesa = async (numeroMesa) => {
     try {
-      await reservarMesa(numeroMesa, 9); // Cambia `9` por el ID dinámico si es necesario
-      fetchMesas(); // Refresca la lista de mesas después de reservar
-      console.log(`Mesa ${numeroMesa} reservada correctamente.`);
+      await reservarMesa(numeroMesa);
+      fetchMesas();
+      setMensaje(`Mesa ${numeroMesa} reservada correctamente.`);
+      setMensajeError(false); // Mensaje de éxito en verde
     } catch (error) {
       console.error("Error al reservar la mesa:", error);
+      setMensaje("Error al reservar la mesa.");
+      setMensajeError(true); // Mensaje de error en rojo
     }
   };
-  
+
+  const handleAgregarMesa = async () => {
+    try {
+      await agregarMesa();
+      fetchMesas();
+      setMensaje("Mesa agregada correctamente.");
+      setMensajeError(false); // Mensaje de éxito en verde
+    } catch (error) {
+      console.error("Error al agregar la mesa:", error);
+      setMensaje("Error al agregar la mesa.");
+      setMensajeError(true); // Mensaje de error en rojo
+    }
+  };
+
+ const handleEliminarMesa = async () => {
+  try {
+    await eliminarMesa(numeroMesaEliminar);
+    fetchMesas(); // Refresca la lista de mesas
+    setMensaje(`Mesa ${numeroMesaEliminar} eliminada correctamente.`);
+    setMensajeError(false); // Mensaje de éxito en verde
+    setNumeroMesaEliminar(""); // Limpia el campo de entrada
+  } catch (error) {
+    if (error.message === "Mesa no encontrada") {
+      setMensaje("Mesa no encontrada.");
+      setMensajeError(true); // Mensaje de error en rojo
+    } else {
+      console.error("Error al eliminar la mesa:", error);
+      setMensaje("Error al eliminar la mesa.");
+      setMensajeError(true); // Mensaje de error en rojo
+    }
+  }
+};
+
   return (
     <div className="mesas-container">
       <h2>Gestión de Mesas</h2>
+
+      {/* Mensaje de confirmación o error */}
+      {mensaje && <p className={`mensaje ${mensajeError ? "error" : "success"}`}>{mensaje}</p>}
+
+      {/* Sección de botones de acción */}
+      <div className="acciones">
+        <button className="agregar-button" onClick={handleAgregarMesa}>Agregar Mesa</button>
+        <button className="eliminar-button" onClick={handleEliminarMesa}>Eliminar Mesa</button>
+        <input
+          type="text"
+          placeholder="Número de mesa a eliminar"
+          value={numeroMesaEliminar}
+          onChange={(e) => setNumeroMesaEliminar(e.target.value)}
+        />
+      </div>
+
+      {/* Sección de filtros */}
       <div className="filtros">
         <button onClick={() => filtrarMesas("")}>Todas</button>
         <button onClick={() => filtrarMesas("Disponible")}>Disponibles</button>
         <button onClick={() => filtrarMesas("Ocupada")}>Ocupadas</button>
         <button onClick={() => filtrarMesas("Reservada")}>Reservadas</button>
       </div>
+
       <table className="mesas-table">
         <thead>
           <tr>

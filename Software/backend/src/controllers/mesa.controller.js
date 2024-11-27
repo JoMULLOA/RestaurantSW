@@ -1,6 +1,5 @@
 import { AppDataSource } from "../config/configDb.js";
 import Mesa from "../entity/mesa.entity.js";
-import User from "../entity/user.entity.js";
 
 // Obtener todas las mesas
 export const getMesas = async (req, res) => {
@@ -17,11 +16,10 @@ export const getMesas = async (req, res) => {
 
 // Reservar una mesa (cambiar estado a "Ocupada" y asignar un garzón)
 export const reservarMesa = async (req, res) => {
-  const { numeroMesa, garzonId } = req.body;
+  const { numeroMesa } = req.body;
 
   try {
     const mesaRepository = AppDataSource.getRepository(Mesa);
-    const garzonRepository = AppDataSource.getRepository(User);
 
     // Buscar la mesa en la base de datos
     const mesa = await mesaRepository.findOne({ where: { numeroMesa } });
@@ -35,15 +33,8 @@ export const reservarMesa = async (req, res) => {
       return res.status(400).json({ message: "La mesa no está disponible para reservar" });
     }
 
-    // Buscar el garzón en la base de datos
-    const garzon = await garzonRepository.findOne({ where: { id: garzonId } });
-    if (!garzon) {
-      return res.status(404).json({ message: "Garzón no encontrado" });
-    }
-
     // Actualizar el estado de la mesa y asignar el garzón
     mesa.estado = "Reservada";
-    mesa.garzonAsignado = null;
     await mesaRepository.save(mesa);
 
     return res.status(200).json({ message: "Mesa reservada correctamente", mesa });
@@ -78,3 +69,59 @@ export const liberarMesa = async (req, res) => {
     return res.status(500).json({ message: "Error al liberar la mesa" });
   }
 };
+
+// Agregar una nueva mesa
+export const agregarMesa = async (req, res) => {
+  try {
+    const mesaRepository = AppDataSource.getRepository(Mesa);
+
+    // Obtener el ID máximo actual en la base de datos
+    const maxMesa = await mesaRepository
+      .createQueryBuilder("mesa")
+      .select("MAX(mesa.id)", "max")
+      .getRawOne();
+
+    // Calcular el número de la nueva mesa como el máximo ID más 1
+    const nuevoNumeroMesa = (maxMesa.max || 0) + 1;
+
+    // Crear y guardar la nueva mesa con el número generado, estado "Disponible" y sin garzón asignado
+    const nuevaMesa = mesaRepository.create({
+      numeroMesa: nuevoNumeroMesa,
+      estado: "Disponible",
+      garzonAsignado: null
+    });
+    
+    await mesaRepository.save(nuevaMesa);
+
+    return res.status(201).json({ message: "Mesa agregada correctamente", mesa: nuevaMesa });
+  } catch (error) {
+    console.error("Error al agregar la mesa:", error);
+    return res.status(500).json({ message: "Error al agregar la mesa" });
+  }
+};
+
+// Eliminar una mesa
+// En el backend, en la función para eliminar una mesa
+export const eliminarMesa = async (req, res) => {
+  const { numeroMesa } = req.params;
+
+  try {
+    const mesaRepository = AppDataSource.getRepository(Mesa);
+
+    // Buscar la mesa en la base de datos
+    const mesa = await mesaRepository.findOne({ where: { numeroMesa } });
+
+    if (!mesa) {
+      return res.status(404).json({ message: "Mesa no encontrada" });
+    }
+
+    // Eliminar la mesa de la base de datos
+    await mesaRepository.remove(mesa);
+
+    return res.status(200).json({ message: "Mesa eliminada correctamente" });
+  } catch (error) {
+    console.error("Error al eliminar la mesa:", error);
+    return res.status(500).json({ message: "Error al eliminar la mesa" });
+  }
+};
+

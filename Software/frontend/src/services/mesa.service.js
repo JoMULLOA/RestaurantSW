@@ -26,11 +26,45 @@ export async function liberarMesa(numeroMesa) {
 export async function reservarMesa(numeroMesa) {
   try {
     const response = await axios.put('/mesas/reservar', {
-      numeroMesa
+      numeroMesa,
     });
     return response.data;
   } catch (error) {
     console.error("Error en reservarMesa:", error);
     return error.response?.data || "Error al reservar la mesa";
+  }
+}
+
+export async function eliminarMesa(numeroMesa) {
+  try {
+    const response = await axios.delete(`/mesas/eliminar/${numeroMesa}`);
+    return response.data;
+  } catch (error) {
+    // Verifica si el error es 404 y lanza un mensaje personalizado
+    if (error.response && error.response.status === 404) {
+      throw new Error("Mesa no encontrada");
+    }
+    // Lanza cualquier otro error que ocurra
+    throw error;
+  }
+}
+
+// Función para agregar una nueva mesa
+export async function agregarMesa() {
+  try {
+    const response = await axios.post('/mesas/agregar');
+    return response.data;
+  } catch (error) {
+    console.error("Error en agregarMesa:", error);
+    return error.response?.data || "Error al agregar la mesa";
+  }
+}
+export async function obtenerGarzones() {
+  try {
+    const response = await axios.get("/usuarios/garzones");
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener garzones:", error);
+    throw error;
   }
 }
