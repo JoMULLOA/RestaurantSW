@@ -127,6 +127,15 @@
   margin-right: 10px; /* Ajusta el valor según sea necesario */
 }
 
+.search-container {
+  margin-bottom: 20px;
+  margin-left: 50px; /* Ajusta este valor según sea necesario */
+}
+.search-input-table {
+  width: 300px; 
+}
+
+
 /* Estilos responsivos */
 @media (max-width: 767px) {
   .form-container,

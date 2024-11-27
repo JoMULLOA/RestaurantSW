@@ -180,6 +180,8 @@ const Ingrediente = () => {
                       className="edit-input"
                       value={newCantidad}
                       onChange={(e) => setNewCantidad(e.target.value)}
+                      required
+                      min="1"
                     />
                   ) : (
                     ingrediente.cantidad

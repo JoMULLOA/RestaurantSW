@@ -62,7 +62,7 @@ export const ocuparMesa = async (req, res) => {
     }
 
     // Actualizar el estado de la mesa y asignar el garzón
-    mesa.estado = "Ocupado";
+    mesa.estado = "Ocupada";
     await mesaRepository.save(mesa);
 
     return res.status(200).json({ message: "Mesa ocupada correctamente", mesa });

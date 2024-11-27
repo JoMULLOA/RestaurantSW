@@ -10,9 +10,15 @@ const Menu = () => {
     const [selectedItem, setSelectedItem] = useState(null);
     const [menuSections, setMenuSections] = useState({ platos: [], bebestibles: [], postres: [] });
     const [newMenu, setNewMenu] = useState({ nombre: '', ingredientes: [], precio: '', tipo: '' });
-    const [newIngredient, setNewIngredient] = useState({ nombre: '', cantidad: 0 });
+    const [newIngredient, setNewIngredient] = useState({ nombre: '', cantidad: '' });
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    //Evitar que el input sea negativo, automaticamente se cambia a 1
+    const noNegative = (e) => {
+        if (e.target.value < 0) {
+            e.target.value = 1;
+        }
+    }
     useEffect(() => {
         const fetchMenu = async () => {
             try {
@@ -60,7 +66,7 @@ const Menu = () => {
                 [menuType.toLowerCase() + 's']: prevState[menuType.toLowerCase() + 's'].filter(item => item.id !== menuId)
             }));
         } catch (error) {
-            console.error('Error deleting menu:', error);
+            console.error('Error al eliminar menu:', error);
         }
     };
 
@@ -103,8 +109,9 @@ const Menu = () => {
                                 placeholder="Precio"
                                 value={newMenu.precio}
                                 onChange={(e) => setNewMenu({ ...newMenu, precio: parseFloat(e.target.value) })}
+                                onInput={noNegative}
                                 required
-                                min="1" // No permite números menores a 1
+                                // min="1" // No permite números menores a 1
                             />
                             <div className="add-ingredient-form">
                                 <h4>Agregar Ingrediente</h4>
@@ -119,8 +126,8 @@ const Menu = () => {
                                     placeholder="Cantidad"
                                     value={newIngredient.cantidad}
                                     onChange={(e) => setNewIngredient({ ...newIngredient, cantidad: parseFloat(e.target.value) })}
+                                    onInput={noNegative}
                                     required
-                                    min="1"
                                 />
                                 <button onClick={handleAddIngredient}>Agregar Ingrediente</button>
                             </div>
