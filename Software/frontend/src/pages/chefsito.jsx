@@ -38,6 +38,7 @@ const Chefsito = () => {
 
     const manejarPreparacionPedido = async () => {
         try {
+            
             // Actualizamos el pedido como "En Preparación"
             const pedidoActualizado = {
                 ...pedidoSeleccionado,

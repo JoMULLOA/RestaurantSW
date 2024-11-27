@@ -29,16 +29,18 @@ export const preparapedido = async (prepararpedido) => {
         const pedido = pedidos.find(p => p.id === prepararpedido.id);
         const menu = menus.find(a => a.nombre == pedido.plato);
         const ingredientRepository = AppDataSource.getRepository(ingrediente);
-
-        //console.log("Ingredientes",ingredientesEs);
-        //console.log("pedidobackedPEDIDOO:",pedido.plato);
+        //console.log(typeof pedido.plato); // Esto mostrará el tipo de dato de pedido.plato
+        //console.log("plato",pedido.plato);
+        
         if(pedido.plato == menu.nombre){
-            
+
+
+
             for(const ingrediente of menu.ingredientes){
                 const ingre = ingredientesEs.find(ing => ing.nombre === ingrediente.nombre);
                 
                 if (!ingre) {
-                    console.log(`No se encontró el ingrediente: ${ingrediente.nombre}`);
+                    console.log(`No se encontró el ingredienteS: ${ingrediente.nombre}`);
                     continue;
                 }
                 /*
@@ -46,18 +48,16 @@ export const preparapedido = async (prepararpedido) => {
                 console.log("Cantidad->", ingrediente.cantidad);
                 console.log("IngredienteEs",ingre.nombre);
                 */
-                
                 if(ingre.nombre == ingrediente.nombre){
                     if ( ingre.cantidad >= ingrediente.cantidad){
-                        console.log("cantidad",ingre.cantidad);
+                        console.log("Ingrediente=",ingre.nombre);
+                        console.log("cantidad Inicial",ingre.cantidad);
                         ingre.cantidad = ingre.cantidad - ingrediente.cantidad
-                        console.log("cantidad",ingre.cantidad);
+                        console.log("cantidad Final",ingre.cantidad);
                         await ingredientRepository.save(ingre)
-                        return [ingre, null]
                     }else{
-                        console.log(`No se encontró el ingrediente: ${ingrediente.nombre}`);
+                        console.log(`No se encontró el ingredientE: ${ingrediente.nombre}`);
                     }
-
                 }else{
                     console.log("Nosoniguales");
                 }
@@ -71,10 +71,3 @@ export const preparapedido = async (prepararpedido) => {
         console.log("No esta el plato en el menu");
     }
 };
-
-
-
-
-
-
-
