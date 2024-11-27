@@ -2,6 +2,9 @@ import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { logout } from '@services/auth.service.js';
 import '@styles/navbar.css';
 import { useState } from "react";
+import chefs from '../assets/chefso.svg';
+import waiter from '../assets/waiter.svg';
+import admin from '../assets/admin.svg';
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -56,13 +59,17 @@ const Navbar = () => {
                                 setMenuOpen(false); 
                                 addActiveClass();
                             }} 
-                            activeClassName="active"
+                            className={({ isActive }) => (isActive ? 'active' : '')}
                         >
                             Inicio
                         </NavLink>
                     </li>
                     {userRole === 'administrador' && (
                         <>
+                            <div className="user-role-indicator">
+                                <img src={admin} alt="admin" className="user-role-icon" />
+                                <span className="user-role-text">Administrador</span>
+                            </div>
                             <li>
                                 <NavLink 
                                     to="/users" 
@@ -70,7 +77,7 @@ const Navbar = () => {
                                         setMenuOpen(false); 
                                         addActiveClass();
                                     }} 
-                                    activeClassName="active"
+                                    className={({ isActive }) => (isActive ? 'active' : '')}
                                 >
                                     Usuarios
                                 </NavLink>
@@ -81,7 +88,7 @@ const Navbar = () => {
                                     onClick={() => { 
                                         setMenuOpen(false); 
                                     }} 
-                                    activeClassName="active"
+                                    className={({ isActive }) => (isActive ? 'active' : '')}
                                 >
                                     Registrar
                                 </NavLink>
@@ -93,7 +100,7 @@ const Navbar = () => {
                                         setMenuOpen(false); 
                                         addActiveClass();
                                     }} 
-                                    activeClassName="active"
+                                    className={({ isActive }) => (isActive ? 'active' : '')}
                                 >
                                     Inventario
                                 </NavLink>
@@ -102,6 +109,10 @@ const Navbar = () => {
                     )}
                     {userRole === 'chef' && (
                         <>
+                            <div className="user-role-indicator">
+                                <img src={chefs} alt="chef" className="user-role-icon" />
+                                <span className="user-role-text">Chef</span>
+                            </div>
                             <li>
                                 <NavLink 
                                     to="/Chef" 
@@ -109,7 +120,7 @@ const Navbar = () => {
                                         setMenuOpen(false); 
                                         addActiveClass();
                                     }} 
-                                    activeClassName="active"
+                                    className={({ isActive }) => (isActive ? 'active' : '')}
                                 >
                                     Chef
                                 </NavLink>
@@ -117,7 +128,11 @@ const Navbar = () => {
                         </>
                     )}
                     {userRole === 'garzon' && (
-                        <>
+                        <>  
+                            <div className="user-role-indicator">
+                                <img src={waiter} alt="waiter" className="user-role-icon" />
+                                <span className="user-role-text">Garzón</span>
+                            </div>
                             <li>
                                 <NavLink 
                                     to="/pedido" 
@@ -125,7 +140,7 @@ const Navbar = () => {
                                         setMenuOpen(false); 
                                         addActiveClass();
                                     }} 
-                                    activeClassName="active"
+                                    className={({ isActive }) => (isActive ? 'active' : '')}
                                 >
                                     Pedido
                                 </NavLink>
@@ -133,7 +148,7 @@ const Navbar = () => {
                         </>
                     )}
                     {/* Mostrar el enlace "Mesas" para los roles "administrador" y "garzon" */}
-                    {(userRole === 'administrador' || userRole === 'garzon') && (
+                    {(userRole === 'administrador' ) && (
                         <li>
                             <NavLink 
                                 to="/mesas" 
@@ -141,7 +156,7 @@ const Navbar = () => {
                                     setMenuOpen(false); 
                                     addActiveClass();
                                 }} 
-                                activeClassName="active"
+                                className={({ isActive }) => (isActive ? 'active' : '')}
                             >
                                 Mesas
                             </NavLink>
@@ -153,7 +168,7 @@ const Navbar = () => {
                             onClick={() => { 
                                 setMenuOpen(false); 
                             }} 
-                            activeClassName="active"
+                            className={({ isActive }) => (isActive ? 'active' : '')}
                         >
                             Menú
                         </NavLink>
@@ -165,7 +180,7 @@ const Navbar = () => {
                                 logoutSubmit(); 
                                 setMenuOpen(false); 
                             }} 
-                            activeClassName="active"
+                            className={({ isActive }) => (isActive ? 'active' : '')}
                         >
                             Cerrar sesión
                         </NavLink>

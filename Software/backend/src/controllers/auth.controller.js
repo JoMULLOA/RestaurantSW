@@ -36,8 +36,8 @@ export async function login(req, res) {
 
 export async function register(req, res) {
   try {
+    console.log("Register", );
     const { body } = req;
-
     const { error } = registerValidation.validate(body);
 
     if (error)

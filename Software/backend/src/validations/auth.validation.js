@@ -82,6 +82,15 @@ export const registerValidation = Joi.object({
       "string.max": "El correo electrónico debe tener como máximo 35 caracteres.",
     })
     .custom(domainEmailValidator, "Validación dominio email"),
+  rol: Joi.string()
+    .valid("administrador", "chef", "garzon")
+    .required()
+    .messages({
+      "string.empty": "El rol no puede estar vacío.",
+      "any.required": "El rol es obligatorio.",
+      "string.base": "El rol debe ser de tipo texto.",
+      "any.only": "El rol debe ser 'admin' o 'user'.",
+    }),
   password: Joi.string()
     .min(8)
     .max(26)

@@ -12,22 +12,18 @@ const Pedido = new EntitySchema({
     mesa: {
       type: "int",
       primary: true,
-      generated: true,
     },
     //platos pueden ser varios, separados por coma
     plato: {
-      type: "varchar",
-      length: 100,
+      type: "json",
       nullable: false,
     },
     bebestible: {
-      type: "varchar",
-      length: 100,
+      type: "json",
       nullable: false,
     },
     postre: {
-      type: "varchar",
-      length: 100,
+      type: "json",
       nullable: false,
     },
     modificaciones: {

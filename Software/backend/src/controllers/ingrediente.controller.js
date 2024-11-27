@@ -1,5 +1,10 @@
+import { 
+  addIngrediente, 
+  getIngredientes, 
+  removeIngrediente, 
+  updateIngredienteService 
+} from "../services/ingrediente.service.js";
 // ingrediente.controller.js
-import { addIngrediente, getIngredientes, removeIngrediente } from "../services/ingrediente.service.js";
 
 export const getAllIngredientes = async (req, res) => {
   try {
@@ -35,8 +40,20 @@ export const deleteIngrediente = async (req, res) => {
   }
 };
 
+export const updateIngrediente = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { cantidad } = req.body;
+    const updatedIngrediente = await updateIngredienteService(id, cantidad);
 
+    if (!updatedIngrediente) {
+      return res.status(404).json({ status: "Error", message: "Ingrediente no encontrado" });
+    }
 
-
+    res.status(200).json({ status: "Success", data: updatedIngrediente });
+  } catch (error) {
+    res.status(500).json({ status: "Error", message: error.message });
+  }
+};
 
 

@@ -23,7 +23,7 @@ export const getIngredientes = async () => {
 
 export const removeIngrediente = async (id) => {
   try {
-      const response = await axios.delete(`/ingredientes/delete`, id);
+      const response = await axios.delete('/ingredientes/deleteIng/' + id);
 
       // Revisa si la respuesta tiene un status 200.
       if (response.status !== 200) {
@@ -37,5 +37,24 @@ export const removeIngrediente = async (id) => {
   }
 };
 
+export const updateIngrediente = async (id, cantidad) => {
+  try {
+    const response = await axios.put(`/ingredientes/update/${id}`, { cantidad });
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar la cantidad del ingrediente:", error);
+    throw error;
+  }
+};
 
-  
+export const preparar = async (requiredIngredients) => {
+  try {
+    const response = await axios.post('/ingredientes/preparar', requiredIngredients);
+    
+    if(response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    console.log(error.response);
+  }
+};
