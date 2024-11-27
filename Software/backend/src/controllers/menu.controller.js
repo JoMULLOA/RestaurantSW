@@ -14,11 +14,10 @@ export const getAllMenus = async (req, res) => {
 
 export const createMenu = async (req, res) => {
   try {
-    const { error } = menuBodyValidation.validate(req.body); //Validación de los datos
-
-    if (error) {
-      return res.status(400).json({ status: "Error", message: error.message });
-    }
+    // const { error } = menuBodyValidation.validate(req.body); //Validación de los datos
+    // if (error) {
+    //   return res.status(400).json({ status: "Error", message: error.message });
+    // }
 
     const menu = await addMenu(req.body);
     res.status(201).json({ status: "Success", data: menu });

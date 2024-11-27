@@ -148,7 +148,7 @@ const Navbar = () => {
                         </>
                     )}
                     {/* Mostrar el enlace "Mesas" para los roles "administrador" y "garzon" */}
-                    {(userRole === 'administrador' || userRole === 'garzon') && (
+                    {(userRole === 'administrador') && (
                         <li>
                             <NavLink 
                                 to="/mesas" 
