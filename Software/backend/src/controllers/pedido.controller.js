@@ -1,5 +1,7 @@
 // pedido.controller.js
-import { addPedido, getPedidos, removePedido } from "../services/pedido.service.js";
+import { addPedido, getPedidos,  removePedido } from "../services/pedido.service.js";
+import { validatePedido } from "../validations/pedido.validation.js";
+import { getMesaConN, ocuparMesa } from "./mesa.controller.js";
 
 export const getAllPedidos = async (req, res) => {
   try {
@@ -12,13 +14,26 @@ export const getAllPedidos = async (req, res) => {
 
 export const createPedido = async (req, res) => {
   try {
-    const pedido = await addPedido(req.body);
-    res.status(201).json({ status: "Success", data: pedido });
-  } catch (error) {
-    res.status(500).json({ status: "Error", message: error.message });
+    const { error } = validatePedido(req.body);
+    if (error) {
+      return res.status(400).json({ 
+        message: "No superó la validación", 
+        details: error.details.map(err => err.message) 
+      });
+    }
+    const { mesa } = req.body;
+    const bodyMesa = await getMesaConN(mesa);
+    if(bodyMesa.estado === "Disponible"){
+      await ocuparMesa(bodyMesa);
+      const pedido = await addPedido(req.body);
+      res.status(201).json({ status: "Success", data: pedido });
+    } else{
+      return res.status(400).json({ message: "La mesa no está disponible para ocupar" });
+    }
+  } catch (err) {
+    res.status(500).json({ status: "Error", message: err.message });
   }
 };
-
 
 export const deletePedido = async (req, res) => {
   try {
