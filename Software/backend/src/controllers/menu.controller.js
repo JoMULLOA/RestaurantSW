@@ -30,7 +30,7 @@ export const createMenu = async (req, res) => {
 export const deleteMenu = async (req, res) => {
   try {
     const { id } = req.params; 
-
+    
     const deletedMenu = await removeMenu(id); 
 
     if (!deletedMenu) {
