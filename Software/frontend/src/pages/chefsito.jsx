@@ -91,7 +91,10 @@ const Chefsito = () => {
                         <h2>Pedidos En Preparación</h2>
                         {pedidosEnPreparacion.length > 0 ? (
                             pedidosEnPreparacion.map((pedido) => (
-                                <div key={pedido.mesa} className="pedido-card">
+                                <div key={pedido.mesa}
+                                    className="pedido-card"
+                                    onClick={() => mostrarDetallesPedido(pedido)}>
+                                    
                                     <h3>Mesa #{pedido.mesa}</h3>
                                 </div>
                             ))

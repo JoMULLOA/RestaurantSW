@@ -13,7 +13,7 @@ export const preparapedido = async (prepararpedido) => {
 
         // Encontrar el pedido específico basado en las propiedades del `prepararpedido`
         const pedido = pedidos.find(p => p.id === prepararpedido.id);
-        console.log("pedido=",pedido);
+        //console.log("pedido=",pedido);
         if (!pedido || !Array.isArray(pedido.plato)) {
             console.log("El pedido no existe o no contiene una lista de platos.");
             return;
