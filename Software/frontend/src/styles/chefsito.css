@@ -103,11 +103,22 @@ h1 {
 }
 
 .button-close {
-    background-color: #d9534f;
+    background-color: #795548;
+}
+
+.button-cancelar {
+    background-color: hsl(12, 91%, 47%);
+    margin-left: 10px;
+    float: right;
+}
+
+.button-cancelar:hover {
+    background-color: hsl(12, 91%, 45%);
+    transform: scale(1.05);
 }
 
 .button-close:hover {
-    background-color: #c9302c;
+    background-color: #5e4137;
     transform: scale(1.05);
 }
 

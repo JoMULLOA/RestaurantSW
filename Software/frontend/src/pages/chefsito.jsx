@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getPedidos } from '../services/pedido.service.js';
 import { prepararPedido } from '../services/chefsito.service.js';
+//import { CancelarPedido } from '../services/chefsito.service.js';
 import '../styles/chefsito.css';
 
 const Chefsito = () => {
@@ -27,6 +28,7 @@ const Chefsito = () => {
             setPedidos([]);
         }
     };
+
 
     const mostrarDetallesPedido = (pedido) => {
         setPedidoSeleccionado(pedido);
@@ -60,9 +62,13 @@ const Chefsito = () => {
         }
     };
 
+    const CancelarPedido = () => {
+    };
+
     // Filtramos los pedidos por estado
     const pedidosPendientes = pedidos.filter((pedido) => pedido.status === 'Pendiente');
     const pedidosEnPreparacion = pedidos.filter((pedido) => pedido.status === 'En Preparación');
+    //const PedidosListos = pedidos.filter((pedido) => pedido.status == 'Pedido Listo');
 
     return (
         <div>
@@ -103,6 +109,11 @@ const Chefsito = () => {
                         )}
                     </div>
                 </div>
+                <div className="pedidos-seccion">
+                    <div className="pedidos-ventana">
+                        <h2>Pedidos Listos</h2>
+                    </div>
+                </div>
             </div>
             {pedidoSeleccionado && (
                 <div className="modal-overlay">
@@ -117,12 +128,16 @@ const Chefsito = () => {
                         <button onClick={cerrarDetallesPedido} className="button button-close">
                             Cerrar
                         </button>
+                        <button onClick={CancelarPedido} className="button button-cancelar">
+                            Cancelar Pedido
+                        </button>
                         <button onClick={manejarPreparacionPedido} className="button button-preparar">
                             Preparar Pedido
                         </button>
                     </div>
                 </div>
             )}
+            
         </div>
     );
 };

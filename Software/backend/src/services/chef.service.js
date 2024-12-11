@@ -115,3 +115,75 @@ export const preparapedido = async (prepararpedido) => {
         console.log("Error al procesar el pedido:", error.message);
     }
 };
+
+
+export const CancelarPedido = async (prepararpedido) => {
+    try {
+        const pedidos = await getPedidos();
+        const menus = await getMenus();
+        const ingredientesEs = await getIngredientes();
+        const ingredientRepository = AppDataSource.getRepository(ingrediente);
+
+        // Encontrar el pedido específico basado en las propiedades del `prepararpedido`
+        const pedido = pedidos.find(p => p.id === prepararpedido.id);
+
+        for (const plato of pedido.plato) { // Itera sobre los platos del pedido
+            const menu = menus.find(a => a.nombre === plato);
+            //console.log("Procesando plato:", plato);
+            //console.log("Ingredientes del menú:", menu.ingredientes);
+            for (const ingrediente of menu.ingredientes) {
+                const ingre = ingredientesEs.find(ing => ing.nombre === ingrediente.nombre);
+                if (!ingre) {
+                    console.log(`No se encontró el ingrediente: ${ingrediente.nombre}`);
+                    continue;
+                }
+                //console.log(`Ingrediente=${ingre.nombre}`);
+                //console.log("Cantidad Inicial:", ingre.cantidad);
+                ingre.cantidad + ingrediente.cantidad; // Actualiza la cantidad
+                //console.log("Cantidad Final:", ingre.cantidad);
+                await ingredientRepository.save(ingre); // Guarda el cambio en la base de datos
+            }
+        }
+
+        //bebesible
+        for (const plato of pedido.bebestible) { // Itera sobre los platos del pedido
+            const menu = menus.find(a => a.nombre === bebestible);
+            //console.log("Procesando plato:", plato);
+            //console.log("Ingredientes del menú:", menu.ingredientes);
+            for (const ingrediente of menu.ingredientes) {
+                const ingre = ingredientesEs.find(ing => ing.nombre === ingrediente.nombre);
+                if (!ingre) {
+                    console.log(`No se encontró el ingrediente: ${ingrediente.nombre}`);
+                    continue;
+                }
+                //console.log(`Ingrediente=${ingre.nombre}`);
+                //console.log("Cantidad Inicial:", ingre.cantidad);
+                ingre.cantidad + ingrediente.cantidad; // Actualiza la cantidad
+                //console.log("Cantidad Final:", ingre.cantidad);
+                await ingredientRepository.save(ingre); // Guarda el cambio en la base de datos
+            }
+        }
+        //postre
+
+        for (const plato of pedido.postre) { // Itera sobre los platos del pedido
+            const menu = menus.find(a => a.nombre === postre);
+            //console.log("Procesando plato:", plato);
+            //console.log("Ingredientes del menú:", menu.ingredientes);
+            for (const ingrediente of menu.ingredientes) {
+                const ingre = ingredientesEs.find(ing => ing.nombre === ingrediente.nombre);
+                if (!ingre) {
+                    console.log(`No se encontró el ingrediente: ${ingrediente.nombre}`);
+                    continue;
+                }
+                //console.log(`Ingrediente=${ingre.nombre}`);
+                //console.log("Cantidad Inicial:", ingre.cantidad);
+                ingre.cantidad + ingrediente.cantidad; // Actualiza la cantidad
+                //console.log("Cantidad Final:", ingre.cantidad);
+                await ingredientRepository.save(ingre); // Guarda el cambio en la base de datos
+            }
+        }
+
+    } catch (error) {
+        console.log("Error al procesar el pedido:", error.message);
+    }
+};
