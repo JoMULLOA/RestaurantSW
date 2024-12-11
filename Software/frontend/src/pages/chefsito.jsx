@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getPedidos } from '../services/pedido.service.js';
-import { prepararPedido } from '../services/chefsito.service.js';
-//import { CancelarPedido } from '../services/chefsito.service.js';
+import { prepararPedido, CancelarPedido } from '../services/chefsito.service.js';
+
 import '../styles/chefsito.css';
 
 const Chefsito = () => {
@@ -28,7 +28,6 @@ const Chefsito = () => {
             setPedidos([]);
         }
     };
-
 
     const mostrarDetallesPedido = (pedido) => {
         setPedidoSeleccionado(pedido);
@@ -62,7 +61,20 @@ const Chefsito = () => {
         }
     };
 
-    const CancelarPedido = () => {
+    const CancelarelPedido = async (pedido) => {
+        try {
+            await CancelarPedido(pedido);
+            
+            // Actualizar el estado del pedido a "Cancelado"
+            setPedidos((prevPedidos) =>
+                prevPedidos.map((p) =>
+                    p.id === pedido.id ? { ...p, status: 'Cancelado' } : p
+                )
+            );
+            cerrarDetallesPedido();
+        } catch (error) {
+            console.error('Error al cancelar el pedido:', error);
+        }
     };
 
     // Filtramos los pedidos por estado
@@ -128,12 +140,13 @@ const Chefsito = () => {
                         <button onClick={cerrarDetallesPedido} className="button button-close">
                             Cerrar
                         </button>
-                        <button onClick={CancelarPedido} className="button button-cancelar">
-                            Cancelar Pedido
-                        </button>
                         <button onClick={manejarPreparacionPedido} className="button button-preparar">
                             Preparar Pedido
                         </button>
+                        <button onClick={() => CancelarelPedido(pedidoSeleccionado)} className="button button-cancelar">
+                            Cancelar Pedido
+                        </button>
+
                     </div>
                 </div>
             )}

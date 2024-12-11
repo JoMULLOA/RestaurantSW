@@ -1,5 +1,6 @@
 import { AppDataSource } from "../config/configDb.js";
 import { getPedidos } from "./pedido.service.js";
+import { removePedido } from "./pedido.service.js";
 import { getIngredientes } from "./ingrediente.service.js";
 import { getMenus } from "./menu.service.js";
 import ingrediente from "../entity/ingrediente.entity.js";
@@ -123,6 +124,7 @@ export const CancelarPedido = async (prepararpedido) => {
         const menus = await getMenus();
         const ingredientesEs = await getIngredientes();
         const ingredientRepository = AppDataSource.getRepository(ingrediente);
+    
 
         // Encontrar el pedido específico basado en las propiedades del `prepararpedido`
         const pedido = pedidos.find(p => p.id === prepararpedido.id);
@@ -139,14 +141,14 @@ export const CancelarPedido = async (prepararpedido) => {
                 }
                 //console.log(`Ingrediente=${ingre.nombre}`);
                 //console.log("Cantidad Inicial:", ingre.cantidad);
-                ingre.cantidad + ingrediente.cantidad; // Actualiza la cantidad
+                ingre.cantidad += ingrediente.cantidad; // Actualiza la cantidad
                 //console.log("Cantidad Final:", ingre.cantidad);
                 await ingredientRepository.save(ingre); // Guarda el cambio en la base de datos
             }
         }
 
         //bebesible
-        for (const plato of pedido.bebestible) { // Itera sobre los platos del pedido
+        for (const bebestible of pedido.bebestible) { // Itera sobre los platos del pedido
             const menu = menus.find(a => a.nombre === bebestible);
             //console.log("Procesando plato:", plato);
             //console.log("Ingredientes del menú:", menu.ingredientes);
@@ -158,14 +160,14 @@ export const CancelarPedido = async (prepararpedido) => {
                 }
                 //console.log(`Ingrediente=${ingre.nombre}`);
                 //console.log("Cantidad Inicial:", ingre.cantidad);
-                ingre.cantidad + ingrediente.cantidad; // Actualiza la cantidad
+                ingre.cantidad += ingrediente.cantidad; // Actualiza la cantidad
                 //console.log("Cantidad Final:", ingre.cantidad);
                 await ingredientRepository.save(ingre); // Guarda el cambio en la base de datos
             }
         }
         //postre
 
-        for (const plato of pedido.postre) { // Itera sobre los platos del pedido
+        for (const postre of pedido.postre) { // Itera sobre los platos del pedido
             const menu = menus.find(a => a.nombre === postre);
             //console.log("Procesando plato:", plato);
             //console.log("Ingredientes del menú:", menu.ingredientes);
@@ -177,11 +179,13 @@ export const CancelarPedido = async (prepararpedido) => {
                 }
                 //console.log(`Ingrediente=${ingre.nombre}`);
                 //console.log("Cantidad Inicial:", ingre.cantidad);
-                ingre.cantidad + ingrediente.cantidad; // Actualiza la cantidad
+                ingre.cantidad += ingrediente.cantidad; // Actualiza la cantidad
                 //console.log("Cantidad Final:", ingre.cantidad);
                 await ingredientRepository.save(ingre); // Guarda el cambio en la base de datos
             }
         }
+        await removePedido(pedido.id);
+        console.log(`Pedido con ID ${pedido.id} eliminado con éxito.`);
 
     } catch (error) {
         console.log("Error al procesar el pedido:", error.message);
