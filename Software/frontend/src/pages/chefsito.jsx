@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getPedidos } from '../services/pedido.service.js';
-import { prepararPedido, CancelarPedido } from '../services/chefsito.service.js';
+import { preparapedido, CancelarPedido } from '../services/chefsito.service.js';
 
 import '../styles/chefsito.css';
 
@@ -29,6 +29,8 @@ const Chefsito = () => {
         }
     };
 
+
+    
     const mostrarDetallesPedido = (pedido) => {
         setPedidoSeleccionado(pedido);
     };
@@ -39,27 +41,19 @@ const Chefsito = () => {
 
     const manejarPreparacionPedido = async () => {
         try {
-            
-            // Actualizamos el pedido como "En Preparación"
-            const pedidoActualizado = {
-                ...pedidoSeleccionado,
-                status: 'En Preparación',
-            };
-
-            // Actualizamos el estado global de los pedidos
+            const pedidoActualizado = { ...pedidoSeleccionado, status: 'En Preparación' };
+            await preparapedido(pedidoSeleccionado.id, 'En Preparación'); // Llama al backend
             setPedidos((prevPedidos) =>
                 prevPedidos.map((pedido) =>
-                    pedido.mesa === pedidoActualizado.mesa ? pedidoActualizado : pedido
+                    pedido.id === pedidoSeleccionado.id ? pedidoActualizado : pedido
                 )
             );
-
-            // Simulamos la actualización en el servidor
-            await prepararPedido(pedidoActualizado);
             cerrarDetallesPedido();
         } catch (error) {
             console.error('Error al preparar el pedido:', error);
         }
     };
+    
 
     const CancelarelPedido = async (pedido) => {
         try {
@@ -90,7 +84,6 @@ const Chefsito = () => {
                 )
             );
             // Simulamos la actualización en el servidor
-            await prepararPedido(pedidoActualizado);
             cerrarDetallesPedido();
         } catch (error) {
             console.error('Error al preparar el pedido:', error);
