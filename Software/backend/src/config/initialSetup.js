@@ -74,28 +74,238 @@ async function createInitialData() {
           })
         ),
         // Más ingredientes si es necesario...
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Aceite de oliva",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Ajo",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Cebolla",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Tomates",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Pimiento",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Zanahoria",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Papas",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Pollo",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Carne de res",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Cerdo",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Pescado",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Arroz",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Pasta",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Queso cheddar",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Queso parmesano",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Huevo",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Leche",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Mantequilla",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Pan",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Harina de trigo",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Azúcar moreno",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Canela",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Sal",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Pimienta",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Laurel",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Orégano",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Perejil",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Cilantro",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Albahaca",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
+        ingredientRepository.save(
+            ingredientRepository.create({
+                nombre: "Champiñones",
+                fechaIngreso: new Date("2024-10-10"),
+                cantidad: Math.floor(Math.random() * 100) + 1,
+            })
+        ),
       ]);
       console.log("* => Ingredientes creados exitosamente");
     }
 
     // Crear Pedidos
-    // const pedidoRepository = AppDataSource.getRepository(pedido);
-    // const pedidoCount = await pedidoRepository.count();
-    // if (pedidoCount === 0) {
-    //   await Promise.all([
-    //     pedidoRepository.save(
-    //       pedidoRepository.create({
-    //         mesa: 1,
-    //         plato: ["Salchipapas"],
-    //         bebestible: ["Coca Cola"],
-    //         postre: ["Brownie"],
-    //         modificaciones: "+ Salchichas",
-    //         fechaIngreso: new Date("2024-10-01"),
-    //       })
-    //     ),
-    //   ]);
-    //   console.log("* => Pedidos creados exitosamente");
-    // }
+    const pedidoRepository = AppDataSource.getRepository(pedido);
+    const pedidoCount = await pedidoRepository.count();
+    if (pedidoCount === 0) {
+      await Promise.all([
+        pedidoRepository.save(
+          pedidoRepository.create({
+            mesa: 1,
+            plato: ["Salchipapas"],
+            bebestible: ["Coca Cola"],
+            postre: ["Brownie"],
+            modificaciones: "+ Salchichas",
+            fechaIngreso: new Date("2024-10-01"),
+          })
+        ),
+      ]);
+      console.log("* => Pedidos creados exitosamente");
+    }
 
     // Crear Menú
     const menuRepository = AppDataSource.getRepository(menu);

@@ -135,6 +135,39 @@
   width: 300px; 
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.pagination button.active {
+  background-color: #4caf50;
+  color: white;
+}
+
+.pagination button:hover {
+  background-color: #ddd;
+}
+
+.sortable {
+  cursor: pointer;
+  user-select: none;
+  color: #003366;
+  font-weight: bold;
+}
+
+.sortable:hover {
+  text-decoration: underline;
+}
 
 /* Estilos responsivos */
 @media (max-width: 767px) {
@@ -166,5 +199,9 @@
 
   .form-table td {
     text-align: left;
+  }
+
+  .pagination button {
+    flex: 1 0 auto;
   }
 }
