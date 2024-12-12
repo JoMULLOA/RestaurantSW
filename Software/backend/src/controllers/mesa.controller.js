@@ -149,17 +149,13 @@ export const ocuparMesa = async (req, res) => {
   // Verificar si req.params está definido
   if (req.params === undefined) {
     result = { numeroMesa: String(req.numeroMesa) };
-    console.log("Odo mesa:", result);
+    console.log("Odds mesa:", result);
   } else {
     result = req.params;
     console.log("Odo mesa:", result);
   }
-
-  console.log(result);
-  
   // Extraer numeroMesa de result
   const { numeroMesa } = result;
-
   // Validar si el número de mesa está presente en el objeto result
   if (!numeroMesa) {
     return res.status(400).json({ message: "Número de mesa no proporcionado" });
@@ -167,34 +163,22 @@ export const ocuparMesa = async (req, res) => {
 
   try {
     const mesaRepository = AppDataSource.getRepository(Mesa);
-    
     // Buscar la mesa en la base de datos
     const mesa = await mesaRepository.findOne({ where: { numeroMesa } });
-
     // Validar si la mesa existe
     if (!mesa) {
       return res.status(404).json({ message: "Mesa no encontrada" });
     }
-
     // Verificar si la mesa está disponible
     if (mesa.estado !== "Disponible") {
       return res.status(400).json({ message: "La mesa no está disponible para ocupar" });
     }
-
     // Actualizar el estado de la mesa a "Ocupada"
     mesa.estado = "Ocupada";
-    await mesaRepository.save(mesa);
-
+    const mesaOcu = await mesaRepository.save(mesa);
     // Retornar la respuesta de éxito
-    return res.status(200).json({ message: "Mesa ocupada correctamente", mesa });
+    return mesaOcu;
   } catch (error) {
     console.error("Error al ocupar la mesa:", error);
-    
-    // Enviar un mensaje de error detallado en caso de fallo
-    if (res && res.status) {
-      return res.status(500).json({ message: "Error al ocupar la mesa", error: error.message });
-    } else {
-      console.error("No se pudo enviar la respuesta:", error);
-    }
   }
 };

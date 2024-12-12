@@ -14,7 +14,6 @@ export const preparapedido = async (prepararpedido) => {
 
         // Encontrar el pedido específico basado en las propiedades del `prepararpedido`
         const pedido = pedidos.find(p => p.id === prepararpedido.id);
-        //console.log("pedido=",pedido);
         if (!pedido || !Array.isArray(pedido.plato)) {
             console.log("El pedido no existe o no contiene una lista de platos.");
             return;
@@ -38,8 +37,6 @@ export const preparapedido = async (prepararpedido) => {
                 console.log(`No se encontró el menú para el plato: ${plato}`);
                 continue;
             }
-            //console.log("Procesando plato:", plato);
-            //console.log("Ingredientes del menú:", menu.ingredientes);
             for (const ingrediente of menu.ingredientes) {
                 const ingre = ingredientesEs.find(ing => ing.nombre === ingrediente.nombre);
                 if (!ingre) {
@@ -47,10 +44,7 @@ export const preparapedido = async (prepararpedido) => {
                     continue;
                 }
                 if (ingre.cantidad >= ingrediente.cantidad) {
-                    //console.log(`Ingrediente=${ingre.nombre}`);
-                    //console.log("Cantidad Inicial:", ingre.cantidad);
                     ingre.cantidad -= ingrediente.cantidad; // Actualiza la cantidad
-                    //console.log("Cantidad Final:", ingre.cantidad);
                     await ingredientRepository.save(ingre); // Guarda el cambio en la base de datos
                 } else {
                     console.log(`No hay suficiente cantidad para el ingrediente: ${ingrediente.nombre}`);
@@ -65,8 +59,6 @@ export const preparapedido = async (prepararpedido) => {
                 console.log(`No se encontró el menú para el plato: ${bebestible}`);
                 continue;
             }
-            //console.log("Procesando plato:", plato);
-            //console.log("Ingredientes del menú:", menu.ingredientes);
             for (const ingrediente of menu.ingredientes) {
                 const ingre = ingredientesEs.find(ing => ing.nombre === ingrediente.nombre);
                 if (!ingre) {
@@ -74,10 +66,7 @@ export const preparapedido = async (prepararpedido) => {
                     continue;
                 }
                 if (ingre.cantidad >= ingrediente.cantidad) {
-                    //console.log(`Ingrediente=${ingre.nombre}`);
-                    //console.log("Cantidad Inicial:", ingre.cantidad);
                     ingre.cantidad -= ingrediente.cantidad; // Actualiza la cantidad
-                    //console.log("Cantidad Final:", ingre.cantidad);
                     await ingredientRepository.save(ingre); // Guarda el cambio en la base de datos
                 } else {
                     console.log(`No hay suficiente cantidad para el ingrediente: ${ingrediente.nombre}`);
@@ -92,8 +81,6 @@ export const preparapedido = async (prepararpedido) => {
                 console.log(`No se encontró el menú para el plato: ${postre}`);
                 continue;
             }
-            //console.log("Procesando plato:", plato);
-            //console.log("Ingredientes del menú:", menu.ingredientes);
             for (const ingrediente of menu.ingredientes) {
                 const ingre = ingredientesEs.find(ing => ing.nombre === ingrediente.nombre);
                 if (!ingre) {
@@ -101,10 +88,7 @@ export const preparapedido = async (prepararpedido) => {
                     continue;
                 }
                 if (ingre.cantidad >= ingrediente.cantidad) {
-                    //console.log(`Ingrediente=${ingre.nombre}`);
-                    //console.log("Cantidad Inicial:", ingre.cantidad);
                     ingre.cantidad -= ingrediente.cantidad; // Actualiza la cantidad
-                    //console.log("Cantidad Final:", ingre.cantidad);
                     await ingredientRepository.save(ingre); // Guarda el cambio en la base de datos
                 } else {
                     console.log(`No hay suficiente cantidad para el ingrediente: ${ingrediente.nombre}`);
@@ -124,25 +108,20 @@ export const CancelarPedido = async (prepararpedido) => {
         const menus = await getMenus();
         const ingredientesEs = await getIngredientes();
         const ingredientRepository = AppDataSource.getRepository(ingrediente);
-    
+        console.log("prepararpedido=", prepararpedido);
 
         // Encontrar el pedido específico basado en las propiedades del `prepararpedido`
         const pedido = pedidos.find(p => p.id === prepararpedido.id);
 
         for (const plato of pedido.plato) { // Itera sobre los platos del pedido
             const menu = menus.find(a => a.nombre === plato);
-            //console.log("Procesando plato:", plato);
-            //console.log("Ingredientes del menú:", menu.ingredientes);
             for (const ingrediente of menu.ingredientes) {
                 const ingre = ingredientesEs.find(ing => ing.nombre === ingrediente.nombre);
                 if (!ingre) {
                     console.log(`No se encontró el ingrediente: ${ingrediente.nombre}`);
                     continue;
                 }
-                //console.log(`Ingrediente=${ingre.nombre}`);
-                //console.log("Cantidad Inicial:", ingre.cantidad);
                 ingre.cantidad += ingrediente.cantidad; // Actualiza la cantidad
-                //console.log("Cantidad Final:", ingre.cantidad);
                 await ingredientRepository.save(ingre); // Guarda el cambio en la base de datos
             }
         }
@@ -150,18 +129,13 @@ export const CancelarPedido = async (prepararpedido) => {
         //bebesible
         for (const bebestible of pedido.bebestible) { // Itera sobre los platos del pedido
             const menu = menus.find(a => a.nombre === bebestible);
-            //console.log("Procesando plato:", plato);
-            //console.log("Ingredientes del menú:", menu.ingredientes);
             for (const ingrediente of menu.ingredientes) {
                 const ingre = ingredientesEs.find(ing => ing.nombre === ingrediente.nombre);
                 if (!ingre) {
                     console.log(`No se encontró el ingrediente: ${ingrediente.nombre}`);
                     continue;
                 }
-                //console.log(`Ingrediente=${ingre.nombre}`);
-                //console.log("Cantidad Inicial:", ingre.cantidad);
                 ingre.cantidad += ingrediente.cantidad; // Actualiza la cantidad
-                //console.log("Cantidad Final:", ingre.cantidad);
                 await ingredientRepository.save(ingre); // Guarda el cambio en la base de datos
             }
         }
@@ -169,18 +143,13 @@ export const CancelarPedido = async (prepararpedido) => {
 
         for (const postre of pedido.postre) { // Itera sobre los platos del pedido
             const menu = menus.find(a => a.nombre === postre);
-            //console.log("Procesando plato:", plato);
-            //console.log("Ingredientes del menú:", menu.ingredientes);
             for (const ingrediente of menu.ingredientes) {
                 const ingre = ingredientesEs.find(ing => ing.nombre === ingrediente.nombre);
                 if (!ingre) {
                     console.log(`No se encontró el ingrediente: ${ingrediente.nombre}`);
                     continue;
                 }
-                //console.log(`Ingrediente=${ingre.nombre}`);
-                //console.log("Cantidad Inicial:", ingre.cantidad);
                 ingre.cantidad += ingrediente.cantidad; // Actualiza la cantidad
-                //console.log("Cantidad Final:", ingre.cantidad);
                 await ingredientRepository.save(ingre); // Guarda el cambio en la base de datos
             }
         }
