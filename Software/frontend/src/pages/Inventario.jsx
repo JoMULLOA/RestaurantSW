@@ -14,10 +14,13 @@ const Ingrediente = () => {
   const [newCantidad, setNewCantidad] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 4;
 
   const [sortField, setSortField] = useState('');
   const [sortDirection, setSortDirection] = useState('asc');
+  const [showAlertPopup, setShowAlertPopup] = useState(false);
+
+  const LOW_QUANTITY_THRESHOLD = 5;
 
   useEffect(() => {
     const fetchIngredientes = async () => {
@@ -34,6 +37,12 @@ const Ingrediente = () => {
     };
     fetchIngredientes();
   }, []);
+
+  useEffect(() => {
+    if (ingredientes.some((ingrediente) => parseFloat(ingrediente.cantidad) < LOW_QUANTITY_THRESHOLD)) {
+      setShowAlertPopup(true);
+    }
+  }, [ingredientes]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -73,7 +82,7 @@ const Ingrediente = () => {
         console.error("Error al eliminar el ingrediente:", response.message);
       }
     } catch (error) {
-      console.error("Error al conectar con el servidor:", error);
+      console.error("Error al conectar con el servidor: ", error);
     }
   };
 
@@ -120,18 +129,41 @@ const Ingrediente = () => {
     currentPage * itemsPerPage
   );
 
+  const lowQuantityIngredientes = ingredientes.filter(
+    (ingrediente) => parseFloat(ingrediente.cantidad) < LOW_QUANTITY_THRESHOLD
+  );
+
   return (
     <main className="container">
       <h1 className="titleInventario">Inventario de Ingredientes</h1>
+
+      {showAlertPopup && (
+        <div className="popup-overlay">
+          <div className="popup">
+            <h3>Alerta de Inventario</h3>
+            <ul>
+              {lowQuantityIngredientes.map((ingrediente) => (
+                <li key={ingrediente.id}>
+                  El ingrediente <strong>{ingrediente.nombre}</strong> tiene una cantidad baja: {ingrediente.cantidad}
+                </li>
+              ))}
+            </ul>
+            <button onClick={() => setShowAlertPopup(false)} className="close-popup">
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
+
       <div className="dashboard">
         <div className="form-wrapper">
           <form onSubmit={handleSubmit} className="form-container">
             <table className="form-table">
               <thead>
                 <tr>
-                  <th> Nombre </th>
+                  <th>Nombre</th>
                   <th>Fecha de Ingreso</th>
-                  <th> Cantidad</th>
+                  <th > Cantidad  </th>
                   <th>Acciones</th>
                 </tr>
               </thead>
