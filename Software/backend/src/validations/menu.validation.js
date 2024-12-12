@@ -56,12 +56,12 @@ export const menuBodyValidation = Joi.object({
     }),
   tipo: Joi.string()
     .trim()
-    .valid("Bebestible", "Comida", "Postre") // Agregar valores válidos opcionalmente
+    .valid("Bebestible", "Plato", "Postre") // Agregar valores válidos opcionalmente
     .required()
     .messages({
       "string.base": "El tipo debe ser de tipo string.",
       "string.empty": "El tipo no puede estar vacío.",
-      "any.only": "El tipo debe ser uno de los siguientes: Bebestible, Comida, Postre.",
+      "any.only": "El tipo debe ser uno de los siguientes: Bebestible, Plato, Postre.",
       "any.required": "El tipo es obligatorio.",
     }),
 });
