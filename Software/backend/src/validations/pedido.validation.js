@@ -50,10 +50,17 @@ const pedidoSchema = Joi.object({
       "any.invalid": "La fecha debe ser la actual.",
       "any.required": "La fecha de ingreso es obligatoria."
     })
-}).or("plato", "bebestible", "postre")
-  .messages({
-    "object.missing": "Debe incluir al menos uno entre plato, bebestible o postre."
-  });
+}).custom((value, helpers) => {
+  const hasItems = (array) => Array.isArray(array) && array.length > 0;
+  
+  if (!hasItems(value.plato) 
+    && !hasItems(value.bebestible) 
+    && !hasItems(value.postre)) {
+      console.log("No hay items");
+    return helpers.message("Debe incluir al menos uno entre plato, bebestible o postre con información.");
+  }
+  return value;
+}, "Custom validation");
 
 // Exportamos la función para validar un pedido
 export const validatePedido = (data) => {
