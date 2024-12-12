@@ -12,12 +12,6 @@ export const getPedidos = async () => {
   return await pedidoRepository.find();
 };
 
-// export const addPedido = async (data) => {
-//     const pedidoRepository = AppDataSource.getRepository(pedido);
-//     const newPedido = pedidoRepository.create(data);
-//     return await pedidoRepository.save(newPedido);
-// };
-
 //ADD de joaquin con resta de ingredientes
 export const addPedido = async (data) => {
   const pedidoRepository = AppDataSource.getRepository(pedido);
@@ -25,7 +19,6 @@ export const addPedido = async (data) => {
   const menus = await getMenus();
   const ingredientesEs = await getIngredientes();
   const ingredientRepository = AppDataSource.getRepository(ingrediente);
-  console.log("Pedido creado:", newPedido);
   let pedidoValido = true;
 
   for(const plato of newPedido.plato){

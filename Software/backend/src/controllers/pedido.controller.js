@@ -24,8 +24,8 @@ export const createPedido = async (req, res) => {
     const { mesa } = req.body;
     const bodyMesa = await getMesaConN(mesa);
     if(bodyMesa.estado === "Disponible"){
-      await ocuparMesa(bodyMesa);
       const pedido = await addPedido(req.body);
+      await ocuparMesa(bodyMesa);
       res.status(201).json({ status: "Success", data: pedido });
     } else{
       return res.status(400).json({ message: "La mesa no está disponible para ocupar" });
