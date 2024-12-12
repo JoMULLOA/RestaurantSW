@@ -76,11 +76,31 @@ const Chefsito = () => {
             console.error('Error al cancelar el pedido:', error);
         }
     };
+    const pedidolisto = async () => {
+        try {       
+            // Actualizamos el pedido como "Pedido Listo"   
+            const pedidoActualizado = {
+                ...pedidoSeleccionado,
+                status: 'Pedido Listo',
+            };
+            // Actualizamos el estado global de los pedidos
+            setPedidos((prevPedidos) =>
+                prevPedidos.map((pedido) =>
+                    pedido.mesa === pedidoActualizado.mesa ? pedidoActualizado : pedido
+                )
+            );
+            // Simulamos la actualización en el servidor
+            await prepararPedido(pedidoActualizado);
+            cerrarDetallesPedido();
+        } catch (error) {
+            console.error('Error al preparar el pedido:', error);
+        }
+    };
 
     // Filtramos los pedidos por estado
     const pedidosPendientes = pedidos.filter((pedido) => pedido.status === 'Pendiente');
     const pedidosEnPreparacion = pedidos.filter((pedido) => pedido.status === 'En Preparación');
-    //const PedidosListos = pedidos.filter((pedido) => pedido.status == 'Pedido Listo');
+    const PedidosListos = pedidos.filter((pedido) => pedido.status == 'Pedido Listo');
 
     return (
         <div>
@@ -124,6 +144,18 @@ const Chefsito = () => {
                 <div className="pedidos-seccion">
                     <div className="pedidos-ventana">
                         <h2>Pedidos Listos</h2>
+                        {PedidosListos.length > 0 ? (
+                            PedidosListos.map((pedido) => (
+                                <div key={pedido.mesa}
+                                    className="pedido-card"
+                                    onClick={() => mostrarDetallesPedido(pedido)}>
+                                    
+                                    <h3>Mesa #{pedido.mesa}</h3>
+                                </div>
+                            ))
+                        ) : (
+                            <p style={{ textAlign: 'center', color: '#555' }}>No hay pedidos listos</p>
+                        )}
                     </div>
                 </div>
             </div>
@@ -140,9 +172,16 @@ const Chefsito = () => {
                         <button onClick={cerrarDetallesPedido} className="button button-close">
                             Cerrar
                         </button>
-                        <button onClick={manejarPreparacionPedido} className="button button-preparar">
+                        {pedidoSeleccionado.status === 'Pendiente' && (
+                            <button onClick={manejarPreparacionPedido} className="button button-preparar">
                             Preparar Pedido
-                        </button>
+                            </button>
+                        )}
+                        {pedidoSeleccionado.status === 'En Preparación' && (
+                            <button onClick={pedidolisto} className="button button-preparar">
+                                Pedido Listo
+                            </button>
+                        )}                        
                         <button onClick={() => CancelarelPedido(pedidoSeleccionado)} className="button button-cancelar">
                             Cancelar Pedido
                         </button>
