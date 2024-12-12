@@ -26,6 +26,7 @@ export const getPedidos = async () => {
 export const deletePedido = async (id) => {
   try {
     const response = await axios.delete("/pedidos/deletePedido/" + id);
+    console.log("Pedido eliminado: ", response.data);
     return response.data;
   } catch (error) {
     console.error("Error al eliminar el pedido: ", error);

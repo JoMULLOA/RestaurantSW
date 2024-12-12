@@ -162,6 +162,7 @@ export const eliminarPedido = async (id) => {
       return null; 
   }
   await CancelarPedido(pedidoToDelete);
+  console.log("Pedido eliminado: ", pedidoToDelete);
   return pedidoToDelete;
 }
 

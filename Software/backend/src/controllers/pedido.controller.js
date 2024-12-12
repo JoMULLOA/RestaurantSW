@@ -32,13 +32,13 @@ export const deletePedido = async (req, res) => {
     const { id } = req.params; 
 
     const deletedPedido = await eliminarPedido(id); 
-
+    console.log("Pedido eliminado: ", deletedPedido);
     if (!deletedPedido) {
       return res.status(404).json({ status: "Error", message: "Pedido no encontrado" });
     }
-
     res.status(200).json({ status: "Success", message: "Pedido eliminado correctamente" });
   } catch (error) {
+    console.error("Errol: ", error);
     res.status(500).json({ status: "Error", message: error.message });
   }
 };

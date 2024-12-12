@@ -128,7 +128,7 @@ const Pedido = () => {
       const data = await deletePedido(req.id);
       if (data.status === 'Success') {
         setPedidos(pedidos.filter((pedido) => pedido.id !== req.id));
-        // await liberarMesa(req.mesa);
+        console.log("Pedido eliminado correctamente");
       } else {
         console.error("Error al eliminar el pedido: ", data.message);
       }

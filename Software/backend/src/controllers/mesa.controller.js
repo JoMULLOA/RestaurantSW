@@ -45,9 +45,18 @@ export const reservarMesa = async (req, res) => {
 };
 
 // Liberar una mesa (cambiar estado a "Disponible" y remover garzón asignado)
-export const liberarMesa = async (req, res) => {
-  const { numeroMesa } = req.params;
+export const liberarMesa = async (req) => {
+  let result;
 
+  // Verificar si req.params está definido
+  if (req.params === undefined) {
+    result = { numeroMesa: String(req) };
+  } else {
+    result = req.params;
+  }
+  // Extraer numeroMesa de result
+  const { numeroMesa } = result;
+  // const { numeroMesa } = req.params;
   try {
     const mesaRepository = AppDataSource.getRepository(Mesa);
 
@@ -62,11 +71,12 @@ export const liberarMesa = async (req, res) => {
     mesa.estado = "Disponible";
     mesa.garzonAsignado = null;
     await mesaRepository.save(mesa);
+    console.log("Mesa liberada:", mesa);
 
-    return res.status(200).json({ message: "Mesa liberada correctamente", mesa });
+    return { message: "Mesa liberada correctamente", mesa };
   } catch (error) {
     console.error("Error al liberar la mesa:", error);
-    return res.status(500).json({ message: "Error al liberar la mesa" });
+    throw new Error("Error al liberar la mesa");
   }
 };
 
