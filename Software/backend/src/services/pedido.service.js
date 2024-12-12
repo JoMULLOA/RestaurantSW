@@ -12,14 +12,13 @@ export const getPedidos = async () => {
   return await pedidoRepository.find();
 };
 
-export const addPedido = async (data) => {
-    const pedidoRepository = AppDataSource.getRepository(pedido);
-    const newPedido = pedidoRepository.create(data);
-    return await pedidoRepository.save(newPedido);
-};
+// export const addPedido = async (data) => {
+//     const pedidoRepository = AppDataSource.getRepository(pedido);
+//     const newPedido = pedidoRepository.create(data);
+//     return await pedidoRepository.save(newPedido);
+// };
 
-//ADD de joaquin con resta de ignredientes
-/*
+//ADD de joaquin con resta de ingredientes
 export const addPedido = async (data) => {
   const pedidoRepository = AppDataSource.getRepository(pedido);
   const newPedido = pedidoRepository.create(data);
@@ -27,30 +26,37 @@ export const addPedido = async (data) => {
   const ingredientesEs = await getIngredientes();
   const ingredientRepository = AppDataSource.getRepository(ingrediente);
   console.log("Pedido creado:", newPedido);
-  
+  let pedidoValido = true;
   for(const plato of newPedido.plato){
     const menu = menus.find(a => a.nombre === plato);
     if (!menu) {
         console.log(`No se encontró el menú para el plato: ${plato}`);
-        continue;
+        pedidoValido = false;
     }
     for(const ingrediente of menu.ingredientes){
       const ingre = ingredientesEs.find(ing => ing.nombre === ingrediente.nombre);
+      console.log("Ingrediente:", ingrediente);
       if (!ingre) {
           console.log(`No se encontró el ingrediente: ${ingrediente.nombre}`);
-          continue;
+          pedidoValido = false;
       }
       if (ingre.cantidad >= ingrediente.cantidad) {
           ingre.cantidad -= ingrediente.cantidad; // Actualiza la cantidad
           await ingredientRepository.save(ingre); // Guarda el cambio en la base de datos
       } else { 
           console.log(`No hay suficiente cantidad para el ingrediente: ${ingrediente.nombre}`);
+          pedidoValido = false;
       }
     }
   }
-  return await pedidoRepository.save(newPedido);
-
-}*/
+  if (!pedidoValido) {
+      console.log("Pedido inválido");
+      return null;
+  }else{
+      console.log("Pedido válido");
+      return await pedidoRepository.save(newPedido);
+  }
+}
 
 export const removePedido = async (id) => {
   const pedidoRepository = AppDataSource.getRepository(pedido);
@@ -61,5 +67,5 @@ export const removePedido = async (id) => {
   }
 
   await pedidoRepository.remove(pedidoToDelete);
-  return pedidoToDelete; // 
+  return pedidoToDelete;
 };
