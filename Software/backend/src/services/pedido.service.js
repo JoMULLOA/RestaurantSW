@@ -100,7 +100,6 @@ export const addPedido = async (data) => {
       return null;
   }else{
       console.log("Pedido válido");
-      console.log("Pedido creado:", newPedido);
       return await pedidoRepository.save(newPedido);
   }
 }
