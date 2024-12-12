@@ -79,23 +79,23 @@ async function createInitialData() {
     }
 
     // Crear Pedidos
-    const pedidoRepository = AppDataSource.getRepository(pedido);
-    const pedidoCount = await pedidoRepository.count();
-    if (pedidoCount === 0) {
-      await Promise.all([
-        pedidoRepository.save(
-          pedidoRepository.create({
-            mesa: 1,
-            plato: ["Salchipapas"],
-            bebestible: ["Coca Cola"],
-            postre: ["Brownie"],
-            modificaciones: "+ Salchichas",
-            fechaIngreso: new Date("2024-10-01"),
-          })
-        ),
-      ]);
-      console.log("* => Pedidos creados exitosamente");
-    }
+    // const pedidoRepository = AppDataSource.getRepository(pedido);
+    // const pedidoCount = await pedidoRepository.count();
+    // if (pedidoCount === 0) {
+    //   await Promise.all([
+    //     pedidoRepository.save(
+    //       pedidoRepository.create({
+    //         mesa: 1,
+    //         plato: ["Salchipapas"],
+    //         bebestible: ["Coca Cola"],
+    //         postre: ["Brownie"],
+    //         modificaciones: "+ Salchichas",
+    //         fechaIngreso: new Date("2024-10-01"),
+    //       })
+    //     ),
+    //   ]);
+    //   console.log("* => Pedidos creados exitosamente");
+    // }
 
     // Crear Menú
     const menuRepository = AppDataSource.getRepository(menu);

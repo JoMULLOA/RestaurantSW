@@ -50,7 +50,7 @@ export const addPedido = async (data) => {
       }
     }
   }
-  //bebesible
+
   for (const bebestible of newPedido.bebestible) { // Itera sobre los platos del pedido
     const menu = menus.find(a => a.nombre === bebestible);
     if (!menu) {
@@ -72,8 +72,6 @@ export const addPedido = async (data) => {
         }
       }
   } 
-
-  //bebesible
 
   for (const postre of newPedido.postre) { // Itera sobre los platos del pedido
     const menu = menus.find(a => a.nombre === postre);
@@ -97,13 +95,12 @@ export const addPedido = async (data) => {
       }
   } 
 
-
-
   if (!pedidoValido) {
       console.log("Pedido inválido");
       return null;
   }else{
       console.log("Pedido válido");
+      console.log("Pedido creado:", newPedido);
       return await pedidoRepository.save(newPedido);
   }
 }
