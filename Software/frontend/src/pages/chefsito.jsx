@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getPedidos } from '../services/pedido.service.js';
-import { preparapedido, CancelarPedido } from '../services/chefsito.service.js';
+import { prepararPedido, CancelarPedido } from '../services/chefsito.service.js';
 
 import '../styles/chefsito.css';
 
@@ -42,7 +42,7 @@ const Chefsito = () => {
     const manejarPreparacionPedido = async () => {
         try {
             const pedidoActualizado = { ...pedidoSeleccionado, status: 'En Preparación' };
-            await preparapedido(pedidoSeleccionado.id, 'En Preparación'); // Llama al backend
+            await prepararPedido(pedidoSeleccionado.id, 'En Preparación'); // Llama al backend
             setPedidos((prevPedidos) =>
                 prevPedidos.map((pedido) =>
                     pedido.id === pedidoSeleccionado.id ? pedidoActualizado : pedido

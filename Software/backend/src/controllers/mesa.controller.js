@@ -129,10 +129,6 @@ export const eliminarMesa = async (req, res) => {
 export const getMesaConN = async (numeroMesa) => {
   try {
     const mesax = await AppDataSource.getRepository(Mesa).findOne({ where: { numeroMesa } });
-    //Pasar mesa de objeto a cadena
-    // console.log("x",mesax);
-    // let mesa = JSON.stringify(mesax);
-    // console.log(mesa);
     return mesax;
   } catch (error) {
     console.error("Error al obtener la mesa:", error);

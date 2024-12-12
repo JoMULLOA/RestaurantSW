@@ -4,11 +4,13 @@ import { removePedido } from "./pedido.service.js";
 import { getIngredientes } from "./ingrediente.service.js";
 import { getMenus } from "./menu.service.js";
 import ingrediente from "../entity/ingrediente.entity.js";
+import { liberarMesa } from "../controllers/mesa.controller.js";
+import pedido from "../entity/pedido.entity.js";
 
 
 export const preparapedido = async (pedidoId, nuevoEstado) => {
     try {
-        const pedidoRepository = AppDataSource.getRepository(Pedido);
+        const pedidoRepository = AppDataSource.getRepository(pedido);
         const pedido = await pedidoRepository.findOne({ where: { id: pedidoId } });
 
         if (pedido) {
@@ -22,8 +24,6 @@ export const preparapedido = async (pedidoId, nuevoEstado) => {
         console.error("Error al actualizar el estado del pedido:", error);
     }
 };
-
-
 
 export const CancelarPedido = async (prepararpedido) => {
     try {
@@ -77,6 +77,7 @@ export const CancelarPedido = async (prepararpedido) => {
             }
         }
         await removePedido(pedido.id);
+        await liberarMesa(pedido.mesa);
         console.log(`Pedido con ID ${pedido.id} eliminado con éxito.`);
 
     } catch (error) {

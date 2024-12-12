@@ -6,6 +6,6 @@ export const prepararPedido = async (datapedido, datamenu) => {
 };
 
 export const CancelarPedido = async (datapedido, datamenu) => {
-    const response = await axios.post('/chef/CancelarPedido', { datapedido, datamenu });
+    const response = await axios.post('/chef/cancelarpedido', { datapedido, datamenu });
     return response.data;
 };
