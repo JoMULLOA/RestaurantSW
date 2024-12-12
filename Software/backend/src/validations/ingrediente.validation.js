@@ -5,31 +5,24 @@ import Joi from "joi";
 // CREATE TABLE ingredientes
 // (
 // 	id int,
-// 	tipo varchar(20),
+// 	nombre varchar(20),
 // 	cantidad int,
 // 	fechaIngreso timestamp
 // )
 
 export const ingredienteQueryValidation = Joi.object({
-  id: Joi.number()
-    .integer()
-    .positive()
-    .messages({
-      "number.base": "El id debe ser un número.",
-      "number.integer": "El id debe ser un número entero.",
-      "number.positive": "El id debe ser un número positivo.",
-    }),
-  tipo: Joi.string()
-    .min(3)
-    .max(20)
-    .messages({
-      "string.empty": "El tipo no puede estar vacío.",
-      "string.base": "El tipo debe ser de tipo string.",
-      "string.min":
-        "El tipo debe tener como mínimo 3 caracteres.",
-      "string.max":
-        "El tipo debe tener como máximo 20 caracteres.",
-    }),
+
+  nombre: Joi.string()
+  .min(3)
+  .max(20)
+  .pattern(/^\D+$/) // Asegura que el nombre no sea un número
+  .messages({
+    "string.empty": "El nombre no puede estar vacío.",
+    "string.base": "El nombre debe ser de tipo string.",
+    "string.min": "El nombre debe tener como mínimo 3 caracteres.",
+    "string.max": "El nombre debe tener como máximo 20 caracteres.",
+    "string.pattern.base": "El nombre no puede ser un número.",
+  }),
   cantidad: Joi.number()
     .integer()
     .positive()
@@ -40,28 +33,28 @@ export const ingredienteQueryValidation = Joi.object({
     }),
   fechaIngreso: Joi.date()
     .messages({
-      "date.base": "La fecha de ingreso debe ser de tipo date.",
+      "date.base": "La fecha de ingreso debe ser de nombre date.",
     }),
 })
-  .or("id", "tipo", "cantidad", "fechaIngreso")
+  .or("nombre","fechaIngreso", "cantidad")
   .unknown(false)
   .messages({
     "object.unknown": "No se permiten propiedades adicionales.",
     "object.missing":
-      "Debes proporcionar al menos un parámetro: id, tipo, cantidad o fechaIngreso.",
+      "Debes proporcionar al menos un parámetro: id, nombre, cantidad o fechaIngreso.",
   });
 
 export const ingredienteBodyValidation = Joi.object({
-  tipo: Joi.string()
+  nombre: Joi.string()
     .min(3)
     .max(20)
     .messages({
-      "string.empty": "El tipo no puede estar vacío.",
-      "string.base": "El tipo debe ser de tipo string.",
+      "string.empty": "El nombre no puede estar vacío.",
+      "string.base": "El nombre debe ser de nombre string.",
       "string.min":
-        "El tipo debe tener como mínimo 3 caracteres.",
+        "El nombre debe tener como mínimo 3 caracteres.",
       "string.max":
-        "El tipo debe tener como máximo 20 caracteres.",
+        "El nombre debe tener como máximo 20 caracteres.",
     }),
   cantidad: Joi.number()
     .integer()
@@ -73,7 +66,7 @@ export const ingredienteBodyValidation = Joi.object({
     }),
   fechaIngreso: Joi.date()
     .messages({
-      "date.base": "La fecha de ingreso debe ser de tipo date.",
+      "date.base": "La fecha de ingreso debe ser de nombre date.",
     }),
 });
 
