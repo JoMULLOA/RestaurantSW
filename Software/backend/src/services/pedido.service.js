@@ -137,7 +137,11 @@ export const addPedido = async (data) => {
   if (!validationResult.isValid) {
     console.log("Pedido inválido:");
     validationResult.errors.forEach(error => console.log(error));
-    return null;
+    return {
+      status: 400,
+      message: "Pedido inválido",
+      errors: validationResult.errors
+    };
   }
   console.log(validationResult);
   console.log(data);
@@ -155,6 +159,7 @@ export const addPedido = async (data) => {
   }
 };
 
+//Verdadero eliminar ...
 export const eliminarPedido = async (id) => {
   const pedidoRepository = AppDataSource.getRepository(pedido);
   const pedidoToDelete = await pedidoRepository.findOneBy({ id });

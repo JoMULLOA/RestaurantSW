@@ -135,7 +135,7 @@ export const eliminarMesa = async (req, res) => {
   }
 };
 
-//Encontrar mesa con entrada de numeroMesa y retorna la mesa
+//Encontrar mesa con entrada de numeroMesa y retorna la mesa desde la base de datos
 export const getMesaConN = async (numeroMesa) => {
   try {
     const mesax = await AppDataSource.getRepository(Mesa).findOne({ where: { numeroMesa } });
@@ -147,18 +147,14 @@ export const getMesaConN = async (numeroMesa) => {
 }
 
 export const ocuparMesa = async (req, res) => {
-  console.log("O mesa:", req);
   console.log("Ocupando mesa:", { numeroMesa: String(req.numeroMesa) });
-  console.log(req.params);
   let result;
 
   // Verificar si req.params está definido
   if (req.params === undefined) {
     result = { numeroMesa: String(req.numeroMesa) };
-    console.log("Odds mesa:", result);
   } else {
     result = req.params;
-    console.log("Odo mesa:", result);
   }
   // Extraer numeroMesa de result
   const { numeroMesa } = result;
