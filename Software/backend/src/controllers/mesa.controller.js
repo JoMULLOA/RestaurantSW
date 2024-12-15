@@ -1,18 +1,56 @@
 import { AppDataSource } from "../config/configDb.js";
 import Mesa from "../entity/mesa.entity.js";
+import { asignarGarzon } from "../services/mesa.service.js"; // Ajusta el path según tu estructura de archivos
+
 
 // Obtener todas las mesas
 export const getMesas = async (req, res) => {
   try {
-    const mesas = await AppDataSource.getRepository(Mesa).find({
-      relations: ["garzonAsignado"], // Cargar relación con el garzón asignado
+    const mesaRepository = AppDataSource.getRepository(Mesa);
+
+    // Cargar reservas y garzón asignado de las reservas
+    const mesas = await mesaRepository.find({
+      relations: ["garzonAsignado", "reservas", "reservas.garzonAsignado"],
     });
-    res.json(mesas);
+
+    // Recorrer las mesas y si una está Ocupada, buscar la reserva Confirmada
+    const mesasConGarzon = mesas.map((mesa) => {
+      if (mesa.estado === "Ocupada") {
+        // Buscar la reserva con estado Confirmada
+        // Si hay varias, podrías filtrar la más reciente, pero asumiendo una sola:
+        const reservaConfirmada = mesa.reservas.find((reserva) => reserva.estado === "Confirmada");
+
+        if (reservaConfirmada && reservaConfirmada.garzonAsignado) {
+          // Asignar el garzonAsignado desde la reserva confirmada
+          mesa.garzonAsignado = reservaConfirmada.garzonAsignado;
+        }
+      }
+      return mesa;
+    });
+
+    res.json(mesasConGarzon);
   } catch (error) {
     console.error("Error al obtener las mesas:", error);
     res.status(500).json({ message: "Error al obtener las mesas", error });
   }
 };
+
+export const asignarGarzonAMesa = async (req, res) => {
+  const { numeroMesa } = req.params;
+  const { id } = req.body;
+
+  console.log("Datos recibidos en el controlador:", { numeroMesa, id });
+
+  try {
+    const mesaActualizada = await asignarGarzon(numeroMesa, id);
+
+    res.status(200).json({ message: "Garzón asignado correctamente", mesa: mesaActualizada });
+  } catch (error) {
+    console.error("Error en asignarGarzonAMesa:", error.message);
+    res.status(500).json({ message: error.message, stack: error.stack }); // Devuelve detalles del error
+  }
+};
+
 
 // Reservar una mesa (cambiar estado a "Ocupada" y asignar un garzón)
 export const reservarMesa = async (req, res) => {
@@ -103,14 +141,21 @@ export const agregarMesa = async (req, res) => {
   try {
     const mesaRepository = AppDataSource.getRepository(Mesa);
 
-    // Obtener el ID máximo actual en la base de datos
-    const maxMesa = await mesaRepository
+    // Obtener todas las mesas ordenadas por número de mesa
+    const todasLasMesas = await mesaRepository
       .createQueryBuilder("mesa")
-      .select("MAX(mesa.id)", "max")
-      .getRawOne();
+      .select("mesa.numeroMesa")
+      .orderBy("mesa.numeroMesa", "ASC")
+      .getRawMany();
 
-    // Calcular el número de la nueva mesa como el máximo ID más 1
-    const nuevoNumeroMesa = (maxMesa.max || 0) + 1;
+    // Encontrar el primer espacio disponible en la secuencia de números de mesa
+    let nuevoNumeroMesa = 1;
+    for (let i = 0; i < todasLasMesas.length; i++) {
+      if (todasLasMesas[i].mesa_numeroMesa !== nuevoNumeroMesa) {
+        break;
+      }
+      nuevoNumeroMesa++;
+    }
 
     // Crear y guardar la nueva mesa con el número generado, estado "Disponible" y sin garzón asignado
     const nuevaMesa = mesaRepository.create({
@@ -118,13 +163,11 @@ export const agregarMesa = async (req, res) => {
       estado: "Disponible",
       garzonAsignado: null
     });
-    
-    await mesaRepository.save(nuevaMesa);
 
-    return res.status(201).json({ message: "Mesa agregada correctamente", mesa: nuevaMesa });
+    await mesaRepository.save(nuevaMesa);
+    res.status(201).json(nuevaMesa);
   } catch (error) {
-    console.error("Error al agregar la mesa:", error);
-    return res.status(500).json({ message: "Error al agregar la mesa" });
+    res.status(500).json({ message: "Error al agregar la mesa", error });
   }
 };
 

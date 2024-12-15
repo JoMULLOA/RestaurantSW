@@ -1,4 +1,6 @@
 "use strict";
+import { getGarzonesService } from "../services/user.service.js"; // Importar la nueva función del servicio
+
 import {
   deleteUserService,
   getUserService,
@@ -123,3 +125,11 @@ export async function deleteUser(req, res) {
     handleErrorServer(res, 500, error.message);
   }
 }
+
+export const getGarzones = async (req, res) => {
+  const [garzones, error] = await getGarzonesService();
+  if (error) {
+    return res.status(500).json({ message: error });
+  }
+  return res.status(200).json(garzones);
+};
