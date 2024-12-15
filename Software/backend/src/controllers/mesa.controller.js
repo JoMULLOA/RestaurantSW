@@ -4,13 +4,48 @@ import Mesa from "../entity/mesa.entity.js";
 // Obtener todas las mesas
 export const getMesas = async (req, res) => {
   try {
-    const mesas = await AppDataSource.getRepository(Mesa).find({
-      relations: ["garzonAsignado"], // Cargar relación con el garzón asignado
+    const mesaRepository = AppDataSource.getRepository(Mesa);
+
+    // Cargar reservas y garzón asignado de las reservas
+    const mesas = await mesaRepository.find({
+      relations: ["garzonAsignado", "reservas", "reservas.garzonAsignado"],
     });
-    res.json(mesas);
+
+    // Recorrer las mesas y si una está Ocupada, buscar la reserva Confirmada
+    const mesasConGarzon = mesas.map((mesa) => {
+      if (mesa.estado === "Ocupada") {
+        // Buscar la reserva con estado Confirmada
+        // Si hay varias, podrías filtrar la más reciente, pero asumiendo una sola:
+        const reservaConfirmada = mesa.reservas.find((reserva) => reserva.estado === "Confirmada");
+
+        if (reservaConfirmada && reservaConfirmada.garzonAsignado) {
+          // Asignar el garzonAsignado desde la reserva confirmada
+          mesa.garzonAsignado = reservaConfirmada.garzonAsignado;
+        }
+      }
+      return mesa;
+    });
+
+    res.json(mesasConGarzon);
   } catch (error) {
     console.error("Error al obtener las mesas:", error);
     res.status(500).json({ message: "Error al obtener las mesas", error });
+  }
+};
+
+export const asignarGarzonAMesa = async (req, res) => {
+  const { numeroMesa } = req.params;
+  const { id } = req.body;
+
+  console.log("Datos recibidos en el controlador:", { numeroMesa, id });
+
+  try {
+    const mesaActualizada = await asignarGarzon(numeroMesa, id);
+
+    res.status(200).json({ message: "Garzón asignado correctamente", mesa: mesaActualizada });
+  } catch (error) {
+    console.error("Error en asignarGarzonAMesa:", error.message);
+    res.status(500).json({ message: error.message, stack: error.stack }); // Devuelve detalles del error
   }
 };
 

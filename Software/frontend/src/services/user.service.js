@@ -30,3 +30,14 @@ export async function deleteUser(rut) {
         return error.response.data;
     }
 }
+
+// Nueva función para obtener los garzones
+export async function getGarzonesService() {
+    try {
+        const response = await axios.get('/user/garzones');
+        return response.data; // Asegúrate de que el backend devuelve los garzones correctamente
+    } catch (error) {
+        console.error('Error al obtener los garzones:', error);
+        throw error;
+    }
+}
