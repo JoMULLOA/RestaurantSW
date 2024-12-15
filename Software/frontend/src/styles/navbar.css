@@ -56,8 +56,8 @@
 
 .nav-menu ul li a.active {
     font-weight: bold;
-    background-color: #eef7ff;
-    color: #795548;
+    background-color: #795548;
+    color: #ffffff;
     padding: 10px;
     border-radius: 4px;
 }
@@ -83,8 +83,7 @@
 .user-role-indicator {
     display: flex;
     align-items: left;
-  }
-  
-  .user-role-text {
+}
+.user-role-text {
     margin-left: 15px; /* Ajusta el valor según sea necesario */
-  }
+}

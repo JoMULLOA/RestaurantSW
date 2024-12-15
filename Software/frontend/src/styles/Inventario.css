@@ -135,7 +135,135 @@
   width: 300px; 
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
 
+.pagination button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.pagination button.active {
+  background-color: #4caf50;
+  color: white;
+}
+
+.pagination button:hover {
+  background-color: #ddd;
+}
+
+.sortable {
+  cursor: pointer;
+  user-select: none;
+  color: #003366;
+  font-weight: bold;
+}
+
+.sortable:hover {
+  text-decoration: underline;
+}
+
+.alert-container {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.alert-container h3 {
+  margin: 0 0 10px 0;
+}
+
+.alert-container ul {
+  margin: 0;
+  padding: 0 0 0 20px;
+}
+
+.alert-container li {
+  list-style: none;
+}
+/* Estilos para el popup */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup {
+  background-color: #fff;
+  color: #856404;
+  border: 1px solid #ffeeba;
+  border-radius: 5px;
+  padding: 20px;
+  max-width: 400px;
+  width: 90%;
+  max-height: 30vh; /* Establece una altura máxima */
+  overflow-y: auto; /* Habilita el desplazamiento vertical */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.popup h3 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+}
+
+.popup ul {
+  margin: 0;
+  padding: 0 0 0 20px;
+  text-align: left;
+}
+
+.popup li {
+  list-style: none;
+  margin-bottom: 10px;
+}
+
+.close-popup {
+  display: block;
+  margin: 20px auto 0 auto;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.close-popup:hover {
+  background-color: #45a049;
+}
+/* Animación para el popup */
+@keyframes popup-appear {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.popup {
+  animation: popup-appear 0.3s ease-in-out;
+}
 /* Estilos responsivos */
 @media (max-width: 767px) {
   .form-container,
@@ -166,5 +294,9 @@
 
   .form-table td {
     text-align: left;
+  }
+
+  .pagination button {
+    flex: 1 0 auto;
   }
 }

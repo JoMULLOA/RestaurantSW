@@ -2,7 +2,10 @@ import axios from './root.service.js';
 
 export const addPedido = async (pedido) => {
   try {
+    console.log("Pedido: ", pedido);
     const response = await axios.post('/pedido/addPedido', pedido);
+    console.log("Pedido: ", pedido);
+    console.log("Pedido: ", response.data);
     return response.data;
   } catch (error) {
     console.error("Error al agregar el pedido: ", error);
@@ -23,6 +26,7 @@ export const getPedidos = async () => {
 export const deletePedido = async (id) => {
   try {
     const response = await axios.delete("/pedidos/deletePedido/" + id);
+    console.log("Pedido eliminado: ", response.data);
     return response.data;
   } catch (error) {
     console.error("Error al eliminar el pedido: ", error);

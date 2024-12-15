@@ -5,6 +5,8 @@ import {
   updateIngredienteService 
 } from "../services/ingrediente.service.js";
 // ingrediente.controller.js
+import  { ingredienteQueryValidation } from "../validations/ingrediente.validation.js";
+
 
 export const getAllIngredientes = async (req, res) => {
   try {
@@ -17,10 +19,18 @@ export const getAllIngredientes = async (req, res) => {
 
 export const createIngrediente = async (req, res) => {
   try {
-    const ingrediente = await addIngrediente(req.body);
-    res.status(201).json({ status: "Success", data: ingrediente });
-  } catch (error) {
-    res.status(500).json({ status: "Error", message: error.message });
+    // Validar los datos de la solicitud
+    const { error } = ingredienteQueryValidation.validate(req.body);
+    if (error) {
+      console.log(error);
+      return res.status(400).json({ message: error.details[0].message });
+    }
+    // Agregar el ingrediente
+    const newIngrediente = await addIngrediente(req.body);
+    res.status(201).json(newIngrediente);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err.message });
   }
 };
 

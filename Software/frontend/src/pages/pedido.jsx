@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { addPedido, getPedidos, deletePedido } from '../services/pedido.service.js';
-import { liberarMesa, obtenerMesas, ocuparMesa} from '../services/mesa.service.js';
+import { obtenerMesas} from '../services/mesa.service.js';
 import { getMenus } from '../services/menu.service.js';
 import '@styles/pedido.css';
 
@@ -105,7 +105,7 @@ const Pedido = () => {
       const data = await addPedido(form);
       if (data.status === 'Success') {
         setPedidos([...pedidos, data.data]);
-        await ocuparMesa(form.mesa);
+        // await ocuparMesa(form.mesa);
         setForm({
           mesa: '',
           plato: [],
@@ -128,7 +128,7 @@ const Pedido = () => {
       const data = await deletePedido(req.id);
       if (data.status === 'Success') {
         setPedidos(pedidos.filter((pedido) => pedido.id !== req.id));
-        await liberarMesa(req.mesa);
+        console.log("Pedido eliminado correctamente");
       } else {
         console.error("Error al eliminar el pedido: ", data.message);
       }
