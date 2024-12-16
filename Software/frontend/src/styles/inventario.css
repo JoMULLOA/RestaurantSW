@@ -212,7 +212,7 @@
   padding: 20px;
   max-width: 400px;
   width: 90%;
-  max-height: 30vh; /* Establece una altura máxima */
+  max-height: 90vh; /* Establece una altura máxima */
   overflow-y: auto; /* Habilita el desplazamiento vertical */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
@@ -249,6 +249,76 @@
 .close-popup:hover {
   background-color: #45a049;
 }
+
+.popup-button {
+  background-color: #4CAF50; /* Color de fondo verde */
+  color: white; /* Texto en blanco */
+  border: none; /* Sin borde */
+  padding: 10px 20px; /* Relleno interno */
+  font-size: 16px; /* Tamaño de fuente */
+  border-radius: 5px; /* Bordes redondeados */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Sombra para un efecto de elevación */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Transiciones suaves */
+}
+
+.popup-button:hover {
+  background-color: #45a049; /* Color más oscuro al pasar el mouse */
+  transform: scale(1.05); /* Efecto de aumento */
+}
+
+.popup-button:active {
+  transform: scale(0.95); /* Efecto de clic */
+  background-color: #3e8e41; /* Color más oscuro al hacer clic */
+}
+
+
+.alert-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #f44336; /* Rojo para el icono */
+ 
+}
+
+.alert-button:hover {
+  color: #d32f2f; /* Oscurecer el rojo en hover */
+}
+.umbral-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.umbral-item {
+  display: flex;
+  align-items: center; /* Alinea los elementos verticalmente */
+  margin-bottom: 10px;
+}
+
+.umbral-input {
+  width: 80px; /* Tamaño más pequeño para el recuadro */
+  margin-right: 10px; /* Espaciado entre el input y el checkbox */
+  padding: 5px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center; /* Alinea verticalmente el checkbox y el texto */
+  white-space: nowrap; /* Evita el salto de línea */
+  overflow: hidden; /* Oculta el texto que se desborda */
+  text-overflow: ellipsis; /* Añade puntos suspensivos si el texto es muy largo */
+  max-width: 200px; /* Ajusta el ancho máximo según tus necesidades */
+}
+
+.checkbox-label input {
+  margin-right: 5px; /* Espaciado entre el checkbox y el texto */
+}
+
+
 /* Animación para el popup */
 @keyframes popup-appear {
   from {

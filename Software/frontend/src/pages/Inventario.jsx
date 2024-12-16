@@ -14,11 +14,13 @@ const Ingrediente = () => {
   const [newCantidad, setNewCantidad] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [popupSearchTerm, setPopupSearchTerm] = useState('');
+  const [showThresholdPopup, setShowThresholdPopup] = useState(false);
+  const [showAlertPopup, setShowAlertPopup] = useState(false);
   const itemsPerPage = 4;
 
   const [sortField, setSortField] = useState('');
   const [sortDirection, setSortDirection] = useState('asc');
-  const [showAlertPopup, setShowAlertPopup] = useState(false);
 
   const LOW_QUANTITY_THRESHOLD = 5;
 
@@ -27,7 +29,12 @@ const Ingrediente = () => {
       try {
         const data = await getIngredientes();
         if (data.status === 'Success') {
-          setIngredientes(data.data);
+          const ingredientesConPropiedades = data.data.map((ingrediente) => ({
+            ...ingrediente,
+            incluirEnAlerta: true,
+            umbral: LOW_QUANTITY_THRESHOLD
+          }));
+          setIngredientes(ingredientesConPropiedades);
         } else {
           console.error("Error al obtener los ingredientes: ", data.message);
         }
@@ -37,12 +44,6 @@ const Ingrediente = () => {
     };
     fetchIngredientes();
   }, []);
-
-  useEffect(() => {
-    if (ingredientes.some((ingrediente) => parseFloat(ingrediente.cantidad) < LOW_QUANTITY_THRESHOLD)) {
-      setShowAlertPopup(true);
-    }
-  }, [ingredientes]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -56,8 +57,11 @@ const Ingrediente = () => {
     e.preventDefault();
     try {
       const data = await addIngrediente(form);
-      if (data.status === 'Success') { 
-        setIngredientes([...ingredientes, data.data]);
+      if (data.status === 'Success') {
+        setIngredientes([
+          ...ingredientes,
+          { ...data.data, incluirEnAlerta: true, umbral: LOW_QUANTITY_THRESHOLD }
+        ]);
         setForm({
           nombre: '',
           fechaIngreso: new Date().toISOString().split('T')[0],
@@ -115,6 +119,10 @@ const Ingrediente = () => {
     ingrediente.nombre.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const popupFilteredIngredientes = ingredientes.filter((ingrediente) =>
+    ingrediente.nombre.toLowerCase().includes(popupSearchTerm.toLowerCase())
+  );
+
   const sortedIngredientes = [...filteredIngredientes].sort((a, b) => {
     const aValue = sortField === 'cantidad' ? parseFloat(a[sortField]) : a[sortField];
     const bValue = sortField === 'cantidad' ? parseFloat(b[sortField]) : b[sortField];
@@ -130,25 +138,96 @@ const Ingrediente = () => {
   );
 
   const lowQuantityIngredientes = ingredientes.filter(
-    (ingrediente) => parseFloat(ingrediente.cantidad) < LOW_QUANTITY_THRESHOLD
+    (ingrediente) =>
+      ingrediente.incluirEnAlerta && parseFloat(ingrediente.cantidad) < ingrediente.umbral
   );
+
+  const handleOpenThresholdPopup = () => setShowThresholdPopup(true);
+  const handleCloseThresholdPopup = () => setShowThresholdPopup(false);
+
+  const handleOpenAlertPopup = () => setShowAlertPopup(true);
+  const handleCloseAlertPopup = () => setShowAlertPopup(false);
 
   return (
     <main className="container">
-      <h1 className="titleInventario">Inventario de Ingredientes</h1>
+    <h1 className="titleInventario" style={{ marginTop: '90px' }}>Inventario de Ingredientes</h1>
+
+
+
+      {showThresholdPopup && (
+  <div className="popup-overlay">
+    <div className="popup"
+    style={{ maxHeight: '80vh' }}>
+      <h3>Configuración de Umbrales</h3>
+      <Search
+        value={popupSearchTerm}
+        onChange={(e) => setPopupSearchTerm(e.target.value)}
+        placeholder="Buscar ingrediente"
+      />
+      <ul className="umbral-list">
+        {popupFilteredIngredientes.map((ingrediente) => (
+          <li key={ingrediente.id} className="umbral-item">
+            <input
+              type="number"
+              value={ingrediente.umbral || LOW_QUANTITY_THRESHOLD}
+              min="1"
+              onChange={(e) =>
+                setIngredientes((prevIngredientes) =>
+                  prevIngredientes.map((item) =>
+                    item.id === ingrediente.id
+                      ? { ...item, umbral: parseFloat(e.target.value) }
+                      : item
+                  )
+                )
+              }
+              className="umbral-input"
+            />
+            <label className="checkbox-label">
+              <input
+                type="checkbox"
+                checked={ingrediente.incluirEnAlerta}
+                onChange={(e) =>
+                  setIngredientes((prevIngredientes) =>
+                    prevIngredientes.map((item) =>
+                      item.id === ingrediente.id
+                        ? { ...item, incluirEnAlerta: e.target.checked }
+                        : item
+                    )
+                  )
+                }
+              />
+              {ingrediente.nombre}
+            </label>
+          </li>
+        ))}
+      </ul>
+      <button className="popup-button" onClick={handleCloseThresholdPopup}>
+        Guardar y cerrar
+      </button>
+
+    </div>
+  </div>
+)}
+
+
 
       {showAlertPopup && (
         <div className="popup-overlay">
-          <div className="popup">
-            <h3>Alerta de Inventario</h3>
-            <ul>
-              {lowQuantityIngredientes.map((ingrediente) => (
-                <li key={ingrediente.id}>
-                  El ingrediente <strong>{ingrediente.nombre}</strong> tiene una cantidad baja: {ingrediente.cantidad}
-                </li>
-              ))}
-            </ul>
-            <button onClick={() => setShowAlertPopup(false)} className="close-popup">
+          <div className="popup"
+          style={{ maxHeight: '60vh' }}>
+            <h3>Ingredientes con Cantidad Baja</h3>
+            {lowQuantityIngredientes.length > 0 ? (
+              <ul>
+                {lowQuantityIngredientes.map((ingrediente) => (
+                  <li key={ingrediente.id}>
+                    El ingrediente <strong>{ingrediente.nombre}</strong> tiene una cantidad baja: {ingrediente.cantidad}.
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No hay ingredientes por debajo del umbral configurado.</p>
+            )}
+            <button className="popup-button" onClick={handleCloseAlertPopup}>
               Cerrar
             </button>
           </div>
@@ -163,7 +242,7 @@ const Ingrediente = () => {
                 <tr>
                   <th>Nombre</th>
                   <th>Fecha de Ingreso</th>
-                  <th > Cantidad  </th>
+                  <th>Cantidad</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -207,6 +286,12 @@ const Ingrediente = () => {
             </table>
           </form>
         </div>
+        <button onClick={handleOpenThresholdPopup} className="alert-button" style={{ marginLeft: '370px' }}>
+          <i className="fas fa-cogs"></i>
+        </button>
+        <button onClick={handleOpenAlertPopup} className="alert-button" style={{ marginLeft: '30px' }}>
+          <i className="fas fa-bell"></i>
+        </button>
         <h2>Lista de Ingredientes</h2>
         <div className="search-container">
           <Search
