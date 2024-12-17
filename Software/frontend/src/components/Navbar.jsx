@@ -114,7 +114,7 @@ const Navbar = () => {
                         <>
                             <div className="user-role-indicator">
                                 <img src={chefs} alt="chef" className="user-role-icon" />
-                                <span className="user-role-text">
+                               <span className="user-role-text">
                                     Chef - {NombreS}
                                 </span>
                             </div>

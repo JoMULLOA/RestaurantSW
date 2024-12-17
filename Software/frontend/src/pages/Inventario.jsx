@@ -345,6 +345,7 @@ const Ingrediente = () => {
                       <button
                         className="action-button edit-button"
                         onClick={() => handleUpdate(ingrediente.id)}
+                        style={{ marginRight: '10px' }}
                       >
                         Guardar
                       </button>
@@ -370,7 +371,7 @@ const Ingrediente = () => {
                       </div>
                       <div className="button-container">
                         <button
-                          className="action-button delete-button"
+                          className="action-button edit-button"
                           onClick={() => handleDelete(ingrediente.id)}
                         >
                           Eliminar
