@@ -1,17 +1,12 @@
 // pedido.service.js
 import { AppDataSource } from "../config/configDb.js";
 import pedido from "../entity/pedido.entity.js";
-import jwt from "jsonwebtoken";
-
 //j
 import { getMenus } from "./menu.service.js";
 import ingrediente from "../entity/ingrediente.entity.js";
 import { getIngredientes } from "./ingrediente.service.js";
 import { CancelarPedido } from "./chef.service.js";
 import { getMesaConN, ocuparMesa } from "../controllers/mesa.controller.js";
-import { asignarGarzon } from "./mesa.service.js";
-
-
 
 export const getPedidos = async () => {
   const pedidoRepository = AppDataSource.getRepository(pedido);
@@ -153,8 +148,6 @@ export const addPedido = async (data) => {
   const bodyMesa = await getMesaConN(data.mesa);
   if(bodyMesa.estado === "Disponible"){
     await ocuparMesa(bodyMesa);
-    console.log(userId);
-    await asignarGarzon(data.mesa, );
     await deductIngredients();
     console.log("Pedido válido");
     return await pedidoRepository.save(newPedido);
