@@ -33,3 +33,14 @@ export const deletePedido = async (id) => {
     throw error;
   }
 };
+
+export const removePedido = async (id) => {
+  try {
+    const response = await axios.delete("/pedidos/removePedido/" + id);
+    console.log("Pedido eliminado: ", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error al eliminar el pedido: ", error);
+    throw error;
+  }
+}

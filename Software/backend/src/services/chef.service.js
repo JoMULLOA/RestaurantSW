@@ -5,23 +5,40 @@ import { getIngredientes } from "./ingrediente.service.js";
 import { getMenus } from "./menu.service.js";
 import ingrediente from "../entity/ingrediente.entity.js";
 import { getMesaConN, liberarMesa } from "../controllers/mesa.controller.js";
-import pedido from "../entity/pedido.entity.js";
+import Pedido from "../entity/pedido.entity.js";
 
 
-export const preparapedido = async (pedidoId, nuevoEstado) => {
+export const preparapedido = async (pedidoId) => {
     try {
-        const pedidoRepository = AppDataSource.getRepository(pedido);
-        const pedido = await pedidoRepository.findOne({ where: { id: pedidoId } });
-
-        if (pedido) {
-            pedido.status = nuevoEstado;
-            await pedidoRepository.save(pedido);
-            console.log(`Estado del pedido con ID ${pedidoId} actualizado a ${nuevoEstado}`);
-        } else {
-            console.log(`No se encontró el pedido con ID ${pedidoId}`);
+        const pedidos = await getPedidos();
+        console.log("pedidoId recibido:", pedidoId);
+        // Obtener el repositorio de la entidad Pedido
+        const estadito = AppDataSource.getRepository(Pedido);
+        // Buscar el pedido en los datos obtenidos
+        const pedidoo = pedidos.find(p => p.id === pedidoId);
+        if (!pedidoo) {
+            throw new Error(`No se encontró un pedido con el id ${pedidoId}`);
         }
+
+        // Pasar de pendiente a preparación
+        if (pedidoo.Estado === 0) {
+            console.log("El pedido está pendiente. Cambiando a preparación...");
+            pedidoo.Estado = 1; // Actualiza el estado en el objeto
+            await estadito.save(pedidoo); // Guarda la entidad completa
+        } 
+        // Pasar de preparación a listo
+        else if (pedidoo.Estado === 1) {
+            console.log("El pedido está en preparación. Cambiando a listo...");
+            pedidoo.Estado = 2; // Suponiendo que 2 representa "listo"
+            await estadito.save(pedidoo); // Guarda la entidad completa
+        } 
+        else {
+            console.log("El pedido ya está listo o en un estado no modificable.");
+        }
+
+        console.log("Estado del pedido actualizado:", pedidoo.Estado);
     } catch (error) {
-        console.error("Error al actualizar el estado del pedido:", error);
+        console.error("Error al preparar el pedido:", error);
     }
 };
 

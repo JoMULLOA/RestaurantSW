@@ -1,5 +1,5 @@
 // pedido.controller.js
-import { addPedido, eliminarPedido, getPedidos } from "../services/pedido.service.js";
+import { addPedido, eliminarPedido, getPedidos, removePedido } from "../services/pedido.service.js";
 import { validatePedido } from "../validations/pedido.validation.js";
 
 export const getAllPedidos = async (req, res) => {
@@ -49,3 +49,18 @@ export const deletePedido = async (req, res) => {
     res.status(500).json({ status: "Error", message: error.message });
   }
 };
+
+export const RemovePedido = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deletedPedido = await removePedido(id);
+    if (!deletedPedido) {
+      return res.status(404).json({ status: "Error", message: "Pedido no encontrado" });
+    }
+    res.status(200).json({ status: "Success", message: "Pedido eliminado correctamente" });
+  } catch (error) {
+    console.error("Error: ", error);
+    res.status(500).json({ status: "Error", message: error.message });
+  }
+}

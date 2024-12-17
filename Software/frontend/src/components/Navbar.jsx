@@ -11,6 +11,7 @@ const Navbar = () => {
     const location = useLocation();
     const user = JSON.parse(sessionStorage.getItem('usuario')) || '';
     const userRole = user?.rol;
+    const NombreS = user?.nombreCompleto;
     const [menuOpen, setMenuOpen] = useState(false);
 
     const logoutSubmit = () => {
@@ -111,7 +112,9 @@ const Navbar = () => {
                         <>
                             <div className="user-role-indicator">
                                 <img src={chefs} alt="chef" className="user-role-icon" />
-                                <span className="user-role-text">Chef</span>
+                                <span className="user-role-text">
+                                    Chef - {NombreS}
+                                </span>
                             </div>
                             <li>
                                 <NavLink 
