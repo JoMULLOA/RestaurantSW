@@ -69,7 +69,9 @@ const Navbar = () => {
                         <>
                             <div className="user-role-indicator">
                                 <img src={admin} alt="admin" className="user-role-icon" />
-                                <span className="user-role-text">Administrador</span>
+                                <span className="user-role-text">
+                                    Administrador - {NombreS}
+                                </span>
                             </div>
                             <li>
                                 <NavLink 
@@ -134,7 +136,9 @@ const Navbar = () => {
                         <>  
                             <div className="user-role-indicator">
                                 <img src={waiter} alt="waiter" className="user-role-icon" />
-                                <span className="user-role-text">Garzón</span>
+                                <span className="user-role-text">
+                                    Garzón - {NombreS}
+                                </span>
                             </div>
                             <li>
                                 <NavLink 
