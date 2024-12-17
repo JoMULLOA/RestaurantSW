@@ -287,10 +287,14 @@ const Ingrediente = () => {
           </form>
         </div>
         <button onClick={handleOpenThresholdPopup} className="alert-button" style={{ marginLeft: '370px' }}>
-          <i className="fas fa-cogs"></i>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+          <path d="M19.43 12.98c.04-.32.07-.65.07-.98s-.03-.66-.08-.98l2.11-1.65c.19-.14.24-.41.12-.61l-2-3.46c-.11-.2-.37-.27-.57-.2l-2.49 1a7.99 7.99 0 0 0-1.7-.98l-.38-2.65a.485.485 0 0 0-.48-.41h-4a.5.5 0 0 0-.49.41l-.38 2.65c-.63.23-1.2.53-1.7.89l-2.49-1c-.2-.08-.45 0-.57.2l-2 3.46c-.12.2-.07.47.12.61l2.11 1.65c-.05.32-.08.66-.08.99s.03.66.08.98l-2.11 1.65c-.19.14-.24.41-.12.61l2 3.46c.11.2.37.27.57.2l2.49-1c.5.37 1.07.68 1.7.89l.38 2.65c.05.22.24.41.49.41h4c.24 0 .44-.19.48-.41l.38-2.65c.63-.23 1.2-.53 1.7-.89l2.49 1c.2.08.45 0 .57-.2l2-3.46c.12-.2.07-.47-.12-.61l-2.1-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
+        </svg>
         </button>
         <button onClick={handleOpenAlertPopup} className="alert-button" style={{ marginLeft: '30px' }}>
-          <i className="fas fa-bell"></i>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" width="20" height="20" fill="currentColor">
+            <path d="M224 512c35.3 0 64-28.7 64-64H160c0 35.3 28.7 64 64 64zm215.4-149.3c-20.9-21.6-55.4-52.6-55.4-154.7 0-77.7-54.5-139.3-127.1-155.2V32c0-17.7-14.3-32-32-32s-32 14.3-32 32v20.8C118.5 68.7 64 130.3 64 208c0 102.1-34.5 133.1-55.4 154.7-6 6.2-8.6 14.6-8.6 22.3 0 16.6 13.4 32 32 32h384c18.6 0 32-15.4 32-32 0-7.7-2.6-16.1-8.6-22.3z"/>
+          </svg>
         </button>
         <h2>Lista de Ingredientes</h2>
         <div className="search-container">
