@@ -137,6 +137,14 @@ const Pedido = () => {
     }
   };
 
+  const handleRemoveFromArray = (field, index) => {
+    setForm({
+      ...form,
+      [field]: form[field].filter((_, i) => i !== index),
+    });
+  };
+  
+
   return (
     <main className="container">
       <h1 className="titlePedido">📝 Registro de Pedido</h1>
@@ -193,10 +201,19 @@ const Pedido = () => {
                       <button type="button" onClick={() => handleAddToArray('plato')}>+</button>
                     </div>
                     <ul>
-                      {form.plato.map((item, index) => (
-                        <li key={index}>{item}</li>
-                      ))}
-                    </ul>
+                    {form.plato.map((item, index) => (
+                      <li key={index}>
+                        {item}
+                        <button
+                          type="button"
+                          className="delete-button"
+                          onClick={() => handleRemoveFromArray('plato', index)}
+                        >
+                          X
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
                   </td>
                   <td>
                     <div className="input-group">
@@ -216,10 +233,19 @@ const Pedido = () => {
                       <button type="button" onClick={() => handleAddToArray('bebestible')}>+</button>
                     </div>
                     <ul>
-                      {form.bebestible.map((item, index) => (
-                        <li key={index}>{item}</li>
-                      ))}
-                    </ul>
+                    {form.bebestible.map((item, index) => (
+                      <li key={index}>
+                        {item}
+                        <button
+                          type="button"
+                          className="delete-button"
+                          onClick={() => handleRemoveFromArray('bebestible', index)}
+                        >
+                          X
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
                   </td>
                   <td>
                     <div className="input-group">
@@ -239,10 +265,19 @@ const Pedido = () => {
                       <button type="button" onClick={() => handleAddToArray('postre')}>+</button>
                     </div>
                     <ul>
-                      {form.postre.map((item, index) => (
-                        <li key={index}>{item}</li>
-                      ))}
-                    </ul>
+                    {form.postre.map((item, index) => (
+                      <li key={index}>
+                        {item}
+                        <button
+                          type="button"
+                          className="delete-button"
+                          onClick={() => handleRemoveFromArray('postre', index)}
+                        >
+                          X
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
                   </td>
                   <td>
                     <input
