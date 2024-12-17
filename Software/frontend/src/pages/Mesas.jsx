@@ -5,14 +5,24 @@ import {
   liberarMesa,
   agregarMesa,
   eliminarMesa,
-} from "@services/mesa.service.js"; 
+} from "@services/mesa.service.js";
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 import {
   reservarMesaConHorario,
   obtenerReservas,
   cancelarReserva,
-} from "@services/reserva.service.js"; // Se eliminó eliminarReserva
+} from "@services/reserva.service.js";
 import { getGarzonesService } from "@services/user.service.js";
+
+import { Doughnut } from "react-chartjs-2";
 
 function Mesas() {
   // ---------------------- ESTADOS -------------------------------------------
@@ -40,6 +50,9 @@ function Mesas() {
   const [reservaSeleccionada, setReservaSeleccionada] = useState(null);
   const [showCancelarModal, setShowCancelarModal] = useState(false);
 
+  // Estado para mostrar/ocultar el gráfico
+  const [showChart, setShowChart] = useState(false);
+
   // Paginación de reservas
   const [paginaActual, setPaginaActual] = useState(1);
   const reservasPorPagina = 5;
@@ -56,13 +69,15 @@ function Mesas() {
     fetchGarzones();
     fetchReservas();
     actualizarHora();
+  
     const intervaloHora = setInterval(actualizarHora, 1000);
     const intervaloMesas = setInterval(fetchMesas, 10000);
-
+  
     return () => {
       clearInterval(intervaloHora);
       clearInterval(intervaloMesas);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // ---------------------- FUNCIONES DE CARGA DE DATOS -----------------------
@@ -184,9 +199,7 @@ function Mesas() {
   // ---------------------- HANDLERS DE MESAS ---------------------------------
   const handleLiberarMesa = async (numeroMesa) => {
     try {
-      // Antes de liberar la mesa, cancelar la reserva (Pendiente o Confirmada) asociada a esa mesa
       await cancelarReservaAsociada(numeroMesa);
-      // Luego liberar la mesa
       await liberarMesa(numeroMesa);
       fetchMesas();
       mostrarMensaje(`Mesa ${numeroMesa} liberada y reserva cancelada correctamente.`, false);
@@ -195,9 +208,7 @@ function Mesas() {
     }
   };
 
-  // Función para cancelar la reserva asociada a la mesa
   const cancelarReservaAsociada = async (numeroMesa) => {
-    // Buscar una reserva con estado Pendiente o Confirmada para esta mesa
     const reservaAsociada = reservas.find((reserva) =>
       reserva.mesa.numeroMesa === numeroMesa &&
       (reserva.estado === "Pendiente" || reserva.estado === "Confirmada")
@@ -340,16 +351,58 @@ function Mesas() {
     mostrarMensaje(mensajeBase, true);
   };
 
+  // ---------------------- DATOS DEL GRÁFICO -----------------------
+  const estadosMap = {};
+  reservasFiltradas.forEach((r) => {
+    estadosMap[r.estado] = (estadosMap[r.estado] || 0) + 1;
+  });
+  const labels = Object.keys(estadosMap);
+  const dataValues = Object.values(estadosMap);
+
+  const data = {
+    labels: labels,
+    datasets: [
+      {
+        data: dataValues,
+        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
+        hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0"],
+      },
+    ],
+  };
+
+  const options = {
+    plugins: {
+      title: {
+        display: true,
+        text: 'Distribución de Reservas Filtradas',
+      },
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            const label = context.label || '';
+            const value = context.raw || 0;
+            const total = context.dataset.data.reduce((sum, val) => sum + val, 0);
+            const percentage = ((value / total) * 100).toFixed(2);
+            return `${label}: ${value} (${percentage}%)`;
+          },
+        },
+      },
+    },
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
   return (
     <div className="mesas-page">
+      {mensaje && (
+        <div className={`mensaje-toast ${mensajeError ? "error" : "success"}`}>
+          {mensaje}
+        </div>
+      )}
+
       <div className="mesas-container">
         <h2 className="titulo-principal">Gestión de Mesas</h2>
         <div className="hora-actual">Hora actual: {horaActual}</div>
-        {mensaje && (
-          <p className={`mensaje ${mensajeError ? "error" : "success"}`}>
-            {mensaje}
-          </p>
-        )}
 
         <div className="acciones">
           <button className="agregar-button" onClick={handleAgregarMesa}>
@@ -450,6 +503,7 @@ function Mesas() {
               <option value="Cancelada">Cancelada</option>
             </select>
           </div>
+
           <div className="filtros-avanzados">
             <label>
               Nombre del Reservante:
@@ -504,6 +558,30 @@ function Mesas() {
               />
             </label>
           </div>
+
+          {/* Botón para generar gráfico */}
+          <div style={{ textAlign: "center", marginBottom: "10px" }}>
+            <button
+              onClick={() => setShowChart(!showChart)}
+              className="generar-grafico-button"
+            >
+              {showChart ? "Ocultar Gráfico" : "Generar Gráfico"}
+            </button>
+          </div>
+
+          {/* Si se muestra el gráfico */}
+          {showChart && (
+            <div className="grafico-container">
+              {reservasFiltradas.length > 0 ? (
+                <div className="grafico-wrapper">
+                  <Doughnut data={data} options={options} />
+                </div>
+              ) : (
+                <p>No hay reservas para mostrar en el gráfico.</p>
+              )}
+            </div>
+          )}
+
           <table>
             <thead>
               <tr>
@@ -564,22 +642,21 @@ function Mesas() {
         </div>
       )}
 
-{showModal && (
-  <div className="modal-overlay">
-    <div className="modal eliminar-modal">
-      <p>¿Estás seguro de que quieres eliminar la mesa {mesaEliminar}?</p>
-      <div className="modal-actions">
-        <button onClick={handleEliminarMesa} className="confirm-button">
-          Sí
-        </button>
-        <button onClick={closeModal} className="cancel-button">
-          No
-        </button>
-      </div>
-    </div>
-  </div>
-)}
-
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal eliminar-modal">
+            <p>¿Estás seguro de que quieres eliminar la mesa {mesaEliminar}?</p>
+            <div className="modal-actions">
+              <button onClick={handleEliminarMesa} className="confirm-button">
+                Sí
+              </button>
+              <button onClick={closeModal} className="cancel-button">
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {showReservaModal && (
         <div className="modal-overlay">

@@ -17,6 +17,26 @@ export const reservarMesaConHorario = async ({ numeroMesa, garzonAsignado, nombr
   }
 };
 
+export const obtenerEstadisticasReservasService = async () => {
+  const reservaRepo = AppDataSource.getRepository(Reserva);
+
+  // Obtener conteo de reservas agrupadas por estado
+  // Dependiendo de tu base de datos, podrías usar una consulta en crudo o métodos del repositorio.
+  const query = `
+    SELECT estado, COUNT(*) as cantidad
+    FROM reserva
+    GROUP BY estado
+  `;
+  const result = await reservaRepo.query(query);
+
+  // Convertir la cantidad a número
+  return result.map((row) => ({
+    estado: row.estado,
+    cantidad: parseInt(row.cantidad, 10),
+  }));
+};
+
+
 export const obtenerReservas = async () => {
   try {
     const reservaRepo = AppDataSource.getRepository(Reserva);

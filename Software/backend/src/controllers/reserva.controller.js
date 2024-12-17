@@ -2,6 +2,7 @@ import { AppDataSource } from "../config/configDb.js";
 import Reserva from "../entity/reserva.entity.js";
 import Mesa from "../entity/mesa.entity.js";
 import { In, LessThanOrEqual, MoreThanOrEqual } from "typeorm";
+import { obtenerEstadisticasReservasService } from "../services/reserva.service.js";
 
 
 export const cancelarReserva = async (req, res) => {
@@ -135,6 +136,8 @@ export const actualizarEstadoMesas = async () => {
   }
 };
 
+
+
 export const obtenerReservas = async (req, res) => {
   try {
     const reservaRepo = AppDataSource.getRepository(Reserva);
@@ -163,9 +166,20 @@ export const obtenerReservas = async (req, res) => {
         : null, // Si no hay un garzón asignado, devuelve null
     }));
 
+    
     res.status(200).json(reservasConDatosCompletos);
   } catch (error) {
     console.error("Error al obtener reservas:", error);
     res.status(500).json({ message: "Error al obtener reservas." });
+  }
+};
+
+export const obtenerEstadisticasReservas = async (req, res) => {
+  try {
+    const estadisticas = await obtenerEstadisticasReservasService();
+    return res.status(200).json(estadisticas);
+  } catch (error) {
+    console.error("Error al obtener estadísticas de reservas:", error);
+    return res.status(500).json({ message: "Error al obtener estadísticas de reservas." });
   }
 };

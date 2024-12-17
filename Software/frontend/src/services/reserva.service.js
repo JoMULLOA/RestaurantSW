@@ -12,6 +12,13 @@ export const cancelarReserva = async (id) => {
   }
 };
 
+
+export const obtenerEstadisticasReservas = async () => {
+  const response = await axios.get("/api/reservas/estadisticas");
+  return response.data;
+};
+
+
 export const reservarMesaConHorario = async ({ numeroMesa, garzonAsignado, nombreReservante, fechaInicioReserva, fechaFinReserva  }) => {
   try {
     const response = await axios.post("/reservas/", {

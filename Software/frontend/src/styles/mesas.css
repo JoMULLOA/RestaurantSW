@@ -33,18 +33,28 @@
   margin-bottom: 15px;
 }
 
-.mensaje {
-  font-weight: bold;
-  text-align: center;
-  margin-top: 10px;
+/* Mensaje emergente (toast) */
+.mensaje-toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ffffff;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 10px 20px;
   font-size: 16px;
+  font-weight: bold;
+  z-index: 5000; /* Por encima de los modales */
+  animation: fadeIn 0.3s ease-in-out;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-.mensaje.success {
+.mensaje-toast.success {
   color: #28a745;
 }
 
-.mensaje.error {
+.mensaje-toast.error {
   color: #dc3545;
 }
 
@@ -492,8 +502,8 @@
   border-color: #0056b3;
 }
 .eliminar-modal {
-  width: 50%; /* Ancho del 50% de la pantalla */
-  height: 30%; /* Alto del 20% de la pantalla */
+  width: 50%; 
+  height: 30%; 
   background-color: #ffffff;
   border-radius: 15px;
   text-align: center;
@@ -507,19 +517,6 @@
   animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Animación de entrada */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* Botones dentro del modal */
 .eliminar-modal .modal-actions {
   display: flex;
   justify-content: center;
@@ -553,8 +550,9 @@
 .eliminar-modal .cancel-button:hover {
   background-color: #c82333;
 }
+
 .eliminar-modal.cancelar-borde {
-  border: 3px solid #ffc107; /* Amarillo */
+  border: 3px solid #ffc107; 
   animation: borderPulse 0.5s ease-in-out;
 }
 
@@ -569,9 +567,10 @@
     border-color: #ffc107;
   }
 }
-/* Botón "Cancelar Reserva" en verde */
+
+/* Cancelar modal botones */
 .cancelar-modal .confirm-button {
-  background-color: #28a745; /* Verde */
+  background-color: #28a745; 
   color: white;
   border: none;
   border-radius: 5px;
@@ -583,12 +582,11 @@
 }
 
 .cancelar-modal .confirm-button:hover {
-  background-color: #218838; /* Verde más oscuro */
+  background-color: #218838; 
 }
 
-/* Botón "Cerrar" en rojo */
 .cancelar-modal .cancel-button {
-  background-color: #dc3545; /* Rojo */
+  background-color: #dc3545; 
   color: white;
   border: none;
   border-radius: 5px;
@@ -600,5 +598,5 @@
 }
 
 .cancelar-modal .cancel-button:hover {
-  background-color: #c82333; /* Rojo más oscuro */
+  background-color: #c82333; 
 }
