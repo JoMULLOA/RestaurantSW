@@ -11,11 +11,15 @@ import Pedido from "../entity/pedido.entity.js";
 export const preparapedido = async (pedidoId) => {
     try {
         const pedidos = await getPedidos();
+        console.log("pedidos recibidos:", pedidos);
         console.log("pedidoId recibido:", pedidoId);
         // Obtener el repositorio de la entidad Pedido
         const estadito = AppDataSource.getRepository(Pedido);
         // Buscar el pedido en los datos obtenidos
         const pedidoo = pedidos.find(p => p.id === pedidoId);
+        console.log("pedido encontrado:", pedidoo);
+
+
         if (!pedidoo) {
             throw new Error(`No se encontró un pedido con el id ${pedidoId}`);
         }

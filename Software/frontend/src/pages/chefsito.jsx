@@ -9,8 +9,8 @@ const Chefsito = () => {
     const [datosRecibidos, setDatosRecibidos] = useState(null);
     const [pedidoSeleccionado, setPedidoSeleccionado] = useState(null);
     
-    const user = JSON.parse(sessionStorage.getItem('usuario')) || '';
-    const NombreS = user?.nombreCompleto;
+    //const user = JSON.parse(sessionStorage.getItem('usuario')) || '';
+    //const NombreS = user?.nombreCompleto;
     
     
     console.log(datosRecibidos)
@@ -23,14 +23,14 @@ const Chefsito = () => {
             const data = await getPedidos();
             setDatosRecibidos(data);
     
-            // Mapear el estado numérico a texto legible
+        
             const pedidosConEstado = data.data.map((pedido) => ({
                 ...pedido,
                 status: pedido.Estado === 0 
                     ? 'Pendiente' 
                     : pedido.Estado === 1 
                     ? 'En Preparación' 
-                    : 'Pedido Listo', // Mapeamos los estados
+                    : 'Pedido Listo', 
             }));
             setPedidos(pedidosConEstado);
         } catch (error) {
@@ -51,16 +51,12 @@ const Chefsito = () => {
 
     const manejarPreparacionPedido = async () => {
         try {
-            const pedidoActualizado = await prepararPedido({
-                id: pedidoSeleccionado.id,
-                chef: NombreS, // Nombre del chef
-            });
-            console.log(pedidoActualizado)
-            // Actualiza el estado local
+            const pedidoActualizado = await prepararPedido(pedidoSeleccionado.id); 
+            console.log(pedidoActualizado);
             setPedidos((prevPedidos) =>
                 prevPedidos.map((pedido) =>
                     pedido.id === pedidoSeleccionado.id
-                        ? { ...pedido, status: 'En Preparación', Estado: 1 } // Actualizamos el status y el Estado
+                        ? { ...pedido, status: 'En Preparación', Estado: 1 }
                         : pedido
                 )
             );
@@ -70,12 +66,11 @@ const Chefsito = () => {
         }
     };
     
+    
 
     const CancelarelPedido = async (pedido) => {
         try {
             await CancelarPedido(pedido);
-            
-            // Actualizar el estado del pedido a "Cancelado"
             setPedidos((prevPedidos) =>
                 prevPedidos.map((pedido) => 
                     pedido.id === pedidoSeleccionado.id
@@ -92,11 +87,10 @@ const Chefsito = () => {
         try {
             const pedidoActualizado = await prepararPedido(pedidoSeleccionado.id);
             console.log(pedidoActualizado)
-            // Actualiza el estado local
             setPedidos((prevPedidos) =>
                 prevPedidos.map((pedido) =>
                     pedido.id === pedidoSeleccionado.id
-                        ? { ...pedido, status: 'Pedido Listo', Estado: 2 } // Actualizamos el status y el Estado
+                        ? { ...pedido, status: 'Pedido Listo', Estado: 2 } 
                         : pedido
                 )
             );
@@ -115,7 +109,7 @@ const Chefsito = () => {
             setPedidos((prevPedidos) =>
                 prevPedidos.map((pedido) =>
                     pedido.id === pedidoSeleccionado.id
-                        ? { ...pedido, status: 'Pedido Listo', Estado: -1 } // Actualizamos el status y el Estado
+                        ? { ...pedido, status: 'Pedido Listo', Estado: -1 }
                         : pedido
                 )
             );
@@ -125,7 +119,6 @@ const Chefsito = () => {
         }
     };
 
-    // Filtramos los pedidos por estado
     const pedidosPendientes = pedidos.filter((pedido) => pedido.Estado === 0);
     const pedidosEnPreparacion = pedidos.filter((pedido) => pedido.Estado === 1);
     const PedidosListos = pedidos.filter((pedido) => pedido.Estado === 2);
