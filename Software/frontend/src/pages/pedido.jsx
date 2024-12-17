@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { addPedido, getPedidos, deletePedido } from '../services/pedido.service.js';
-import { liberarMesa, obtenerMesas, ocuparMesa} from '../services/mesa.service.js';
+import { obtenerMesas} from '../services/mesa.service.js';
 import { getMenus } from '../services/menu.service.js';
 import '@styles/pedido.css';
 
@@ -105,7 +105,7 @@ const Pedido = () => {
       const data = await addPedido(form);
       if (data.status === 'Success') {
         setPedidos([...pedidos, data.data]);
-        await ocuparMesa(form.mesa);
+        // await ocuparMesa(form.mesa);
         setForm({
           mesa: '',
           plato: [],
@@ -128,7 +128,7 @@ const Pedido = () => {
       const data = await deletePedido(req.id);
       if (data.status === 'Success') {
         setPedidos(pedidos.filter((pedido) => pedido.id !== req.id));
-        await liberarMesa(req.mesa);
+        console.log("Pedido eliminado correctamente");
       } else {
         console.error("Error al eliminar el pedido: ", data.message);
       }
@@ -136,6 +136,14 @@ const Pedido = () => {
       console.error("Error al conectar con el servidor: ", error);
     }
   };
+
+  const handleRemoveFromArray = (field, index) => {
+    setForm({
+      ...form,
+      [field]: form[field].filter((_, i) => i !== index),
+    });
+  };
+  
 
   return (
     <main className="container">
@@ -193,10 +201,19 @@ const Pedido = () => {
                       <button type="button" onClick={() => handleAddToArray('plato')}>+</button>
                     </div>
                     <ul>
-                      {form.plato.map((item, index) => (
-                        <li key={index}>{item}</li>
-                      ))}
-                    </ul>
+                    {form.plato.map((item, index) => (
+                      <li key={index}>
+                        {item}
+                        <button
+                          type="button"
+                          className="delete-button"
+                          onClick={() => handleRemoveFromArray('plato', index)}
+                        >
+                          X
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
                   </td>
                   <td>
                     <div className="input-group">
@@ -216,10 +233,19 @@ const Pedido = () => {
                       <button type="button" onClick={() => handleAddToArray('bebestible')}>+</button>
                     </div>
                     <ul>
-                      {form.bebestible.map((item, index) => (
-                        <li key={index}>{item}</li>
-                      ))}
-                    </ul>
+                    {form.bebestible.map((item, index) => (
+                      <li key={index}>
+                        {item}
+                        <button
+                          type="button"
+                          className="delete-button"
+                          onClick={() => handleRemoveFromArray('bebestible', index)}
+                        >
+                          X
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
                   </td>
                   <td>
                     <div className="input-group">
@@ -239,10 +265,19 @@ const Pedido = () => {
                       <button type="button" onClick={() => handleAddToArray('postre')}>+</button>
                     </div>
                     <ul>
-                      {form.postre.map((item, index) => (
-                        <li key={index}>{item}</li>
-                      ))}
-                    </ul>
+                    {form.postre.map((item, index) => (
+                      <li key={index}>
+                        {item}
+                        <button
+                          type="button"
+                          className="delete-button"
+                          onClick={() => handleRemoveFromArray('postre', index)}
+                        >
+                          X
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
                   </td>
                   <td>
                     <input
