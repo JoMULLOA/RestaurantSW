@@ -1,5 +1,6 @@
 import { AppDataSource } from "../config/configDb.js";
 import Mesa from "../entity/mesa.entity.js";
+import { asignarGarzon } from "../services/mesa.service.js";
 
 // Obtener todas las mesas
 export const getMesas = async (req, res) => {
@@ -120,14 +121,21 @@ export const agregarMesa = async (req, res) => {
   try {
     const mesaRepository = AppDataSource.getRepository(Mesa);
 
-    // Obtener el ID máximo actual en la base de datos
-    const maxMesa = await mesaRepository
+    // Obtener todas las mesas ordenadas por número de mesa
+    const todasLasMesas = await mesaRepository
       .createQueryBuilder("mesa")
-      .select("MAX(mesa.id)", "max")
-      .getRawOne();
+      .select("mesa.numeroMesa")
+      .orderBy("mesa.numeroMesa", "ASC")
+      .getRawMany();
 
-    // Calcular el número de la nueva mesa como el máximo ID más 1
-    const nuevoNumeroMesa = (maxMesa.max || 0) + 1;
+    // Encontrar el primer espacio disponible en la secuencia de números de mesa
+    let nuevoNumeroMesa = 1;
+    for (let i = 0; i < todasLasMesas.length; i++) {
+      if (todasLasMesas[i].mesa_numeroMesa !== nuevoNumeroMesa) {
+        break;
+      }
+      nuevoNumeroMesa++;
+    }
 
     // Crear y guardar la nueva mesa con el número generado, estado "Disponible" y sin garzón asignado
     const nuevaMesa = mesaRepository.create({
@@ -135,13 +143,11 @@ export const agregarMesa = async (req, res) => {
       estado: "Disponible",
       garzonAsignado: null
     });
-    
-    await mesaRepository.save(nuevaMesa);
 
-    return res.status(201).json({ message: "Mesa agregada correctamente", mesa: nuevaMesa });
+    await mesaRepository.save(nuevaMesa);
+    res.status(201).json(nuevaMesa);
   } catch (error) {
-    console.error("Error al agregar la mesa:", error);
-    return res.status(500).json({ message: "Error al agregar la mesa" });
+    res.status(500).json({ message: "Error al agregar la mesa", error });
   }
 };
 
