@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { addPedido, getPedidos, deletePedido } from '../services/pedido.service.js';
 import { obtenerMesas} from '../services/mesa.service.js';
 import { getMenus } from '../services/menu.service.js';
+import { actualizarGarzonMesa } from '../services/mesa.service.js';
 import '@styles/pedido.css';
 
 const Pedido = () => {
@@ -16,6 +17,8 @@ const Pedido = () => {
     modificaciones: '',
     fechaIngreso: new Date().toISOString().split('T')[0]
   });
+  const user = JSON.parse(sessionStorage.getItem('usuario')) || '';
+  const userNombre = user?.nombreCompleto;
   const [inputValues, setInputValues] = useState({
     plato: '',
     bebestible: '',
@@ -104,6 +107,9 @@ const Pedido = () => {
       console.log('Formulario', form);
       const data = await addPedido(form);
       if (data.status === 'Success') {
+        console.log(form.mesa);
+        console.log(user);
+        await actualizarGarzonMesa(form.mesa, userNombre);
         setPedidos([...pedidos, data.data]);
         // await ocuparMesa(form.mesa);
         setForm({

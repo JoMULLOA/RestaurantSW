@@ -35,13 +35,15 @@ export const getMesas = async (req, res) => {
 };
 
 export const asignarGarzonAMesa = async (req, res) => {
+  console.log("Mesa a asignar garzón:", req);
   const { numeroMesa } = req.params;
-  const { id } = req.body;
+  const { nombreCompleto } = req.body;
+  console.log(req.body);
 
-  console.log("Datos recibidos en el controlador:", { numeroMesa, id });
+  console.log("Datos recibidos en el controlador:", { numeroMesa, nombreCompleto });
 
   try {
-    const mesaActualizada = await asignarGarzon(numeroMesa, id);
+    const mesaActualizada = await asignarGarzon(numeroMesa, nombreCompleto);
 
     res.status(200).json({ message: "Garzón asignado correctamente", mesa: mesaActualizada });
   } catch (error) {

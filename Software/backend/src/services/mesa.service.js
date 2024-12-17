@@ -8,7 +8,7 @@ export const getMesas = async () => {
   return await mesaRepository.find({ relations: ["garzonAsignado"] });
 };
 
-export const asignarGarzon = async (numeroMesa, garzonId) => {
+export const asignarGarzon = async (numeroMesa, garzonName) => {
   const mesaRepository = AppDataSource.getRepository(Mesa);
   const userRepository = AppDataSource.getRepository(User);
 
@@ -21,8 +21,8 @@ export const asignarGarzon = async (numeroMesa, garzonId) => {
       throw new Error("Mesa no encontrada");
     }
 
-    console.log("Buscando garzón con ID:", garzonId);
-    const garzon = await userRepository.findOne({ where: { id: garzonId } });
+    console.log("Buscando garzón con nombre:", garzonName);
+    const garzon = await userRepository.findOne({ where: { nombreCompleto: garzonName } });
 
     if (!garzon) {
       console.error("Garzón no encontrado");
