@@ -9,8 +9,8 @@ const Chefsito = () => {
     const [datosRecibidos, setDatosRecibidos] = useState(null);
     const [pedidoSeleccionado, setPedidoSeleccionado] = useState(null);
     
-    const user = JSON.parse(sessionStorage.getItem('usuario')) || '';
-    const NombreS = user?.nombreCompleto;
+    //const user = JSON.parse(sessionStorage.getItem('usuario')) || '';
+    //const NombreS = user?.nombreCompleto;
     
     
     console.log(datosRecibidos)
@@ -51,16 +51,13 @@ const Chefsito = () => {
 
     const manejarPreparacionPedido = async () => {
         try {
-            const pedidoActualizado = await prepararPedido({
-                id: pedidoSeleccionado.id,
-                chef: NombreS, // Nombre del chef
-            });
-            console.log(pedidoActualizado)
+            const pedidoActualizado = await prepararPedido(pedidoSeleccionado.id); // Solo enviar el ID
+            console.log(pedidoActualizado);
             // Actualiza el estado local
             setPedidos((prevPedidos) =>
                 prevPedidos.map((pedido) =>
                     pedido.id === pedidoSeleccionado.id
-                        ? { ...pedido, status: 'En Preparación', Estado: 1 } // Actualizamos el status y el Estado
+                        ? { ...pedido, status: 'En Preparación', Estado: 1 }
                         : pedido
                 )
             );
@@ -69,6 +66,7 @@ const Chefsito = () => {
             console.error('Error al preparar el pedido:', error);
         }
     };
+    
     
 
     const CancelarelPedido = async (pedido) => {
