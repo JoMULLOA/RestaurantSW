@@ -132,11 +132,13 @@ export async function obtenerGarzones() {
     throw error;
   }
 }
-export async function actualizarGarzonMesa(numeroMesa, garzonId) {
+export async function actualizarGarzonMesa(numeroMesa, garzonName) {
   try {
+    console.log("Actualizando garzón de la mesa", numeroMesa, "con el garzón", garzonName);
     const response = await axios.put(`/mesas/asignarGarzon/${numeroMesa}`, {
-      id: garzonId, 
+      nombreCompleto: garzonName
     });
+    console.log("Garzón de la mesa actualizado:", response.data);
     return response.data;
   } catch (error) {
     console.error("Error al actualizar el garzón de la mesa:", error);
