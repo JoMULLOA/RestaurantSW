@@ -33,7 +33,7 @@
   margin-bottom: 15px;
 }
 
-/* Mensaje emergente (toast) */
+/* Mensaje emergente (toast) por encima de todo */
 .mensaje-toast {
   position: fixed;
   top: 20px;
@@ -45,7 +45,7 @@
   padding: 10px 20px;
   font-size: 16px;
   font-weight: bold;
-  z-index: 5000; /* Por encima de los modales */
+  z-index: 5000; /* Por encima de las modales y el panel */
   animation: fadeIn 0.3s ease-in-out;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
@@ -194,7 +194,6 @@
 .reservar-button {
   background-color: #28a745;
 }
-
 .reservar-button:hover {
   background-color: #218838;
 }
@@ -202,7 +201,6 @@
 .eliminar-button {
   background-color: #dc3545;
 }
-
 .eliminar-button:hover {
   background-color: #c82333;
 }
@@ -210,9 +208,25 @@
 .liberar-button {
   background-color: #17a2b8;
 }
-
 .liberar-button:hover {
   background-color: #138496;
+}
+
+/* Botón Generar Gráfico */
+.generar-grafico-button {
+  background-color: #6f42c1;
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.generar-grafico-button:hover {
+  background-color: #5a379a;
 }
 
 /* Modal Overlay */
@@ -313,11 +327,35 @@
   margin-top: 10px;
 }
 
-.confirm-button,
-.cancel-button,
-.eliminar-button {
+/* Botones Confirmar y Cancelar en las modales */
+.confirm-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
   font-size: 14px;
-  padding: 8px 16px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+.confirm-button:hover {
+  background-color: #218838;
+}
+
+.cancel-button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+.cancel-button:hover {
+  background-color: #c82333;
 }
 
 .close-modal-btn {
@@ -501,6 +539,7 @@
 .filtros-avanzados select:focus {
   border-color: #0056b3;
 }
+
 .eliminar-modal {
   width: 50%; 
   height: 30%; 
@@ -537,7 +576,6 @@
   background-color: #28a745;
   color: white;
 }
-
 .eliminar-modal .confirm-button:hover {
   background-color: #218838;
 }
@@ -546,13 +584,12 @@
   background-color: #dc3545;
   color: white;
 }
-
 .eliminar-modal .cancel-button:hover {
   background-color: #c82333;
 }
 
 .eliminar-modal.cancelar-borde {
-  border: 3px solid #ffc107; 
+  border: 3px solid #ffc107; /* Amarillo */
   animation: borderPulse 0.5s ease-in-out;
 }
 
@@ -568,9 +605,9 @@
   }
 }
 
-/* Cancelar modal botones */
+/* Botones en cancelar-modal ya poseen estilos confirm-button y cancel-button */
 .cancelar-modal .confirm-button {
-  background-color: #28a745; 
+  background-color: #28a745; /* Verde */
   color: white;
   border: none;
   border-radius: 5px;
@@ -580,13 +617,12 @@
   font-weight: bold;
   transition: background-color 0.3s ease;
 }
-
 .cancelar-modal .confirm-button:hover {
-  background-color: #218838; 
+  background-color: #218838; /* Verde más oscuro */
 }
 
 .cancelar-modal .cancel-button {
-  background-color: #dc3545; 
+  background-color: #dc3545; /* Rojo */
   color: white;
   border: none;
   border-radius: 5px;
@@ -596,7 +632,6 @@
   font-weight: bold;
   transition: background-color 0.3s ease;
 }
-
 .cancelar-modal .cancel-button:hover {
-  background-color: #c82333; 
+  background-color: #c82333; /* Rojo más oscuro */
 }

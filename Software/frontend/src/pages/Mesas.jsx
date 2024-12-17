@@ -1,28 +1,18 @@
 import { useState, useEffect } from "react";
 import "@styles/mesas.css";
-import {
-  obtenerMesas,
-  liberarMesa,
-  agregarMesa,
-  eliminarMesa,
-} from "@services/mesa.service.js";
+import { obtenerMesas, liberarMesa, agregarMesa, eliminarMesa } from "@services/mesa.service.js";
+import { reservarMesaConHorario, obtenerReservas, cancelarReserva } from "@services/reserva.service.js";
+import { getGarzonesService } from "@services/user.service.js";
+
 import {
   Chart as ChartJS,
   ArcElement,
   Tooltip,
   Legend,
 } from 'chart.js';
+import { Doughnut } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
-
-import {
-  reservarMesaConHorario,
-  obtenerReservas,
-  cancelarReserva,
-} from "@services/reserva.service.js";
-import { getGarzonesService } from "@services/user.service.js";
-
-import { Doughnut } from "react-chartjs-2";
 
 function Mesas() {
   // ---------------------- ESTADOS -------------------------------------------
@@ -49,11 +39,9 @@ function Mesas() {
 
   const [reservaSeleccionada, setReservaSeleccionada] = useState(null);
   const [showCancelarModal, setShowCancelarModal] = useState(false);
+  const [showChart, setShowChart] = useState(false); // Para mostrar/ocultar el gráfico
 
-  // Estado para mostrar/ocultar el gráfico
-  const [showChart, setShowChart] = useState(false);
-
-  // Paginación de reservas
+  // Paginación
   const [paginaActual, setPaginaActual] = useState(1);
   const reservasPorPagina = 5;
 
@@ -559,7 +547,6 @@ function Mesas() {
             </label>
           </div>
 
-          {/* Botón para generar gráfico */}
           <div style={{ textAlign: "center", marginBottom: "10px" }}>
             <button
               onClick={() => setShowChart(!showChart)}
@@ -569,11 +556,10 @@ function Mesas() {
             </button>
           </div>
 
-          {/* Si se muestra el gráfico */}
           {showChart && (
             <div className="grafico-container">
               {reservasFiltradas.length > 0 ? (
-                <div className="grafico-wrapper">
+                <div className="grafico-wrapper" style={{ width: "300px", height: "300px", margin: "0 auto" }}>
                   <Doughnut data={data} options={options} />
                 </div>
               ) : (
