@@ -12,40 +12,45 @@ const Home = () => {
   const userRole = user?.rol; // Obtén el rol del usuario
   const [revenue, setRevenue] = useState(0);
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split("T")[0]);
-  const [monthlyData, setMonthlyData] = useState([]); // Datos para el segundo gráfico
+  const [startDate, setStartDate] = useState(new Date().toISOString().slice(0, 7)); // Fecha inicial (mes actual)
+  const [endDate, setEndDate] = useState(new Date().toISOString().slice(0, 7)); // Fecha final (mes actual)
+  const [filteredData, setFilteredData] = useState([]); // Datos filtrados para el segundo gráfico
 
   useEffect(() => {
     const fetchPedidos = async () => {
       try {
         const data = await getPedidosHistory();
 
-        // Cálculo de la recaudación diaria
+        // Cálculo de la recaudación diaria para la fecha seleccionada
         const total = data.data
           .filter(pedido => pedido.fecha.startsWith(selectedDate))
           .reduce((acc, pedido) => acc + pedido.total, 0);
         setRevenue(total);
 
-        // Cálculo de las ganancias diarias en el mes
-        const currentMonth = new Date().toISOString().slice(0, 7); // "YYYY-MM"
-        const dailyTotals = {};
-        data.data.forEach(pedido => {
-          if (pedido.fecha.startsWith(currentMonth)) {
-            const day = pedido.fecha.slice(0, 10); // "YYYY-MM-DD"
-            dailyTotals[day] = (dailyTotals[day] || 0) + pedido.total;
-          }
+        // Filtrar datos por rango de tiempo
+        const filtered = data.data.filter(pedido => {
+          const pedidoMonth = pedido.fecha.slice(0, 7); // Obtener "YYYY-MM"
+          return pedidoMonth >= startDate && pedidoMonth <= endDate;
         });
+
+        const dailyTotals = {};
+        filtered.forEach(pedido => {
+          const day = pedido.fecha.slice(0, 10); // "YYYY-MM-DD"
+          dailyTotals[day] = (dailyTotals[day] || 0) + pedido.total;
+        });
+
         const dailyData = Object.entries(dailyTotals).map(([day, total]) => ({
           day,
           total,
         }));
-        setMonthlyData(dailyData);
+        setFilteredData(dailyData);
       } catch (error) {
         console.error("Error fetching pedidos:", error);
       }
     };
 
     fetchPedidos();
-  }, [selectedDate]);
+  }, [selectedDate, startDate, endDate]);
 
   const chartData = {
     labels: ["Recaudado"],
@@ -60,14 +65,14 @@ const Home = () => {
     ],
   };
 
-  const monthlyChartData = {
-    labels: monthlyData.map(data => data.day), // Fechas del mes
+  const intervalChartData = {
+    labels: filteredData.map(data => data.day), // Fechas dentro del intervalo
     datasets: [
       {
-        label: "Ganancias diarias (Mes actual)",
-        data: monthlyData.map(data => data.total), // Ganancias diarias
-        backgroundColor: "rgba(153, 102, 255, 0.2)",
-        borderColor: "rgba(153, 102, 255, 1)",
+        label: `Ganancias diarias (${startDate} a ${endDate})`,
+        data: filteredData.map(data => data.total), // Totales diarios
+        backgroundColor: "rgba(255, 159, 64, 0.2)",
+        borderColor: "rgba(255, 159, 64, 1)",
         borderWidth: 1,
       },
     ],
@@ -75,11 +80,14 @@ const Home = () => {
 
   return (
     <div>
-<h1 className="title" style={{ marginBottom: "50px", marginLeft: "-20px" }}>
-  🛎️ Software cocinería 🍽️
-</h1>
+      <h1 className="title" style={{ marginLeft: "-20px" }}>
+        🛎️ Software cocinería 🍽️
+      </h1>
+      <h2  style={{ marginLeft: "300px" }}>
+        Panel del administrador
+      </h2>
 
-      {userRole === "administrador" ? ( // Verifica si el rol del usuario es administrador
+      {userRole === "administrador" ? (
         <>
           {/* Selector de Fecha */}
           <div style={{ margin: "20px auto", textAlign: "center" }}>
@@ -96,9 +104,31 @@ const Home = () => {
             <Bar data={chartData} options={{ responsive: true, maintainAspectRatio: false }} />
           </div>
 
-          {/* Gráfico mensual */}
+          {/* Selector de Intervalo */}
+          <div style={{ margin: "20px auto", textAlign: "center" }}>
+            <label>
+              Inicio: 
+              <input
+                type="month"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+                style={{ marginLeft: "10px", marginRight: "20px" , width: "200px" }}
+              />
+            </label>
+            <label>
+              Fin: 
+              <input
+                type="month"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+                style={{ marginLeft: "10px", width: "200px" }}
+              />
+            </label>
+          </div>
+
+          {/* Gráfico por intervalo */}
           <div className="chart-container" style={{ width: "50%", margin: "20px auto" }}>
-            <Bar data={monthlyChartData} options={{ responsive: true, maintainAspectRatio: false }} />
+            <Bar data={intervalChartData} options={{ responsive: true, maintainAspectRatio: false }} />
           </div>
         </>
       ) : (
