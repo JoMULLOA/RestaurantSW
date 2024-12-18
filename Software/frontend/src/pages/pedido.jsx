@@ -112,8 +112,6 @@ const Pedido = () => {
       console.log('Formulario', form);
       const data = await addPedido(form);
       if (data.status === 'Success') {
-        console.log(form.mesa);
-        console.log(user);
         await actualizarGarzonMesa(form.mesa, userNombre);
         setPedidos([...pedidos, data.data]);
         // await ocuparMesa(form.mesa);

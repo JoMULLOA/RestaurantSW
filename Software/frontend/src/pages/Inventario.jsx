@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Search from '../components/Search';
 import { addIngrediente, getIngredientes, removeIngrediente, updateIngrediente } from '../services/ingrediente.service';
 import '../styles/inventario.css';
+import AlertMessage from '../components/AlertMessage.jsx';
 
 const Ingrediente = () => {
   const [ingredientes, setIngredientes] = useState([]);
@@ -21,6 +22,7 @@ const Ingrediente = () => {
 
   const [sortField, setSortField] = useState('');
   const [sortDirection, setSortDirection] = useState('asc');
+  const [alert, setAlert] = useState({ message: '', type: '' });
 
   const LOW_QUANTITY_THRESHOLD = 5;
 
@@ -67,14 +69,19 @@ const Ingrediente = () => {
           fechaIngreso: new Date().toISOString().split('T')[0],
           cantidad: ''
         });
-      } else {
-        console.error("Error al agregar el ingrediente: ", data.message);
-      }
+        setAlert({
+          message: 'Ingrediente agregado exitosamente',
+          type: 'success'
+        });
+      } 
     } catch (error) {
       console.error("Error al conectar con el servidor: ", error);
+      setAlert({
+        message: error.response.data.message,
+        type: 'error'
+      });
     }
   };
-
   const handleDelete = async (id) => {
     try {
       const response = await removeIngrediente(id);
@@ -151,6 +158,7 @@ const Ingrediente = () => {
   return (
     <main className="container">
     <h1 className="titleInventario" style={{ marginTop: '110px' }}>Inventario de Ingredientes</h1>
+    {alert.message && <AlertMessage message={alert.message} type={alert.type} />}
 
 
 
