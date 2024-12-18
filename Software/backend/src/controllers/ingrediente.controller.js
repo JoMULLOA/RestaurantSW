@@ -27,7 +27,7 @@ export const createIngrediente = async (req, res) => {
     }
     // Agregar el ingrediente
     const newIngrediente = await addIngrediente(req.body);
-    res.status(201).json(newIngrediente);
+    res.status(201).json({ status: "Success", data: newIngrediente });
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: err.message });

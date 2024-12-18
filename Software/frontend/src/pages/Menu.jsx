@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import '../styles/Menu.css';
-import AddMenuModal from '../components/ModalMenu';
+import AddMenuModal from '../components/ModalMenu.jsx';
 import { getMenus, addMenu, deleteMenu } from '../services/menu.service';
 import chefGif from '../assets/chef.gif';
 import deleteI from '../assets/deleteIconDisabled.svg';
 import infoI from '../assets/info.png';
+import AlertMessage from '../components/AlertMessage.jsx';
+
 
 const Menu = () => {
     const [selectedItem, setSelectedItem] = useState(null);
@@ -12,12 +14,23 @@ const Menu = () => {
     const [newMenu, setNewMenu] = useState({ nombre: '', ingredientes: [], precio: '', tipo: '' });
     const [newIngredient, setNewIngredient] = useState({ nombre: '', cantidad: '' });
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [alert, setAlert] = useState({ message: '', type: '' });
 
     const noNegative = (e) => {
         if (e.target.value < 0) {
             e.target.value = 1;
         }
     };
+
+    useEffect(() => {
+        if (alert.message) {
+            const timer = setTimeout(() => {
+                setAlert({ message: '', type: '' });
+            }, 2000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [alert]);
 
     useEffect(() => {
         const fetchMenu = async () => {
@@ -38,6 +51,34 @@ const Menu = () => {
 
     const handleAddMenu = async () => {
         try {
+            if (!newMenu.nombre || newMenu.nombre === '') {
+                setAlert({
+                    message: 'Por favor ingrese un nombre para el menú',
+                    type: 'error'
+                });
+                return;
+            }
+            if (!newMenu.tipo || newMenu.tipo === '') {
+                setAlert({
+                    message: 'Por favor seleccione un tipo para el menú',
+                    type: 'error'
+                });
+                return;
+            }
+            if (!newMenu.precio || newMenu.precio === '') {
+                setAlert({
+                    message: 'Por favor ingrese un precio para el menú',
+                    type: 'error'
+                });
+                return;
+            }
+            if (!newMenu.ingredientes || newMenu.ingredientes.length === 0) {
+                setAlert({
+                    message: 'Por favor agregue al menos un ingrediente',
+                    type: 'error'
+                });
+                return;
+            }
             const response = await addMenu(newMenu);
             setMenuSections(prevState => ({
                 ...prevState,
@@ -50,7 +91,38 @@ const Menu = () => {
         }
     };
 
+    const validateIngredient = (ingredient) => {
+        const isDuplicate = newMenu.ingredientes.some(
+            ing => ing.nombre.toLowerCase() === ingredient.nombre.toLowerCase()
+        );
+    
+        if (isDuplicate) {
+            setAlert({
+                message: 'Este ingrediente ya existe en el menú',
+                type: 'error'
+            });
+            return false;
+        }
+        if (!ingredient.nombre || ingredient.nombre === '') {
+            setAlert({
+                message: 'Por favor ingrese un nombre para el ingrediente',
+                type: 'error'
+            });
+            return false;
+        }
+        if (!ingredient.cantidad || ingredient.cantidad === '') {
+            setAlert({
+                message: 'Por favor ingrese una cantidad para el ingrediente',
+                type: 'error'
+            });
+            return false;
+        }
+        return true;
+    };
+
     const handleAddIngredient = () => {
+        if (!validateIngredient(newIngredient)) return;
+        
         setNewMenu(prevState => ({
             ...prevState,
             ingredientes: [...prevState.ingredientes, newIngredient]
@@ -81,6 +153,7 @@ const Menu = () => {
             </div>
             <h2>🧾 Menú del Restaurante 🍴</h2>
             <button className="add-menu-button" onClick={() => setIsModalOpen(true)}>Agregar Menú</button>
+            {alert.message && <AlertMessage message={alert.message} type={alert.type} />}
 
             <AddMenuModal
                 isOpen={isModalOpen}

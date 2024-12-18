@@ -35,6 +35,11 @@ const Pedido = new EntitySchema({
       type: "date",
       nullable: false,
     },
+    Estado:{
+      type: "int",
+      nullable: false,
+      default: 0,
+    },
   },
 });
 

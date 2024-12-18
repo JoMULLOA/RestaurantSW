@@ -7,6 +7,7 @@
     margin-top: 100px;
 }
 
+
 /* Contenedor de secciones en una fila */
 .menu-sections {
     display: flex;
@@ -138,7 +139,7 @@
     display: inline-block;
     padding: 12px 24px;
     margin: 20px 0;
-    background-color: #a1887f;
+    background-color: #795548;
     color: white;
     border: none;
     border-radius: 4px;
@@ -149,7 +150,7 @@
 }
 
 .add-menu-button:hover {
-    background-color: #795548;
+    background-color: #63483e;
     transform: scale(1.05);
 }
 
@@ -165,7 +166,7 @@
     border-radius: 4px;
 }
 
-.add-menu-form button {
+.add-menu-form > button {
     width: 100%;
     padding: 12px;
     margin-top: 10px;
@@ -178,7 +179,7 @@
     transition: background-color 0.3s ease;
 }
 
-.add-menu-form button:hover {
+.add-menu-form > button:hover {
     background-color: #45a049;
 }
 
@@ -205,8 +206,8 @@
 .chef {
     vertical-align: middle;
     margin-right: 10px;
-    width: 100px; /* Ajusta el tamaño según tus necesidades */
-    height: auto; /* Mantiene la proporción de la imagen */
+    width: 100px;
+    height: auto;
 }
 
 @keyframes marquee-right {
@@ -218,3 +219,59 @@
     }
 }
 
+.add-menu-form > button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background-color: #795548;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.add-menu-form > button:hover {
+    background-color: #63483e;
+}
+
+
+.ingredient-list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* El texto y el botón se separan a los extremos */
+    background-color: #f9f9f9;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.ingredient-text {
+    flex: 1; /* Asegura que el texto ocupe el espacio disponible */
+    text-align: left; /* Alinea el texto a la izquierda */
+    font-size: 14px;
+    color: #555;
+}
+
+.ingredient-delete-button {
+    margin-left: 10px;
+    padding: 2px 5px;
+    font-size: 12px;
+    height: 20px;
+    width: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #795548;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.ingredient-delete-button:hover {
+    background-color: #63483e; /* Cambia el color al pasar el cursor */
+}

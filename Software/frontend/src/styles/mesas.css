@@ -1,16 +1,95 @@
-.mesas-container {
-  padding: 20px;
-  max-width: 800px;
-  margin: auto;
-  font-family: Arial, sans-serif;
+.mesas-page {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
-h2 {
+.mesas-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+  font-family: "Roboto", Arial, sans-serif;
+  background: #f0f2f5;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin-top: 80px; 
+}
+
+.titulo-principal {
+  margin-top: 30px;
   text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  color: #333333;
   margin-bottom: 20px;
 }
 
-/* Filtros */
+.hora-actual {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #0e2135;
+  margin-bottom: 15px;
+}
+
+/* Mensaje emergente (toast) por encima de todo */
+.mensaje-toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ffffff;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  z-index: 5000; /* Por encima de las modales y el panel */
+  animation: fadeIn 0.3s ease-in-out;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.mensaje-toast.success {
+  color: #28a745;
+}
+
+.mensaje-toast.error {
+  color: #dc3545;
+}
+
+.acciones {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-top: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.acciones button,
+.acciones input[type="text"] {
+  margin-bottom: 10px;
+}
+
+.agregar-button,
+.reservas-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+  background-color: #007bff;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+}
+
+.agregar-button:hover,
+.reservas-button:hover {
+  background-color: #0056b3;
+}
+
 .filtros {
   display: flex;
   justify-content: center;
@@ -26,17 +105,21 @@ h2 {
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
 .filtros button:hover {
   background-color: #0056b3;
 }
 
-/* Tabla */
 .mesas-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .mesas-table th,
@@ -44,19 +127,59 @@ h2 {
   padding: 12px;
   text-align: center;
   border-bottom: 1px solid #ddd;
+  font-size: 14px;
 }
 
 .mesas-table th {
   background-color: #f8f9fa;
   font-weight: bold;
+  color: #333;
 }
 
 .mesas-table tbody tr:nth-child(even) {
   background-color: #f2f2f2;
 }
 
-/* Botones de Reservar y Liberar */
+.custom-select {
+  padding: 12px;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  font-size: 16px;
+  width: 90%;
+  background-color: #ffffff;
+  color: #333333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23007bff' d='M2 0L0 2h4z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px;
+}
+
+.custom-select:hover {
+  border-color: #0056b3;
+}
+
+.custom-select:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.custom-select:disabled {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  cursor: not-allowed;
+}
+
+.acciones-botones {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
 .reservar-button,
+.eliminar-button,
 .liberar-button {
   padding: 8px 16px;
   border: none;
@@ -64,92 +187,451 @@ h2 {
   cursor: pointer;
   color: white;
   font-weight: bold;
+  transition: all 0.3s ease;
+  font-size: 14px;
 }
 
 .reservar-button {
   background-color: #28a745;
 }
-
 .reservar-button:hover {
   background-color: #218838;
 }
 
-.liberar-button {
+.eliminar-button {
   background-color: #dc3545;
 }
-
-.liberar-button:hover {
+.eliminar-button:hover {
   background-color: #c82333;
 }
 
-/* Acciones (Agregar y Eliminar) */
-.acciones {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  margin-top: 10px;
-  justify-content: center;
+.liberar-button {
+  background-color: #17a2b8;
+}
+.liberar-button:hover {
+  background-color: #138496;
 }
 
-.agregar-button,
-.eliminar-button {
+/* Botón Generar Gráfico */
+.generar-grafico-button {
+  background-color: #6f42c1;
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
   padding: 8px 16px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.generar-grafico-button:hover {
+  background-color: #5a379a;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Modal base */
+.modal {
+  background-color: #ffffff;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-in-out;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.small-modal {
+  width: 20vw;
+  height: 20vh;
+}
+
+.reservar-modal {
+  width: 80vw;
+  height: 50vh;
+  overflow: auto;
+}
+
+.reservar-modal .modal-form {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.cancelar-modal {
+  width: 30vw;
+  height: 50vh;
+  overflow: auto;
+}
+
+.modal h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #333;
   font-weight: bold;
+}
+
+.modal p {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #333333;
+}
+
+.modal label {
+  display: block;
+  text-align: left;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.modal input[type="datetime-local"],
+.modal input[type="text"] {
+  width: 95%;
+  padding: 8px;
+  border: 2px solid #007bff;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.modal input[type="datetime-local"]:focus,
+.modal input[type="text"]:focus {
+  border-color: #0056b3;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+/* Botones Confirmar y Cancelar en las modales */
+.confirm-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+.confirm-button:hover {
+  background-color: #218838;
+}
+
+.cancel-button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+.cancel-button:hover {
+  background-color: #c82333;
+}
+
+.close-modal-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+  font-weight: bold;
+}
+
+.close-modal-btn:hover {
+  color: #dc3545;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Panel horizontal de reservas */
+.reservas-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 70vw;
+  height: 100vh;
+  background-color: #ffffff;
+  box-shadow: -2px 0px 15px rgba(0,0,0,0.2);
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.reservas-panel.open {
+  transform: translateX(0);
+}
+
+.reservas-panel h3 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.reservas-panel table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.reservas-panel table th,
+.reservas-panel table td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.reservas-panel table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+  color: #333;
+}
+
+.reservas-panel table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.reservas-panel .paginacion {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+  gap: 10px;
+}
+
+.reservas-panel .paginacion button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.reservas-panel .paginacion button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.reservas-panel .paginacion button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.reservas-panel .cancel-button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.reservas-panel .cancel-button:hover {
+  background-color: #c82333;
+}
+
+/* Botón para cerrar el panel */
+.reservas-panel .close-panel {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+  font-weight: bold;
+}
+
+.reservas-panel .close-panel:hover {
+  color: #dc3545;
+}
+
+.filtros-avanzados {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  margin: 20px 0;
+  justify-content: center;
+}
+
+.filtros-avanzados label {
+  font-weight: bold;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.filtros-avanzados input[type="date"],
+.filtros-avanzados input[type="text"],
+.filtros-avanzados select {
+  padding: 8px;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #ffffff;
+  color: #333;
+  outline: none;
+  transition: border-color 0.3s ease;
+  margin-top: 5px;
+}
+
+.filtros-avanzados input[type="date"]:focus,
+.filtros-avanzados input[type="text"]:focus,
+.filtros-avanzados select:focus {
+  border-color: #0056b3;
+}
+
+.eliminar-modal {
+  width: 50%; 
+  height: 30%; 
+  background-color: #ffffff;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.eliminar-modal .modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.eliminar-modal .confirm-button,
+.eliminar-modal .cancel-button {
+  font-size: 14px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.eliminar-modal .confirm-button {
+  background-color: #28a745;
   color: white;
 }
-
-.agregar-button {
-  background-color: #28a745;
+.eliminar-modal .confirm-button:hover {
+  background-color: #218838;
 }
 
-.eliminar-button {
+.eliminar-modal .cancel-button {
   background-color: #dc3545;
+  color: white;
+}
+.eliminar-modal .cancel-button:hover {
+  background-color: #c82333;
 }
 
-/* Caja de texto para eliminar mesa */
-.acciones input[type="text"] {
-  padding: 8px 12px;
-  border: 1px solid #ced4da;
+.eliminar-modal.cancelar-borde {
+  border: 3px solid #ffc107; /* Amarillo */
+  animation: borderPulse 0.5s ease-in-out;
+}
+
+@keyframes borderPulse {
+  0% {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #ffc107;
+  }
+  100% {
+    border-color: #ffc107;
+  }
+}
+
+/* Botones en cancelar-modal ya poseen estilos confirm-button y cancel-button */
+.cancelar-modal .confirm-button {
+  background-color: #28a745; /* Verde */
+  color: white;
+  border: none;
   border-radius: 5px;
   font-size: 16px;
-  outline: none;
-  width: 200px;
-  transition: border-color 0.3s ease;
-}
-
-.acciones input[type="text"]:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-/* Mensaje de éxito o error */
-.mensaje {
+  padding: 10px 20px;
+  cursor: pointer;
   font-weight: bold;
-  text-align: center;
-  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+.cancelar-modal .confirm-button:hover {
+  background-color: #218838; /* Verde más oscuro */
 }
 
-/* Colores condicionales para el mensaje */
-.mensaje.success {
-  color: green;
+.cancelar-modal .cancel-button {
+  background-color: #dc3545; /* Rojo */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
 }
-
-.mensaje.error {
-  color: red;
-}
-.acciones {
-  display: flex;
-  gap: 15px; /* Aumenta el espacio entre elementos */
-  align-items: center;
-  margin-top: 10px;
-  justify-content: center;
-  flex-wrap: wrap; /* Permite que los elementos se ajusten en múltiples líneas si es necesario */
-}
-
-.acciones button,
-.acciones input[type="text"] {
-  margin-bottom: 10px; /* Añade un poco de espacio inferior para separar visualmente */
+.cancelar-modal .cancel-button:hover {
+  background-color: #c82333; /* Rojo más oscuro */
 }

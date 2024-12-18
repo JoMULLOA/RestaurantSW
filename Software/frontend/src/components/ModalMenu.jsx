@@ -1,5 +1,3 @@
-// Modal.jsx
-import '../styles/Menu.css';
 
 const AddMenuModal = ({
     isOpen,
@@ -13,6 +11,14 @@ const AddMenuModal = ({
     noNegative,
 }) => {
     if (!isOpen) return null;
+
+    const handleRemoveFromArray = (field, index) => {
+        setNewMenu((prevMenu) => ({
+          ...prevMenu,
+          ingredientes: prevMenu.ingredientes.filter((_, i) => i !== index),
+        }));
+      };
+      
 
     return (
         <div className="modal">
@@ -60,14 +66,23 @@ const AddMenuModal = ({
                             onInput={noNegative}
                             required
                         />
-                        <button onClick={handleAddIngredient}>Agregar Ingrediente</button>
+                        <button className="add-menu-button" onClick={handleAddIngredient}>Agregar Ingrediente</button>
                     </div>
-                    <ul className="ingredients-list">
-                        {newMenu.ingredientes.map((ingredient, index) => (
-                            <li key={index}>
-                                {ingredient.nombre}: {ingredient.cantidad}
-                            </li>
-                        ))}
+                    <ul>
+                    {newMenu.ingredientes.map((item, index) => (
+                    <li 
+                        key={index} 
+                        className="ingredient-list-item"
+                    >
+                        <span className="ingredient-text">{item.nombre} - {item.cantidad}</span>
+                        <button
+                            type="button"
+                            className="ingredient-delete-button"
+                            onClick={() => handleRemoveFromArray('ingredientes', index)}
+                        >x
+                        </button>
+                    </li>
+                ))}
                     </ul>
                     <button onClick={handleAddMenu}>Agregar Menú</button>
                 </div>

@@ -15,6 +15,8 @@ import {
   handleSuccess,
 } from "../handlers/responseHandlers.js";
 
+import { getGarzonesService } from "../services/user.service.js"; 
+
 export async function getUser(req, res) {
   try {
     const { rut, id, email } = req.query;
@@ -123,3 +125,11 @@ export async function deleteUser(req, res) {
     handleErrorServer(res, 500, error.message);
   }
 }
+
+export const getGarzones = async (req, res) => {
+  const [garzones, error] = await getGarzonesService();
+  if (error) {
+    return res.status(500).json({ message: error });
+  }
+  return res.status(200).json(garzones);
+};

@@ -22,16 +22,46 @@ export async function liberarMesa(numeroMesa) {
   }
 }
 
-// Función para reservar una mesa específica
-export async function reservarMesa(numeroMesa) {
+// Función para crear una reserva
+export const crearReserva = async ({ mesaId, nombreReservante, horaReserva }) => {
+  return await axios.post("/api/mesas/reservas", {
+    mesaId,
+    nombreReservante,
+    horaReserva,
+  });
+};
+
+// Servicio para cancelar una reserva
+export const cancelarReserva = async (id) => {
   try {
-    const response = await axios.put(`/mesas/reservar/${numeroMesa}`);
+    const response = await axios.patch(`/reservas/${id}/cancelar`);
     return response.data;
   } catch (error) {
-    console.error("Error en reservarMesa:", error);
-    return error.response?.data || "Error al reservar la mesa";
+    console.error("Error al cancelar la reserva:", error);
+    throw error.response?.data || "Error al cancelar la reserva";
   }
-}
+};
+
+
+export const obtenerReservas = async () => {
+  try {
+    const response = await axios.get("/reservas"); // Endpoint que devuelve las reservas con las mesas
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener las reservas:", error);
+    throw error;
+  }
+};
+
+export const actualizarEstadosMesas = async () => {
+  try {
+    const response = await axios.post(`/reservas/actualizar-estados`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar los estados de las mesas:", error);
+    throw error.response?.data || "Error al actualizar los estados";
+  }
+};
 
 export async function ocuparMesa(numeroMesa) {
   try {
@@ -74,6 +104,19 @@ export async function obtenerGarzones() {
     return response.data;
   } catch (error) {
     console.error("Error al obtener garzones:", error);
+    throw error;
+  }
+}
+export async function actualizarGarzonMesa(numeroMesa, garzonName) {
+  try {
+    console.log("Actualizando garzón de la mesa", numeroMesa, "con el garzón", garzonName);
+    const response = await axios.put(`/mesas/asignarGarzon/${numeroMesa}`, {
+      nombreCompleto: garzonName
+    });
+    console.log("Garzón de la mesa actualizado:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error al actualizar el garzón de la mesa:", error);
     throw error;
   }
 }

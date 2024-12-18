@@ -5,6 +5,9 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import passport from "passport";
 import express, { json, urlencoded } from "express";
+import cron from "node-cron";
+import { actualizarEstadoMesas } from "./controllers/reserva.controller.js";
+
 
 import userRoutes from "./routes/user.routes.js"; // Rutas de usuario, que incluye /garzones
 import indexRoutes from "./routes/index.routes.js";
@@ -13,6 +16,8 @@ import pedidoRoutes from "./routes/pedido.routes.js";
 import mesaRoutes from "./routes/mesa.routes.js";
 import menuRoutes from "./routes/menu.routes.js";
 import chefRoutes from "./routes/chef.routes.js";
+import reservaRoutes from "./routes/reserva.routes.js";
+
 
 import { cookieKey, HOST, PORT } from "./config/configEnv.js";
 import { connectDB } from "./config/configDb.js";
@@ -67,6 +72,8 @@ async function setupServer() {
     app.use("/api/mesas", mesaRoutes);
     app.use("/api/menus", menuRoutes);
     app.use("/api/chef", chefRoutes);
+    app.use("/api/", reservaRoutes);
+
     // Inicio del servidor
     app.listen(PORT, () => {
       console.log(`=> Servidor corriendo en ${HOST}:${PORT}/api`);
@@ -75,6 +82,14 @@ async function setupServer() {
     console.error("Error en index.js -> setupServer():", error);
   }
 }
+
+cron.schedule("* * * * *", async () => {
+  try {
+    await actualizarEstadoMesas();
+  } catch (error) {
+  }
+});
+
 
 async function setupAPI() {
   try {

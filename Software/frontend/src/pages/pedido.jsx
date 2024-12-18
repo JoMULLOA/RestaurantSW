@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import { addPedido, getPedidos, deletePedido } from '../services/pedido.service.js';
 import { obtenerMesas} from '../services/mesa.service.js';
 import { getMenus } from '../services/menu.service.js';
+import { actualizarGarzonMesa } from '../services/mesa.service.js';
 import '@styles/pedido.css';
+import AlertMessage from '../components/AlertMessage.jsx';
 
 const Pedido = () => {
   const [pedidos, setPedidos] = useState([]);
@@ -16,11 +18,24 @@ const Pedido = () => {
     modificaciones: '',
     fechaIngreso: new Date().toISOString().split('T')[0]
   });
+  const user = JSON.parse(sessionStorage.getItem('usuario')) || '';
+  const userNombre = user?.nombreCompleto;
+  const [alert, setAlert] = useState({ message: '', type: '' });
   const [inputValues, setInputValues] = useState({
     plato: '',
     bebestible: '',
     postre: ''
   });
+
+  useEffect(() => {
+    if (alert.message) {
+        const timer = setTimeout(() => {
+            setAlert({ message: '', type: '' });
+        }, 2000);
+
+        return () => clearTimeout(timer);
+    }
+}, [alert]);
 
   useEffect(() => {
     const fetchPedidos = async () => {
@@ -32,7 +47,10 @@ const Pedido = () => {
           console.error("Error al obtener los pedidos: ", data.message);
         }
       } catch (error) {
-        console.error("Error al conectar con el servidor: ", error);
+        setAlert({
+          message: `Error al conectar con el servidor: ${error.message}`,
+          type: 'error'
+        });
       }
     };
     fetchPedidos();
@@ -88,6 +106,20 @@ const Pedido = () => {
   };
 
   const handleAddToArray = (field) => {
+    if (!inputValues[field] || inputValues[field] === '') {
+      setAlert({
+        message: `Por favor seleccione un ${field} antes de agregar`,
+        type: 'error'
+      });
+      return;
+    }
+    if (form[field].includes(inputValues[field])) {
+      setAlert({
+        message: `Este ${field} ya ha sido agregado`,
+        type: 'error'
+      });
+      return;
+    }
     setForm({
       ...form,
       [field]: [...form[field], inputValues[field]]
@@ -104,8 +136,8 @@ const Pedido = () => {
       console.log('Formulario', form);
       const data = await addPedido(form);
       if (data.status === 'Success') {
+        await actualizarGarzonMesa(form.mesa, userNombre);
         setPedidos([...pedidos, data.data]);
-        // await ocuparMesa(form.mesa);
         setForm({
           mesa: '',
           plato: [],
@@ -114,11 +146,23 @@ const Pedido = () => {
           modificaciones: '',
           fechaIngreso: new Date().toISOString().split('T')[0]
         });
-      } else {
-        console.error("Error al agregar el pedido: ", data.message);
+        setAlert({
+          message: 'Pedido agregado exitosamente',
+          type: 'success'
+        });
+      } else {//Considerar
+        const errorMessage = data.message || 'Error desconocido al agregar el pedido';
+        setAlert({
+          message: errorMessage,
+          type: 'error'
+        });
       }
     } catch (error) {
-      console.error("Error al conectar con el servidor: ", error);
+      const errorMessage = error.response?.data?.message || error.message || 'Error al conectar con el servidor';
+      setAlert({
+        message: errorMessage,
+        type: 'error'
+      });
     }
 
   };
@@ -148,6 +192,7 @@ const Pedido = () => {
   return (
     <main className="container">
       <h1 className="titlePedido">📝 Registro de Pedido</h1>
+      {alert.message && <AlertMessage message={alert.message} type={alert.type} />}
       <div className="dashboard">
         <div className="form-wrapper">
           <form onSubmit={handleSubmit} className="form-container">
@@ -208,8 +253,7 @@ const Pedido = () => {
                           type="button"
                           className="delete-button"
                           onClick={() => handleRemoveFromArray('plato', index)}
-                        >
-                          X
+                        >X
                         </button>
                       </li>
                     ))}
