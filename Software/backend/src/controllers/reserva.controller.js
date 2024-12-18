@@ -34,13 +34,6 @@ export const cancelarReserva = async (req, res) => {
 
 export const reservarMesa = async (req, res) => {
   const { numeroMesa, garzonAsignado, nombreReservante, fechaInicioReserva, fechaFinReserva } = req.body;
-  console.log("Datos recibidos en el controlador:", {
-    numeroMesa,
-    garzonAsignado,
-    nombreReservante,
-    fechaInicioReserva,
-    fechaFinReserva,
-  });
 
   try {
     const mesaRepo = AppDataSource.getRepository(Mesa);
@@ -52,24 +45,23 @@ export const reservarMesa = async (req, res) => {
 
     // Validar formato de fechas
     if (isNaN(fechaInicio.getTime()) || isNaN(fechaFin.getTime())) {
-      return res.status(400).json({ message: "Formato de fecha/hora inválido." });
+      return res.status(400).json({ errores: ["Formato de fecha/hora inválido."] });
     }
 
     // Validar que las fechas sean válidas
     if (fechaInicio < ahora || fechaInicio >= fechaFin) {
       return res.status(400).json({
-        message: "La fecha de inicio debe ser mayor a la actual y menor a la fecha de fin.",
+        errores: ["La fecha de inicio debe ser mayor a la actual y menor a la fecha de fin."],
       });
     }
 
     // Validar que la mesa existe
     const mesa = await mesaRepo.findOne({ where: { numeroMesa } });
     if (!mesa) {
-      return res.status(404).json({ message: "Mesa no encontrada." });
+      return res.status(404).json({ errores: ["Mesa no encontrada."] });
     }
 
     // Verificar si ya existe una reserva para esta misma mesa dentro del rango de fechas
-    // Usar mesa: { id: mesa.id } si la relación es un objeto
     const reservaExistente = await reservaRepo.findOne({
       where: {
         mesa: { id: mesa.id },
@@ -81,7 +73,7 @@ export const reservarMesa = async (req, res) => {
 
     if (reservaExistente) {
       return res.status(400).json({
-        message: "Ya existe una reserva para esta mesa en ese rango de fechas.",
+        errores: ["Ya existe una reserva para esta mesa en ese rango de fechas."],
       });
     }
 
@@ -91,8 +83,8 @@ export const reservarMesa = async (req, res) => {
       fechaInicioReserva: fechaInicio,
       fechaFinReserva: fechaFin,
       estado: "Pendiente",
-      mesa: mesa,  // pasar el objeto mesa completo, si la relación está definida de esa manera
-      garzonAsignado
+      mesa: mesa,
+      garzonAsignado,
     });
 
     await reservaRepo.save(nuevaReserva);
@@ -103,7 +95,7 @@ export const reservarMesa = async (req, res) => {
     });
   } catch (error) {
     console.error("Error al reservar la mesa:", error);
-    return res.status(500).json({ message: "Error al reservar la mesa." });
+    return res.status(500).json({ errores: ["Error interno al reservar la mesa."] });
   }
 };
 

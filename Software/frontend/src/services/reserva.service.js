@@ -18,20 +18,26 @@ export const obtenerEstadisticasReservas = async () => {
   return response.data;
 };
 
-
-export const reservarMesaConHorario = async ({ numeroMesa, garzonAsignado, nombreReservante, fechaInicioReserva, fechaFinReserva  }) => {
+export const reservarMesaConHorario = async (datosReserva) => {
   try {
-    const response = await axios.post("/reservas/", {
-      numeroMesa,
-      garzonAsignado,
-      nombreReservante,
-      fechaInicioReserva,
-      fechaFinReserva,
+    const response = await axios.post("/reservas", datosReserva, {
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
+
     return response.data;
   } catch (error) {
-    console.error("Error al reservar la mesa con horario:", error);
-    throw error.response?.data || "Error al realizar la reserva";
+    if (error.response && error.response.status === 400) {
+      const errores = error.response.data.errores;
+      if (errores && Array.isArray(errores)) {
+        throw new Error(errores.join("\n")); // Une los mensajes en una sola cadena
+      } else {
+        throw new Error("Error desconocido en la validación.");
+      }
+    }
+
+    throw new Error("Error al conectar con el servidor.");
   }
 };
 

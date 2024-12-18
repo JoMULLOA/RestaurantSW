@@ -30,16 +30,6 @@ export const crearReserva = async ({ mesaId, nombreReservante, horaReserva }) =>
     horaReserva,
   });
 };
-// Función para reservar una mesa específica
-export async function reservarMesa(numeroMesa) {
-  try {
-    const response = await axios.put(`/mesas/reservar/${numeroMesa}`);
-    return response.data;
-  } catch (error) {
-    console.error("Error en reservarMesa:", error);
-    return error.response?.data || "Error al reservar la mesa";
-  }
-}
 
 // Servicio para cancelar una reserva
 export const cancelarReserva = async (id) => {
