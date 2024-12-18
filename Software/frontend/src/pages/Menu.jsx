@@ -21,6 +21,7 @@ const Menu = () => {
             e.target.value = 1;
         }
     };
+
     useEffect(() => {
         if (alert.message) {
             const timer = setTimeout(() => {
@@ -50,6 +51,34 @@ const Menu = () => {
 
     const handleAddMenu = async () => {
         try {
+            if (!newMenu.nombre || newMenu.nombre === '') {
+                setAlert({
+                    message: 'Por favor ingrese un nombre para el menú',
+                    type: 'error'
+                });
+                return;
+            }
+            if (!newMenu.tipo || newMenu.tipo === '') {
+                setAlert({
+                    message: 'Por favor seleccione un tipo para el menú',
+                    type: 'error'
+                });
+                return;
+            }
+            if (!newMenu.precio || newMenu.precio === '') {
+                setAlert({
+                    message: 'Por favor ingrese un precio para el menú',
+                    type: 'error'
+                });
+                return;
+            }
+            if (!newMenu.ingredientes || newMenu.ingredientes.length === 0) {
+                setAlert({
+                    message: 'Por favor agregue al menos un ingrediente',
+                    type: 'error'
+                });
+                return;
+            }
             const response = await addMenu(newMenu);
             setMenuSections(prevState => ({
                 ...prevState,
@@ -62,21 +91,38 @@ const Menu = () => {
         }
     };
 
-    const handleAddIngredient = () => {
-        if (!newIngredient.nombre || newIngredient.nombre === '') {
+    const validateIngredient = (ingredient) => {
+        const isDuplicate = newMenu.ingredientes.some(
+            ing => ing.nombre.toLowerCase() === ingredient.nombre.toLowerCase()
+        );
+    
+        if (isDuplicate) {
+            setAlert({
+                message: 'Este ingrediente ya existe en el menú',
+                type: 'error'
+            });
+            return false;
+        }
+        if (!ingredient.nombre || ingredient.nombre === '') {
             setAlert({
                 message: 'Por favor ingrese un nombre para el ingrediente',
                 type: 'error'
             });
-            return;
+            return false;
         }
-        if (!newIngredient.cantidad || newIngredient.cantidad === '') {
+        if (!ingredient.cantidad || ingredient.cantidad === '') {
             setAlert({
                 message: 'Por favor ingrese una cantidad para el ingrediente',
                 type: 'error'
             });
-            return;
+            return false;
         }
+        return true;
+    };
+
+    const handleAddIngredient = () => {
+        if (!validateIngredient(newIngredient)) return;
+        
         setNewMenu(prevState => ({
             ...prevState,
             ingredientes: [...prevState.ingredientes, newIngredient]
