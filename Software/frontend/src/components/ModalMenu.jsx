@@ -1,6 +1,3 @@
-// Modal.jsx
-import '../styles/Menu.css';
-
 
 const AddMenuModal = ({
     isOpen,
@@ -69,39 +66,23 @@ const AddMenuModal = ({
                             onInput={noNegative}
                             required
                         />
-                        <button onClick={handleAddIngredient}>Agregar Ingrediente</button>
+                        <button className="add-menu-button" onClick={handleAddIngredient}>Agregar Ingrediente</button>
                     </div>
                     <ul>
                     {newMenu.ingredientes.map((item, index) => (
-                        <li 
+                    <li 
                         key={index} 
-                        style={{ 
-                            display: 'flex', 
-                            alignItems: 'center', // Alinea verticalmente los elementos
-                            justifyContent: 'space-between', // Espacio uniforme entre el texto y el botón
-                        }}
-                        >
-                        <span style={{ flex: 1 }}>{item.nombre} - {item.cantidad}</span> {/* Texto alineado */}
+                        className="ingredient-list-item"
+                    >
+                        <span className="ingredient-text">{item.nombre} - {item.cantidad}</span>
                         <button
                             type="button"
-                            className="delete-button"
+                            className="ingredient-delete-button"
                             onClick={() => handleRemoveFromArray('ingredientes', index)}
-                            style={{
-                            marginLeft: '5px', // Reduce el margen izquierdo para acercarlo al texto
-                            padding: '2px 5px',
-                            fontSize: '12px',
-                            height: '20px',
-                            width: '20px',
-                            display: 'flex',
-                            justifyContent: 'center', // Centra la "X" horizontalmente
-                            alignItems: 'center',    // Centra la "X" verticalmente
-                            }}
-                        >
-                            X
+                        >x
                         </button>
-                        </li>
-
-                    ))}
+                    </li>
+                ))}
                     </ul>
                     <button onClick={handleAddMenu}>Agregar Menú</button>
                 </div>
