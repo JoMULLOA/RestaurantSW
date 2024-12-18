@@ -80,24 +80,32 @@ const Home = () => {
 
   return (
     <div>
-      <h1 className="title" style={{ marginLeft: "-20px" }}>
+      <h1 className="title" style={{ marginTop: "90px", marginLeft: "-20px" }}>
         🛎️ Software cocinería 🍽️
       </h1>
-      <h2  style={{ marginLeft: "300px" }}>
-        Panel del administrador
-      </h2>
+
 
       {userRole === "administrador" ? (
+        
         <>
+          <h2  style={{ marginLeft: "300px" }}>
+            Panel del administrador
+          </h2>
           {/* Selector de Fecha */}
           <div style={{ margin: "20px auto", textAlign: "center" }}>
-            <input
-              type="date"
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
-              style={{ width: "100px" }}
-            />
-          </div>
+          <input
+            type="date"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+            style={{
+              width: "150px",
+              padding: "5px",
+              borderRadius: "5px",
+              border: "1px solid #ccc",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"
+            }}
+          />
+        </div>
 
           {/* Gráfico diario */}
           <div className="chart-container" style={{ width: "50%", margin: "20px auto" }}>
@@ -112,7 +120,15 @@ const Home = () => {
                 type="month"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                style={{ marginLeft: "10px", marginRight: "20px" , width: "200px" }}
+                style={{
+                  width: "150px",
+                  padding: "5px",
+                  borderRadius: "5px",
+                  border: "1px solid #ccc",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                  marginRight: "20px",
+                  marginLeft: "20px"
+                }}
               />
             </label>
             <label>
@@ -121,7 +137,14 @@ const Home = () => {
                 type="month"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                style={{ marginLeft: "10px", width: "200px" }}
+                style={{
+                  width: "150px",
+                  padding: "5px",
+                  borderRadius: "5px",
+                  border: "1px solid #ccc",
+                  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                  marginLeft: "20px"
+                }}
               />
             </label>
           </div>
