@@ -2,7 +2,8 @@ import Joi from "joi";
 
 export const reservaBodyValidation = Joi.object({
   nombreReservante: Joi.string()
-    .pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/) // Solo letras, acentos y espacios
+    .trim() // Elimina espacios en blanco al inicio y al final
+    .pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/) // Permite letras, acentos y espacios
     .min(1)
     .max(100)
     .required()

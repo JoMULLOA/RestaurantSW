@@ -208,41 +208,27 @@ function Mesas() {
 
   const handleReservarMesa = async () => {
     const { fechaInicio, fechaTermino, nombreReservante } = reservaDetalles;
-    if (!fechaInicio || !fechaTermino || !nombreReservante) {
-      mostrarMensaje("Por favor, completa todos los campos de la reserva.", true);
-      return;
-    }
-
-    if (
-      isNaN(new Date(fechaInicio).getTime()) ||
-      isNaN(new Date(fechaTermino).getTime())
-    ) {
-      mostrarMensaje("Formato de fecha/hora inválido.", true);
-      return;
-    }
-
+  
+    const datosReserva = {
+      numeroMesa: mesaReservar,
+      garzonAsignado: garzonSeleccionado[mesaReservar] || null,
+      fechaInicioReserva: fechaInicio,
+      fechaFinReserva: fechaTermino,
+      nombreReservante,
+    };
+  
     try {
-      const garzonId = garzonSeleccionado[mesaReservar] || null;
-
-      await reservarMesaConHorario({
-        numeroMesa: mesaReservar,
-        garzonAsignado: garzonId,
-        fechaInicioReserva: fechaInicio,
-        fechaFinReserva: fechaTermino,
-        nombreReservante,
-      });
-
+      await reservarMesaConHorario(datosReserva); // Llama al servicio con Axios
+  
       fetchMesas();
       fetchReservas();
-      mostrarMensaje(
-        `La mesa ${mesaReservar} ha sido reservada correctamente.`,
-        false
-      );
+      mostrarMensaje(`La mesa ${mesaReservar} ha sido reservada correctamente.`, false);
       closeReservaModal();
     } catch (error) {
-      manejarError("Error al reservar la mesa", error);
+      mostrarMensaje(error.message, true); // Muestra los errores al usuario
     }
   };
+  
 
   const handleGarzonChange = (numeroMesa, garzonId) => {
     setGarzonSeleccionado((prev) => ({
