@@ -150,7 +150,7 @@ const Ingrediente = () => {
 
   return (
     <main className="container">
-    <h1 className="titleInventario" style={{ marginTop: '90px' }}>Inventario de Ingredientes</h1>
+    <h1 className="titleInventario" style={{ marginTop: '110px' }}>Inventario de Ingredientes</h1>
 
 
 
@@ -279,7 +279,7 @@ const Ingrediente = () => {
                     />
                   </td>
                   <td>
-                    <button type="submit" className="action-button">Agregar</button>
+                    <button type="submit" className="action-button edit-button">Agregar</button>
                   </td>
                 </tr>
               </tbody>
@@ -296,7 +296,7 @@ const Ingrediente = () => {
             <path d="M224 512c35.3 0 64-28.7 64-64H160c0 35.3 28.7 64 64 64zm215.4-149.3c-20.9-21.6-55.4-52.6-55.4-154.7 0-77.7-54.5-139.3-127.1-155.2V32c0-17.7-14.3-32-32-32s-32 14.3-32 32v20.8C118.5 68.7 64 130.3 64 208c0 102.1-34.5 133.1-55.4 154.7-6 6.2-8.6 14.6-8.6 22.3 0 16.6 13.4 32 32 32h384c18.6 0 32-15.4 32-32 0-7.7-2.6-16.1-8.6-22.3z"/>
           </svg>
         </button>
-        <h2>Lista de Ingredientes</h2>
+        <h2 style={{ marginLeft: '50px' }}>Lista de Ingredientes</h2>
         <div className="search-container">
           <Search
             value={searchTerm}
@@ -350,7 +350,7 @@ const Ingrediente = () => {
                         Guardar
                       </button>
                       <button
-                        className="action-button"
+                        className="action-button edit-button"
                         onClick={() => setEditMode(null)}
                       >
                         Cancelar
