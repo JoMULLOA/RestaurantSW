@@ -21,11 +21,10 @@ export const createPedido = async (req, res) => {
       });
     }
     const pedido = await addPedido(req.body);
-    
     if (pedido.status === 400) {
       return res.status(400).json({ 
-        message: result.message, 
-        errors: result.errors 
+        status: "Error",
+        message: pedido.errors
       });
     }
     res.status(201).json({ status: "Success", data: pedido });

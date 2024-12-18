@@ -29,7 +29,7 @@ export const addPedido = async (data) => {
     for (const plato of newPedido.plato) {
       const menu = menus.find(a => a.nombre === plato);
       if (!menu) {
-        validation.errors.push(`No se encontró el menú para el plato: ${plato}`);
+        validation.errors.push(`No se encontró el menú para el plato: ${plato}\n`);
         validation.isValid = false;
         continue;
       }
@@ -37,12 +37,12 @@ export const addPedido = async (data) => {
       for (const ingrediente of menu.ingredientes) {
         const ingre = ingredientesEs.find(ing => ing.nombre === ingrediente.nombre);
         if (!ingre) {
-          validation.errors.push(`No se encontró el ingrediente: ${ingrediente.nombre}`);
+          validation.errors.push(`No se encontró el ingrediente: ${ingrediente.nombre}\n`);
           validation.isValid = false;
           continue;
         }
         if (ingre.cantidad < ingrediente.cantidad) {
-          validation.errors.push(`No hay suficiente cantidad para el ingrediente: ${ingrediente.nombre}`);
+          validation.errors.push(`No hay suficiente cantidad para el ingrediente: ${ingrediente.nombre}\n`);
           validation.isValid = false;
         }
       }
@@ -52,7 +52,7 @@ export const addPedido = async (data) => {
     for (const bebestible of newPedido.bebestible) {
       const menu = menus.find(a => a.nombre === bebestible);
       if (!menu) {
-        validation.errors.push(`No se encontró el menú para el bebestible: ${bebestible}`);
+        validation.errors.push(`No se encontró el menú para el bebestible: ${bebestible}\n`);
         validation.isValid = false;
         continue;
       }
@@ -60,12 +60,12 @@ export const addPedido = async (data) => {
       for (const ingrediente of menu.ingredientes) {
         const ingre = ingredientesEs.find(ing => ing.nombre === ingrediente.nombre);
         if (!ingre) {
-          validation.errors.push(`No se encontró el ingrediente: ${ingrediente.nombre}`);
+          validation.errors.push(`No se encontró el ingrediente: ${ingrediente.nombre}\n`);
           validation.isValid = false;
           continue;
         }
         if (ingre.cantidad < ingrediente.cantidad) {
-          validation.errors.push(`No hay suficiente cantidad para el ingrediente: ${ingrediente.nombre}`);
+          validation.errors.push(`No hay suficiente cantidad para el ingrediente: ${ingrediente.nombre}\n`);
           validation.isValid = false;
         }
       }
@@ -75,7 +75,7 @@ export const addPedido = async (data) => {
     for (const postre of newPedido.postre) {
       const menu = menus.find(a => a.nombre === postre);
       if (!menu) {
-        validation.errors.push(`No se encontró el menú para el postre: ${postre}`);
+        validation.errors.push(`No se encontró el menú para el postre: ${postre}\n`);
         validation.isValid = false;
         continue;
       }
@@ -83,12 +83,12 @@ export const addPedido = async (data) => {
       for (const ingrediente of menu.ingredientes) {
         const ingre = ingredientesEs.find(ing => ing.nombre === ingrediente.nombre);
         if (!ingre) {
-          validation.errors.push(`No se encontró el ingrediente: ${ingrediente.nombre}`);
+          validation.errors.push(`No se encontró el ingrediente: ${ingrediente.nombre}\n`);
           validation.isValid = false;
           continue;
         }
         if (ingre.cantidad < ingrediente.cantidad) {
-          validation.errors.push(`No hay suficiente cantidad para el ingrediente: ${ingrediente.nombre}`);
+          validation.errors.push(`No hay suficiente cantidad para el ingrediente: ${ingrediente.nombre}\n`);
           validation.isValid = false;
         }
       }
@@ -138,11 +138,10 @@ export const addPedido = async (data) => {
     validationResult.errors.forEach(error => console.log(error));
     return {
       status: 400,
-      message: "Pedido inválido",
+      message: "Pedido con falta de stock",
       errors: validationResult.errors
     };
   }
-  console.log(validationResult);
    // Si la validación pasó, proceder a ocupar mesa y luego la deducción
   // const { mesa } = req.body;
   const bodyMesa = await getMesaConN(data.mesa);
@@ -152,8 +151,13 @@ export const addPedido = async (data) => {
     console.log("Pedido válido");
     return await pedidoRepository.save(newPedido);
   } else{
-    console.log("La mesa no está disponible para ocupar y se invalida el pedido");
-    return null;
+    validationResult.errors.push("Mesa Ocupada\n");
+    validationResult.errors.forEach(error => console.log(error));
+    return{
+      status: 400,
+      message: "La mesa no está disponible para ocupar y se invalida el pedido",
+      errors: validationResult.errors
+    }
   }
 };
 
