@@ -70,7 +70,8 @@ export const preparapedido = async (pedidoId) => {
                 total,
             });
             console.log("El pedido está en preparación. Cambiando a listo...");
-            pedidoo.Estado = 2; 
+            pedidoo.Estado = 2;
+            await liberarMesa(pedidoo.mesa);
             await estadito.save(pedidoo);
         } 
         else {
