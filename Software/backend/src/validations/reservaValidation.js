@@ -4,13 +4,13 @@ export const reservaBodyValidation = Joi.object({
   nombreReservante: Joi.string()
     .trim()
     .pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/) // Solo letras, acentos y espacios
-    .min(1)
+    .min(2)
     .max(100)
     .required()
     .messages({
       "string.empty": "El nombre del reservante no puede estar vacío.",
       "string.pattern.base": "El nombre del reservante solo puede contener letras y espacios.",
-      "string.min": "El nombre del reservante debe tener al menos 1 caracter.",
+      "string.min": "El nombre del reservante debe tener al menos 2 caracteres.",
       "string.max": "El nombre del reservante debe tener como máximo 100 caracteres.",
       "any.required": "El nombre del reservante es obligatorio.",
     }),

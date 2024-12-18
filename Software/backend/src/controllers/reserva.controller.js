@@ -10,6 +10,7 @@ export const cancelarReserva = async (req, res) => {
 
   try {
     const reservaRepo = AppDataSource.getRepository(Reserva);
+    const mesaRepo = AppDataSource.getRepository(Mesa); // Añadido para gestionar mesas
     const reserva = await reservaRepo.findOne({ where: { id }, relations: ["mesa"] });
 
     if (!reserva) {
@@ -22,10 +23,17 @@ export const cancelarReserva = async (req, res) => {
       });
     }
 
+    // Actualizar el estado de la reserva a "Cancelada"
     reserva.estado = "Cancelada";
     await reservaRepo.save(reserva);
 
-    return res.status(200).json({ message: "Reserva cancelada correctamente." });
+    // Liberar la mesa asociada
+    if (reserva.mesa) {
+      reserva.mesa.estado = "Disponible";
+      await mesaRepo.save(reserva.mesa);
+    }
+
+    return res.status(200).json({ message: "Reserva cancelada correctamente y mesa liberada." });
   } catch (error) {
     console.error("Error al cancelar la reserva:", error);
     return res.status(500).json({ message: "Error al cancelar la reserva." });
@@ -131,8 +139,6 @@ export const actualizarEstadoMesas = async () => {
         await mesaRepo.save(reserva.mesa);
       }
     }
-
-    console.log("Estados de las mesas y reservas actualizados.");
   } catch (error) {
     console.error("Error al actualizar los estados de las mesas:", error);
   }

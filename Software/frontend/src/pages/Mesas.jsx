@@ -59,7 +59,7 @@ function Mesas() {
     actualizarHora();
   
     const intervaloHora = setInterval(actualizarHora, 1000);
-    const intervaloMesas = setInterval(fetchMesas, 10000);
+    const intervaloMesas = setInterval(fetchMesas, 1000);
   
     return () => {
       clearInterval(intervaloHora);
@@ -67,6 +67,14 @@ function Mesas() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // ---------------------- Actualizar Reservas al Abrir el Modal -----------------------
+  useEffect(() => {
+    if (showReservasList) {
+      fetchReservas();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showReservasList]);
 
   // ---------------------- FUNCIONES DE CARGA DE DATOS -----------------------
   const actualizarHora = () => {
@@ -228,7 +236,6 @@ function Mesas() {
       mostrarMensaje(error.message, true); // Muestra los errores al usuario
     }
   };
-  
 
   const handleGarzonChange = (numeroMesa, garzonId) => {
     setGarzonSeleccionado((prev) => ({
@@ -280,6 +287,7 @@ function Mesas() {
       );
       closeCancelarModal();
       fetchReservas();
+      fetchMesas(); // Asegura que el estado de la mesa se actualice
     } catch (error) {
       manejarError("Error al cancelar la reserva", error);
     }
