@@ -4,6 +4,7 @@ import { obtenerMesas} from '../services/mesa.service.js';
 import { getMenus } from '../services/menu.service.js';
 import { actualizarGarzonMesa } from '../services/mesa.service.js';
 import '@styles/pedido.css';
+import AlertMessage from '../components/AlertMessage.jsx';
 
 const Pedido = () => {
   const [pedidos, setPedidos] = useState([]);
@@ -19,6 +20,7 @@ const Pedido = () => {
   });
   const user = JSON.parse(sessionStorage.getItem('usuario')) || '';
   const userNombre = user?.nombreCompleto;
+  const [alert, setAlert] = useState({ message: '', type: '' });
   const [inputValues, setInputValues] = useState({
     plato: '',
     bebestible: '',
@@ -35,7 +37,10 @@ const Pedido = () => {
           console.error("Error al obtener los pedidos: ", data.message);
         }
       } catch (error) {
-        console.error("Error al conectar con el servidor: ", error);
+        setAlert({
+          message: `Error al conectar con el servidor: ${error.message}`,
+          type: 'error'
+        });
       }
     };
     fetchPedidos();
@@ -120,11 +125,23 @@ const Pedido = () => {
           modificaciones: '',
           fechaIngreso: new Date().toISOString().split('T')[0]
         });
-      } else {
-        console.error("Error al agregar el pedido: ", data.message);
+        setAlert({
+          message: 'Pedido agregado exitosamente',
+          type: 'success'
+        });
+      } else {//Considerar
+        const errorMessage = data.message || 'Error desconocido al agregar el pedido';
+        setAlert({
+          message: errorMessage,
+          type: 'error'
+        });
       }
     } catch (error) {
-      console.error("Error al conectar con el servidor: ", error);
+      const errorMessage = error.response?.data?.message || error.message || 'Error al conectar con el servidor';
+      setAlert({
+        message: errorMessage,
+        type: 'error'
+      });
     }
 
   };
@@ -154,6 +171,7 @@ const Pedido = () => {
   return (
     <main className="container">
       <h1 className="titlePedido">📝 Registro de Pedido</h1>
+      {alert.message && <AlertMessage message={alert.message} type={alert.type} />}
       <div className="dashboard">
         <div className="form-wrapper">
           <form onSubmit={handleSubmit} className="form-container">
