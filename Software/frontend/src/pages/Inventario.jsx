@@ -15,6 +15,7 @@ const Ingrediente = () => {
   const [newCantidad, setNewCantidad] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+
   const [popupSearchTerm, setPopupSearchTerm] = useState('');
   const [showThresholdPopup, setShowThresholdPopup] = useState(false);
   const [showAlertPopup, setShowAlertPopup] = useState(false);
@@ -154,6 +155,7 @@ const Ingrediente = () => {
     currentPage * itemsPerPage
   );
 
+
   const lowQuantityIngredientes = ingredientes.filter(
     (ingrediente) =>
       ingrediente.incluirEnAlerta && parseFloat(ingrediente.cantidad) < ingrediente.umbral
@@ -258,7 +260,7 @@ const Ingrediente = () => {
             <table className="form-table">
               <thead>
                 <tr>
-                  <th>Nombre</th>
+                  <th> Nombre </th>
                   <th>Fecha de Ingreso</th>
                   <th>Cantidad</th>
                   <th>Acciones</th>

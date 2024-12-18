@@ -37,6 +37,7 @@ async function createInitialData() {
     const ingredientRepository = AppDataSource.getRepository(ingrediente);
     const ingredientCount = await ingredientRepository.count();
     if (ingredientCount === 0) {
+
       const ingredientes = [
         { nombre: "Papas", fechaIngreso: new Date(), cantidad: 50 },
         { nombre: "Salchichas", fechaIngreso: new Date(), cantidad: 50 },
