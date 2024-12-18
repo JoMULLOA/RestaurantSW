@@ -18,7 +18,7 @@ export const obtenerEstadisticasReservas = async () => {
   return response.data;
 };
 
-export const reservarMesaConHorario = async (datosReserva) => {
+export const reservarMesa = async (datosReserva) => {
   try {
     const response = await axios.post("/reservas", datosReserva, {
       headers: {
