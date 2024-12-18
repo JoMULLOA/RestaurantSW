@@ -18,6 +18,10 @@ const PedidoHistory = new EntitySchema({
       nullable: false,
       default: () => "CURRENT_TIMESTAMP",
     },
+    idPedido: {
+      type: "int",
+      generated: false,
+    },
   },
 });
 

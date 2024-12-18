@@ -31,24 +31,44 @@ export const preparapedido = async (pedidoId) => {
 
         
         if (pedidoo.Estado === 0) {
-            for (const plato of pedidoo.plato) {
-                
-                const menu = menus.find(a => a.nombre === plato);
-                if (!menu) {
-                console.error(`Menú no encontrado para el plato: ${plato}`);
-                continue;
-                }
-                console.log("Menú encontrado:", menu);
-    
-                
-                total += menu.precio;
-            }
-            console.log("Total calculado:", total);
             console.log("El pedido está pendiente. Cambiando a preparación...");
             pedidoo.Estado = 1; 
             await estadito.save(pedidoo);
         }  
         else if (pedidoo.Estado === 1) {
+            for (const plato of pedidoo.plato) {
+                const menu = menus.find(a => a.nombre === plato);
+                if (!menu) {
+                console.error(`Menú no encontrado para el plato: ${plato}`);
+                continue;
+                }
+                //console.log("Menú encontrado:", menu);
+                total += menu.precio;
+            }
+            for (const bebestible of pedidoo.bebestible) {
+                const menu = menus.find(a => a.nombre === bebestible);
+                if (!menu) {
+                console.error(`Menú no encontrado para el plato: ${plato}`);
+                continue;
+                }
+                //console.log("Menú encontrado:", menu);
+                total += menu.precio;
+            }
+            for (const postre of pedidoo.postre) {
+                const menu = menus.find(a => a.nombre === postre);
+                if (!menu) {
+                console.error(`Menú no encontrado para el plato: ${plato}`);
+                continue;
+                }
+                //console.log("Menú encontrado:", menu);
+                total += menu.precio;
+            }
+            console.log("Total calculado:", total);
+            console.log("id del pedido", pedidoo.id);
+            await pedidoHistoryRepository.save({
+                idPedido: pedidoo.id, // Guarda el ID como entero
+                total,
+            });
             console.log("El pedido está en preparación. Cambiando a listo...");
             pedidoo.Estado = 2; 
             await estadito.save(pedidoo);
