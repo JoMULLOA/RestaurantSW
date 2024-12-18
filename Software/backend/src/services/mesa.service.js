@@ -57,15 +57,6 @@ export const crearReserva = async ({ mesaId, nombreReservante, horaReserva }) =>
 };
 
 
-export const reservarMesa = async (numeroMesa) => {
-  const mesaRepository = AppDataSource.getRepository(Mesa);
-  const mesa = await mesaRepository.findOne({ where: { numeroMesa } });
-  if (!mesa) throw new Error("Mesa no encontrada");
-  if (mesa.estado !== "Disponible") throw new Error("La mesa no está disponible para reservar");
-  mesa.estado = "Reservada";
-  return await mesaRepository.save(mesa);
-};
-
 export const ocuparMesa = async (numeroMesa) => {
   const mesaRepository = AppDataSource.getRepository(Mesa);
   const mesa = await mesaRepository.findOne({ where: { numeroMesa } });

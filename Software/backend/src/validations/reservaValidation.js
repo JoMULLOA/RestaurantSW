@@ -2,8 +2,8 @@ import Joi from "joi";
 
 export const reservaBodyValidation = Joi.object({
   nombreReservante: Joi.string()
-    .trim() // Elimina espacios en blanco al inicio y al final
-    .pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/) // Permite letras, acentos y espacios
+    .trim()
+    .pattern(/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/) // Solo letras, acentos y espacios
     .min(1)
     .max(100)
     .required()
@@ -21,7 +21,7 @@ export const reservaBodyValidation = Joi.object({
       "any.required": "La fecha de inicio de la reserva es obligatoria.",
     }),
   fechaFinReserva: Joi.date()
-    .greater(Joi.ref("fechaInicioReserva"))
+    .greater(Joi.ref("fechaInicioReserva")) // Debe ser mayor que la fecha de inicio
     .required()
     .messages({
       "date.base": "La fecha de fin debe ser una fecha válida.",
@@ -47,4 +47,21 @@ export const reservaBodyValidation = Joi.object({
       "number.integer": "El número de la mesa debe ser un número entero.",
       "any.required": "El número de la mesa es obligatorio.",
     }),
-});
+})
+  // Validación personalizada para la diferencia de 8 horas
+  .custom((value, helpers) => {
+    const fechaInicio = new Date(value.fechaInicioReserva);
+    const fechaFin = new Date(value.fechaFinReserva);
+
+    const diferenciaEnMilisegundos = fechaFin - fechaInicio;
+    const diferenciaEnHoras = diferenciaEnMilisegundos / (1000 * 60 * 60); // Conversión a horas
+
+    if (diferenciaEnHoras > 8) {
+      return helpers.error("custom.duracionExcedida");
+    }
+
+    return value; // La validación pasa
+  })
+  .messages({
+    "custom.duracionExcedida": "La reserva no puede exceder un máximo de 8 horas.",
+  });

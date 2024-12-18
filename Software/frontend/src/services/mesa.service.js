@@ -42,21 +42,6 @@ export const cancelarReserva = async (id) => {
   }
 };
 
-export const reservarMesaConHorario = async ({ numeroMesa, garzonAsignado, nombreReservante, fechaInicioReserva, fechaFinReserva  }) => {
-  try {
-    const response = await axios.post("/reservas/", {
-      numeroMesa,
-      garzonAsignado,
-      nombreReservante,
-      fechaInicioReserva,
-      fechaFinReserva,
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error al reservar la mesa con horario:", error);
-    throw error.response?.data || "Error al realizar la reserva";
-  }
-};
 
 export const obtenerReservas = async () => {
   try {

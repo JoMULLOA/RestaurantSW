@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "@styles/mesas.css";
 import { obtenerMesas, liberarMesa, agregarMesa, eliminarMesa } from "@services/mesa.service.js";
-import { reservarMesaConHorario, obtenerReservas, cancelarReserva } from "@services/reserva.service.js";
+import { reservarMesa, obtenerReservas, cancelarReserva } from "@services/reserva.service.js";
 import { getGarzonesService } from "@services/user.service.js";
 
 import {
@@ -218,7 +218,7 @@ function Mesas() {
     };
   
     try {
-      await reservarMesaConHorario(datosReserva); // Llama al servicio con Axios
+      await reservarMesa(datosReserva); // Llama al servicio con Axios
   
       fetchMesas();
       fetchReservas();
@@ -275,7 +275,7 @@ function Mesas() {
     try {
       await cancelarReserva(reservaSeleccionada.id);
       mostrarMensaje(
-        `Reserva ID ${reservaSeleccionada.id} cancelada correctamente.`,
+        `Reserva cancelada correctamente.`,
         false
       );
       closeCancelarModal();
@@ -684,7 +684,7 @@ function Mesas() {
           <div className="modal cancelar-modal">
             <button className="close-modal-btn" onClick={closeCancelarModal}>×</button>
             <h3>Acciones sobre la Reserva</h3>
-            <p>Reserva ID {reservaSeleccionada.id} de la mesa {reservaSeleccionada.mesa.numeroMesa}.</p>
+            <p>Reserva de la mesa {reservaSeleccionada.mesa.numeroMesa}.</p>
             <p>Solo puedes cancelar la reserva.</p>
             <div className="modal-actions">
               <button

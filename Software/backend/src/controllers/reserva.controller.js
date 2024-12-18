@@ -55,6 +55,16 @@ export const reservarMesa = async (req, res) => {
       });
     }
 
+    // Validar que la diferencia entre las fechas no sea mayor a 8 horas
+    const diferenciaEnMilisegundos = fechaFin.getTime() - fechaInicio.getTime();
+    const diferenciaEnHoras = diferenciaEnMilisegundos / (1000 * 60 * 60); // Conversión a horas
+
+    if (diferenciaEnHoras > 8) {
+      return res.status(400).json({
+        errores: ["La reserva no puede exceder un máximo de 8 horas."],
+      });
+    }
+
     // Validar que la mesa existe
     const mesa = await mesaRepo.findOne({ where: { numeroMesa } });
     if (!mesa) {
