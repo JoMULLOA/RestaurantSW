@@ -96,6 +96,25 @@ const Pedido = () => {
   };
 
   const handleAddToArray = (field) => {
+    // Check if the value is empty or not selected
+    if (!inputValues[field] || inputValues[field] === '') {
+      setAlert({
+        message: `Por favor seleccione un ${field} antes de agregar`,
+        type: 'error'
+      });
+      return;
+    }
+  
+    // Check if item already exists in the array
+    if (form[field].includes(inputValues[field])) {
+      setAlert({
+        message: `Este ${field} ya ha sido agregado`,
+        type: 'error'
+      });
+      return;
+    }
+  
+    // If validation passes, add the item
     setForm({
       ...form,
       [field]: [...form[field], inputValues[field]]
@@ -112,8 +131,6 @@ const Pedido = () => {
       console.log('Formulario', form);
       const data = await addPedido(form);
       if (data.status === 'Success') {
-        console.log(form.mesa);
-        console.log(user);
         await actualizarGarzonMesa(form.mesa, userNombre);
         setPedidos([...pedidos, data.data]);
         // await ocuparMesa(form.mesa);
