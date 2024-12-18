@@ -110,7 +110,7 @@ const Chefsito = () => {
                 prevPedidos.map((pedido) =>
                     pedido.id === pedidoSeleccionado.id
                         ? { ...pedido, status: 'Pedido Listo', Estado: -1 }
-                        : pedido
+                        : pedido        
                 )
             );
             cerrarDetallesPedido();
