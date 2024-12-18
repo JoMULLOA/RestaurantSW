@@ -96,6 +96,25 @@ const Pedido = () => {
   };
 
   const handleAddToArray = (field) => {
+    // Check if the value is empty or not selected
+    if (!inputValues[field] || inputValues[field] === '') {
+      setAlert({
+        message: `Por favor seleccione un ${field} antes de agregar`,
+        type: 'error'
+      });
+      return;
+    }
+  
+    // Check if item already exists in the array
+    if (form[field].includes(inputValues[field])) {
+      setAlert({
+        message: `Este ${field} ya ha sido agregado`,
+        type: 'error'
+      });
+      return;
+    }
+  
+    // If validation passes, add the item
     setForm({
       ...form,
       [field]: [...form[field], inputValues[field]]

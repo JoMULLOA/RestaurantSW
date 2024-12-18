@@ -205,8 +205,8 @@
 .chef {
     vertical-align: middle;
     margin-right: 10px;
-    width: 100px; /* Ajusta el tamaño según tus necesidades */
-    height: auto; /* Mantiene la proporción de la imagen */
+    width: 100px;
+    height: auto;
 }
 
 @keyframes marquee-right {
