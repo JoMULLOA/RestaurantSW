@@ -28,6 +28,16 @@ const Pedido = () => {
   });
 
   useEffect(() => {
+    if (alert.message) {
+        const timer = setTimeout(() => {
+            setAlert({ message: '', type: '' });
+        }, 2000);
+
+        return () => clearTimeout(timer);
+    }
+}, [alert]);
+
+  useEffect(() => {
     const fetchPedidos = async () => {
       try {
         const data = await getPedidos();
@@ -96,7 +106,6 @@ const Pedido = () => {
   };
 
   const handleAddToArray = (field) => {
-    // Check if the value is empty or not selected
     if (!inputValues[field] || inputValues[field] === '') {
       setAlert({
         message: `Por favor seleccione un ${field} antes de agregar`,
@@ -104,8 +113,6 @@ const Pedido = () => {
       });
       return;
     }
-  
-    // Check if item already exists in the array
     if (form[field].includes(inputValues[field])) {
       setAlert({
         message: `Este ${field} ya ha sido agregado`,
@@ -113,8 +120,6 @@ const Pedido = () => {
       });
       return;
     }
-  
-    // If validation passes, add the item
     setForm({
       ...form,
       [field]: [...form[field], inputValues[field]]
@@ -133,7 +138,6 @@ const Pedido = () => {
       if (data.status === 'Success') {
         await actualizarGarzonMesa(form.mesa, userNombre);
         setPedidos([...pedidos, data.data]);
-        // await ocuparMesa(form.mesa);
         setForm({
           mesa: '',
           plato: [],
@@ -249,8 +253,7 @@ const Pedido = () => {
                           type="button"
                           className="delete-button"
                           onClick={() => handleRemoveFromArray('plato', index)}
-                        >
-                          X
+                        >X
                         </button>
                       </li>
                     ))}

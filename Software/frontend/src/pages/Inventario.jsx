@@ -27,6 +27,16 @@ const Ingrediente = () => {
   const LOW_QUANTITY_THRESHOLD = 5;
 
   useEffect(() => {
+    if (alert.message) {
+        const timer = setTimeout(() => {
+            setAlert({ message: '', type: '' });
+        }, 2000);
+
+        return () => clearTimeout(timer);
+    }
+}, [alert]);
+
+  useEffect(() => {
     const fetchIngredientes = async () => {
       try {
         const data = await getIngredientes();
