@@ -1,7 +1,8 @@
 # Software de restaurantes
 Proyecto Integrador de Estudiante del Grupo 3 de Ingeniería de Software del segundo semestre del año 2024, Universidad del Bío Bío.
 > Software dedicado a restaurantes
-> 
+>
+## 👨🏽‍💻 Participantes y Roles
 <table>
   <tr>
     <th>Foto</th>
@@ -55,3 +56,24 @@ Proyecto Integrador de Estudiante del Grupo 3 de Ingeniería de Software del seg
     </td>
   </tr>
 </table>
+
+## 🛠️ Arquitectura Tecnológica
+
+### Frontend
+- **React**: Framework para desarrollo web
+- **Javascript**: Lenguaje de programación principal
+- **CSS**: Lenguaje para presentación visual
+
+### Backend
+- **Node.js**: Runtime de JavaScript del lado servidor
+- **Express.js**: Framework web minimalista y flexible
+- **JWT**: Autenticación basada en tokens
+
+### Base de Datos
+- **PostgreSQL**: Sistema de gestión de base de datos relacional
+- **TypeORM**: ORM para manejo de entidades y relaciones
+- **Migraciones**: Control de versiones de esquema de BD
+
+### DevOps y Deployment
+- **Git**: Control de versiones
+- **GitHub**: Repositorio y colaboración
